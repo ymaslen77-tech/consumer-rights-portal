@@ -11,7 +11,7 @@
 
 ## New Coolify resource — required, not yet created
 1. Create a **new project** `consumer-rights-portal`, environment `production`, application `consumer-web`. Do not reuse DGI application UUID, database, env or Docker volume.
-2. Connect the **private** GitHub repository with an authorized source integration and choose `infra/coolify-russian-vps`. Set application build pack: **Dockerfile**; Dockerfile path: `Dockerfile.coolify`; context: repository root `/`.
+2. Connect the **public** GitHub repository with an authorized source integration and choose `infra/coolify-russian-vps`. Set application build pack: **Dockerfile**; Dockerfile path: `Dockerfile.coolify`; context: repository root `/`.
 3. Container port: `3000`. Configure a health check GET `/api/health` on port 3000 (HTTP 200 means process is alive, not legal/SEO readiness).
 4. Disable Auto Deploy / deployment on push. Do not configure any webhook to deploy automatically.
 5. Configure `SITE_URL=`, `PUBLIC_RELEASE_HOST=`, `SITE_CUTOVER=false`, `SITE_RELEASE_APPROVED=no`, `PORT=3000` in the app **runtime** environment. Do not bake public release flags into the image.
@@ -36,7 +36,7 @@ The Dockerfile builds a self-contained Next.js standalone image (Node 22, port 3
 4. Keep previous good deployment for rollback. Any future DB migration requires an independent backup and reversible plan.
 
 ## Known blockers (30 October 2026)
-- GitHub rejects private-repo rulesets under the current account plan: upgrade GitHub plan or make repo public only if the owner expressly authorizes that privacy change.
+- Repository was made **public** by the owner. Branch ruleset API reads are now available, but there are **no active rulesets** yet. Owner action to apply the [prepared rule](RULESET_SETUP.md) is still required.
 - Current GitHub Actions jobs failed before any job steps ran; their logs were not available. Check account Actions usage/billing, runner policy and Actions permissions. Do not label CI green.
 - No package registry access in the current code-generation runtime to create a trustworthy lockfile. Dependency resolution is provisional.
 - No direct Coolify API/SSH integration is available in this conversation; no application has been created. No DNS or production changes were made.
