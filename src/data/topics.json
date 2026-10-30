@@ -1,0 +1,202 @@
+[
+  {
+    "slug": "nekachestvennyy-tovar",
+    "title": "Некачественные товары",
+    "description": "Если покупка оказалась с недостатком",
+    "situationSlugs": [
+      "nekachestvennyy-tovar-1",
+      "nekachestvennyy-tovar-2",
+      "nekachestvennyy-tovar-3"
+    ]
+  },
+  {
+    "slug": "vozvrat-obmen",
+    "title": "Возврат и обмен товаров",
+    "description": "Обмен товара надлежащего качества и возврат",
+    "situationSlugs": [
+      "vozvrat-obmen-1",
+      "vozvrat-obmen-2",
+      "vozvrat-obmen-3"
+    ]
+  },
+  {
+    "slug": "internet-magaziny",
+    "title": "Интернет-магазины",
+    "description": "Дистанционная покупка и отказ от неё",
+    "situationSlugs": [
+      "internet-magaziny-1",
+      "internet-magaziny-2",
+      "internet-magaziny-3"
+    ]
+  },
+  {
+    "slug": "marketpleysy",
+    "title": "Маркетплейсы",
+    "description": "Продавцы, агрегаторы и пункты выдачи",
+    "situationSlugs": [
+      "marketpleysy-1",
+      "marketpleysy-2",
+      "marketpleysy-3"
+    ]
+  },
+  {
+    "slug": "dostavka-oplata",
+    "title": "Доставка и оплата",
+    "description": "Нарушение сроков и ошибки расчёта",
+    "situationSlugs": [
+      "dostavka-oplata-1",
+      "dostavka-oplata-2",
+      "dostavka-oplata-3"
+    ]
+  },
+  {
+    "slug": "garantiya-servis",
+    "title": "Гарантия и сервис",
+    "description": "Ремонт, диагностика, экспертиза",
+    "situationSlugs": [
+      "garantiya-servis-1",
+      "garantiya-servis-2",
+      "garantiya-servis-3"
+    ]
+  },
+  {
+    "slug": "tehnicheski-slozhnye",
+    "title": "Технически сложные товары",
+    "description": "Особые условия для отдельных категорий товаров",
+    "situationSlugs": [
+      "tehnicheski-slozhnye-1",
+      "tehnicheski-slozhnye-2",
+      "tehnicheski-slozhnye-3"
+    ]
+  },
+  {
+    "slug": "avtomobili",
+    "title": "Автомобили и автосервисы",
+    "description": "Автомобили, дилеры и ремонт",
+    "situationSlugs": [
+      "avtomobili-1",
+      "avtomobili-2",
+      "avtomobili-3"
+    ]
+  },
+  {
+    "slug": "bytovye-uslugi",
+    "title": "Бытовые услуги",
+    "description": "Ателье, химчистка, мастерские",
+    "situationSlugs": [
+      "bytovye-uslugi-1",
+      "bytovye-uslugi-2",
+      "bytovye-uslugi-3"
+    ]
+  },
+  {
+    "slug": "remont-stroitelstvo",
+    "title": "Ремонт и подряд",
+    "description": "Ремонт квартиры и бытовые строительные работы",
+    "situationSlugs": [
+      "remont-stroitelstvo-1",
+      "remont-stroitelstvo-2",
+      "remont-stroitelstvo-3"
+    ]
+  },
+  {
+    "slug": "zhkh",
+    "title": "ЖКХ",
+    "description": "Качество коммунальных и жилищных услуг",
+    "situationSlugs": [
+      "zhkh-1",
+      "zhkh-2",
+      "zhkh-3"
+    ]
+  },
+  {
+    "slug": "medicina",
+    "title": "Платные медицинские услуги",
+    "description": "Договор, качество, информация об услугах",
+    "situationSlugs": [
+      "medicina-1",
+      "medicina-2",
+      "medicina-3"
+    ]
+  },
+  {
+    "slug": "obrazovanie",
+    "title": "Платное образование",
+    "description": "Курсы и платные образовательные услуги",
+    "situationSlugs": [
+      "obrazovanie-1",
+      "obrazovanie-2",
+      "obrazovanie-3"
+    ]
+  },
+  {
+    "slug": "turizm-gostinicy",
+    "title": "Туризм и гостиницы",
+    "description": "Туры, бронирования и размещение",
+    "situationSlugs": [
+      "turizm-gostinicy-1",
+      "turizm-gostinicy-2",
+      "turizm-gostinicy-3"
+    ]
+  },
+  {
+    "slug": "transport",
+    "title": "Транспорт и перевозки",
+    "description": "Перевозка, багаж и пассажирские услуги",
+    "situationSlugs": [
+      "transport-1",
+      "transport-2",
+      "transport-3"
+    ]
+  },
+  {
+    "slug": "banki-strahovanie",
+    "title": "Финансы и страхование",
+    "description": "Специальные процедуры и финансовый уполномоченный",
+    "situationSlugs": [
+      "banki-strahovanie-1",
+      "banki-strahovanie-2",
+      "banki-strahovanie-3"
+    ]
+  },
+  {
+    "slug": "svyaz-internet",
+    "title": "Связь и интернет",
+    "description": "Мобильная связь, провайдеры, тарифы",
+    "situationSlugs": [
+      "svyaz-internet-1",
+      "svyaz-internet-2",
+      "svyaz-internet-3"
+    ]
+  },
+  {
+    "slug": "podpiski-cifrovye",
+    "title": "Подписки и цифровые сервисы",
+    "description": "Автопродление, цифровые услуги",
+    "situationSlugs": [
+      "podpiski-cifrovye-1",
+      "podpiski-cifrovye-2",
+      "podpiski-cifrovye-3"
+    ]
+  },
+  {
+    "slug": "produkty-pitanie",
+    "title": "Продукты и общепит",
+    "description": "Питание, качество и безопасность",
+    "situationSlugs": [
+      "produkty-pitanie-1",
+      "produkty-pitanie-2",
+      "produkty-pitanie-3"
+    ]
+  },
+  {
+    "slug": "navyazannye-usloviya",
+    "title": "Навязанные условия и реклама",
+    "description": "Ненадлежащая информация, дополнительные услуги",
+    "situationSlugs": [
+      "navyazannye-usloviya-1",
+      "navyazannye-usloviya-2",
+      "navyazannye-usloviya-3"
+    ]
+  }
+]

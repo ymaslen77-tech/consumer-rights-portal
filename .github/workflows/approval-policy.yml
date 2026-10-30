@@ -1,0 +1,25 @@
+name: Consumer rights — publication policy
+on:
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+  push:
+    branches: [main, infra/coolify-russian-vps]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  approval-policy:
+    name: approval-policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source, data and publication safety
+        run: |
+          python3 scripts/validate-content.py
+          python3 scripts/validate-release-config.py
+      - name: Manual deployment remains mandatory
+        run: echo 'No deployment from CI; Coolify deploy-on-push must remain OFF.'

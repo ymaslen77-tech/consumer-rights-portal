@@ -1,0 +1,27 @@
+name: Consumer rights — Docker build
+on:
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+  push:
+    branches: [infra/coolify-russian-vps]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  docker-build-check:
+    name: docker-build-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build application image (do not publish)
+        run: docker build --pull --file Dockerfile.coolify --tag consumer-rights:ci .
+      - name: Assert preview HTTP and noindex, without external access
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run -d --name consumer-preview-ci -p 127.0.0.1:3100:3000 \
+            -e SITE_CUTOVER=false -e SITE_RELEASE_APPROVED=no \
+            -e SITE_URL= -e PUBLIC_RELEASE_HOST= consumer-rights:ci
+          trap 'docker logs --tail 90 consumer-preview-ci; docker rm -f consumer-preview-ci' EXIT
+          CONSUMER_SMOKE_ORIGIN=http://127.0.0.1:3100 node scripts/smoke-preview.mjs

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "project": "consumer-rights-portal",
+  "repository": "ymaslen77-tech/consumer-rights-portal",
+  "production_branch": "infra/coolify-russian-vps",
+  "preview_branch": "feature/consumer-rights-initial",
+  "application_name": "consumer-web",
+  "deployment_platform": "Coolify on isolated Russian VPS resource",
+  "deploy_on_push": false,
+  "manual_deploy_required": true,
+  "site_release_approved": false,
+  "public_hostname_configured": false,
+  "required_checks": [
+    "content-checks",
+    "web-checks",
+    "approval-policy",
+    "docker-build-check"
+  ],
+  "source_review_required": true,
+  "court_fulltext_privacy_check_required": true,
+  "deploy_without_owner_approval": false
+}

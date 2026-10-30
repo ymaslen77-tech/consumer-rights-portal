@@ -1,0 +1,82 @@
+[
+  {
+    "slug": "pretensiya-vozvrat",
+    "title": "Претензия о возврате денег за товар с недостатками",
+    "recipient": "Продавцу / исполнителю",
+    "scope": "Для ситуации, когда товар имеет недостаток и заявитель выбирает требование о возврате оплаты. Перед отправкой нужно проверить особенности товара и применимые ограничения.",
+    "sourceUrl": "https://zpp.rospotrebnadzor.ru/handbook/torg/forms",
+    "status": "draft_template"
+  },
+  {
+    "slug": "pretensiya-obmen",
+    "title": "Претензия об обмене товара",
+    "recipient": "Продавцу",
+    "scope": "Основание и условия обмена зависят от качества товара и способа покупки; заполненный текст требует правовой проверки.",
+    "sourceUrl": "https://zpp.rospotrebnadzor.ru/handbook/torg/forms",
+    "status": "draft_template"
+  },
+  {
+    "slug": "pretensiya-remont",
+    "title": "Требование об устранении недостатков",
+    "recipient": "Продавцу / исполнителю",
+    "scope": "Для отдельного требования об исправлении недостатка; проверьте гарантию и применимые сроки.",
+    "sourceUrl": "https://zpp.rospotrebnadzor.ru/handbook/torg/forms",
+    "status": "draft_template"
+  },
+  {
+    "slug": "pretensiya-usluga",
+    "title": "Претензия о некачественной услуге",
+    "recipient": "Исполнителю",
+    "scope": "Для нарушений при выполнении работ и оказании услуг; укажите недостатки и желаемый способ устранения.",
+    "sourceUrl": "https://zpp.rospotrebnadzor.ru/handbook/torg/forms",
+    "status": "draft_template"
+  },
+  {
+    "slug": "pretensiya-distanciya",
+    "title": "Обращение по дистанционной покупке",
+    "recipient": "Продавцу",
+    "scope": "Для споров при заказе через интернет. Сначала определите юридического продавца и условия дистанционной продажи.",
+    "sourceUrl": "https://prav.mos.ru/solver",
+    "status": "draft_template"
+  },
+  {
+    "slug": "zhaloba-rospotrebnadzor",
+    "title": "Обращение в Роспотребнадзор",
+    "recipient": "Территориальному управлению",
+    "scope": "Фактическое сообщение о предполагаемом нарушении и просьба рассмотреть его в пределах компетенции. Электронную подачу осуществляйте через официальный портал.",
+    "sourceUrl": "https://petition.rospotrebnadzor.ru/petition/",
+    "status": "draft_template"
+  },
+  {
+    "slug": "isk-zpp",
+    "title": "Исковое заявление о защите прав потребителя",
+    "recipient": "Суду",
+    "scope": "Черновой каркас иска. Подсудность, госпошлина, приложенные доказательства, размер требований и обязательная досудебная процедура проверяются индивидуально.",
+    "sourceUrl": "https://prav.mos.ru/solver",
+    "status": "draft_template"
+  },
+  {
+    "slug": "zayavlenie-otkaz-uslugi",
+    "title": "Заявление об отказе от услуги",
+    "recipient": "Исполнителю",
+    "scope": "При отказе от договора оказания услуг последствия, удержания и возврат зависят от вида договора и фактически понесенных расходов.",
+    "sourceUrl": "https://zpp.rospotrebnadzor.ru/handbook/torg/forms",
+    "status": "draft_template"
+  },
+  {
+    "slug": "zayavlenie-vozvrat-zadatka",
+    "title": "Требование о возврате предоплаты",
+    "recipient": "Продавцу / исполнителю",
+    "scope": "Формулировка требования зависит от договора и того, как юридически квалифицируется внесённая сумма.",
+    "sourceUrl": "https://zpp.rospotrebnadzor.ru/handbook/torg/forms",
+    "status": "draft_template"
+  },
+  {
+    "slug": "zapros-dokumentov",
+    "title": "Запрос договора и подтверждающих документов",
+    "recipient": "Организации",
+    "scope": "Для получения документов и информации по приобретению товара или оказанию услуги. Предварительно уточните обязанность адресата предоставить конкретные сведения.",
+    "sourceUrl": "https://zpp.rospotrebnadzor.ru/handbook/actual",
+    "status": "draft_template"
+  }
+]
