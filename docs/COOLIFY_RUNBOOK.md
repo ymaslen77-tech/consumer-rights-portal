@@ -20,7 +20,7 @@
 
 ## Build contract
 ```sh
-pnpm install --no-frozen-lockfile  # provisional: create and commit pnpm-lock.yaml
+pnpm install --frozen-lockfile
 python3 scripts/validate-content.py
 python3 scripts/validate-release-config.py
 pnpm typecheck
@@ -30,7 +30,7 @@ docker build --file Dockerfile.coolify --tag consumer-rights:preview .
 The Dockerfile builds a self-contained Next.js standalone image (Node 22, port 3000). Do not push image artifacts to shared registries without a separate deployment policy.
 
 ## Release procedure (when GitHub protections become available)
-1. Generate and commit a real `pnpm-lock.yaml` from the official registry, then switch CI and Docker build to `pnpm install --frozen-lockfile`.
+1. Verify the committed `pnpm-lock.yaml`, adapted from DGI's authentic integrity-checked lockfile with matching dependency specifiers. Validate a frozen install on GitHub Actions.
 2. Require status checks `content-checks`, `web-checks`, `approval-policy`, `docker-build-check` on release branch. Disallow force push, deletion, and direct pushes; require Pull Requests and final-SHA checks.
 3. Merge reviewed PR, confirm release SHA in Coolify source, perform a **manual** Deploy, and verify `/api/health`, pages, PDF and SEO over HTTP. A completed image build alone is insufficient.
 4. Keep previous good deployment for rollback. Any future DB migration requires an independent backup and reversible plan.
@@ -38,5 +38,5 @@ The Dockerfile builds a self-contained Next.js standalone image (Node 22, port 3
 ## Known blockers (30 October 2026)
 - Repository was made **public** by the owner. Branch ruleset API reads are now available, but there are **no active rulesets** yet. Owner action to apply the [prepared rule](RULESET_SETUP.md) is still required.
 - Current GitHub Actions jobs failed before any job steps ran; their logs were not available. Check account Actions usage/billing, runner policy and Actions permissions. Do not label CI green.
-- No package registry access in the current code-generation runtime to create a trustworthy lockfile. Dependency resolution is provisional.
+- A lockfile sourced from DGI's verified dependency graph is now committed; installation and the Next.js production build are **not yet verified** by a runner.
 - No direct Coolify API/SSH integration is available in this conversation; no application has been created. No DNS or production changes were made.

@@ -45,7 +45,7 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm@10.0.0
       - name: Install dependencies (temporary until lockfile is generated)
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Check TypeScript
         run: pnpm typecheck
       - name: Production build

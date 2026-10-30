@@ -17,4 +17,4 @@ The checks do NOT prove legal correctness or authorize public publication.
 4. Set Coolify deployment on push **OFF**; never merge or deploy from a failed CI.
 
 ## Reproducibility
-Generate and commit `pnpm-lock.yaml` via `pnpm install` on a machine with official registry access. Until that file exists, dependency installation is not frozen and a green build cannot be treated as an immutable, reproducible release.
+A real `pnpm-lock.yaml` was adapted from the current DGI workspace lockfile (source Git blob `3655b8c15e9910da5e118f0bef003b696e9e902f`) by keeping all original package resolutions and integrity hashes while restricting the single importer to the consumer package's matching dependency specifiers. CI and Docker now use `pnpm install --frozen-lockfile`. This **must pass an actual runner installation** before release; the source provenance does not replace a build check.
