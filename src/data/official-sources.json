@@ -1,0 +1,61 @@
+[
+  {
+    "id": "rpn",
+    "title": "Роспотребнадзор — федеральный сайт",
+    "url": "https://www.rospotrebnadzor.ru/",
+    "type": "federal",
+    "priority": "primary",
+    "scope": "federal",
+    "verifiedBy": "official agency and regional mirror",
+    "checkedAt": "2026-10-30"
+  },
+  {
+    "id": "gis",
+    "title": "ГИС защиты прав потребителей Роспотребнадзора",
+    "url": "https://zpp.rospotrebnadzor.ru/",
+    "type": "federal",
+    "priority": "primary",
+    "scope": "federal",
+    "verifiedBy": "live official information system",
+    "checkedAt": "2026-10-30"
+  },
+  {
+    "id": "moscow",
+    "title": "Портал потребителя города Москвы",
+    "url": "https://prav.mos.ru/",
+    "type": "regional",
+    "priority": "primary",
+    "scope": "Moscow",
+    "verifiedBy": "Moscow RPN official announcement and Moscow Government order No 64-16-709/25 of 2025-12-03",
+    "checkedAt": "2026-10-30",
+    "directFetchAvailable": false
+  },
+  {
+    "id": "rpn-moscow",
+    "title": "Управление Роспотребнадзора по Москве",
+    "url": "https://77.rospotrebnadzor.ru/",
+    "type": "regional",
+    "priority": "primary",
+    "scope": "Moscow",
+    "verifiedBy": "official Moscow RPN regional pages",
+    "checkedAt": "2026-10-30"
+  },
+  {
+    "id": "law",
+    "title": "Официальный интернет-портал правовой информации",
+    "url": "https://publication.pravo.gov.ru/",
+    "type": "law",
+    "priority": "primary",
+    "scope": "federal",
+    "checkedAt": "2026-10-30"
+  },
+  {
+    "id": "court",
+    "title": "Верховный Суд Российской Федерации",
+    "url": "https://vsrf.ru/",
+    "type": "court",
+    "priority": "primary",
+    "scope": "federal",
+    "checkedAt": "2026-10-30"
+  }
+]

@@ -1,0 +1,22 @@
+name: Consumer sources — read-only health audit
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 6 * * 1'
+permissions:
+  contents: read
+jobs:
+  source-probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python3 scripts/source-availability-check.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: consumer-official-source-availability
+          path: test-results/source-availability.json
+          if-no-files-found: warn
+          retention-days: 14
