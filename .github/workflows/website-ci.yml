@@ -1,25 +1,60 @@
-name: Consumer rights platform — web checks
+name: Consumer rights — website CI
 on:
   pull_request:
+    branches: [infra/coolify-russian-vps]
   push:
-    branches: [main, infra/coolify-russian-vps]
+    branches: [main, infra/coolify-russian-vps, feature/consumer-rights-initial]
+  workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: consumer-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   content-checks:
+    name: content-checks
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - run: python3 scripts/validate-content.py
+        with:
+          python-version: '3.12'
+      - name: Validate content model and cross-links
+        run: python3 scripts/validate-content.py
+      - name: Ensure release stays private until an explicit cutover
+        run: python3 scripts/validate-release-config.py
   web-checks:
+    name: web-checks
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SITE_CUTOVER: 'false'
+      SITE_RELEASE_APPROVED: 'no'
+      PUBLIC_RELEASE_HOST: ''
+      SITE_URL: ''
+      NEXT_TELEMETRY_DISABLED: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: {node-version: '22'}
-      - run: npm install -g pnpm@10.0.0
-      - run: pnpm install --no-frozen-lockfile
-      - run: pnpm typecheck
-      - run: pnpm build
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pnpm
+        run: npm install -g pnpm@10.0.0
+      - name: Install dependencies (temporary until lockfile is generated)
+        run: pnpm install --no-frozen-lockfile
+      - name: Check TypeScript
+        run: pnpm typecheck
+      - name: Production build
+        run: pnpm build
+      - name: HTTP smoke with release gates disabled
+        shell: bash
+        run: |
+          set -euo pipefail
+          (pnpm start --hostname 127.0.0.1 --port 3000 > /tmp/consumer-preview.log 2>&1) &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true; tail -70 /tmp/consumer-preview.log' EXIT
+          node scripts/smoke-preview.mjs

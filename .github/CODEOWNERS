@@ -1,0 +1,6 @@
+# Advisory ownership: enforcement requires a GitHub plan with private branch protections.
+* @ymaslen77-tech
+/.github/ @ymaslen77-tech
+/Dockerfile.coolify @ymaslen77-tech
+/src/lib/content.ts @ymaslen77-tech
+/src/data/ @ymaslen77-tech

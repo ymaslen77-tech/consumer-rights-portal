@@ -1,4 +1,5 @@
-# Isolated preview or production build, modelled after DGI's Coolify Node 22 flow.
+# Independent Coolify image. Does NOT deploy or turn indexing on.
+# Dependency resolution is provisional until pnpm-lock.yaml is generated and reviewed.
 FROM node:22-bookworm-slim AS builder
 WORKDIR /app
 RUN npm install -g pnpm@10.0.0
@@ -8,13 +9,14 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm build
 
-FROM node:22-bookworm-slim
+FROM node:22-bookworm-slim AS runner
 WORKDIR /app
-RUN npm install -g pnpm@10.0.0
-COPY --from=builder --chown=node:node /app /app
 ENV NODE_ENV=production
-ENV PORT=3000
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+COPY --from=builder --chown=node:node /app/.next/standalone ./
+COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 USER node
 EXPOSE 3000
-CMD ["pnpm","start"]
+CMD ["node", "server.js"]
