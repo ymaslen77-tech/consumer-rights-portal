@@ -12,7 +12,7 @@ export default async function CourtDecisionPage({params}:Params){
  const {slug}=await params;const c=cases.find(x=>x.slug===slug);if(!c)notFound();
  return <><PageIntro eyebrow="СУДЕБНЫЙ АКТ · ПОЛНЫЙ ПЕРВОИСТОЧНИК" title={c.title} lead={c.court+" · "+c.type+" от "+c.date+" № "+c.number}/>
  <section className="container section narrow"><Trail items={[{label:"Судебная практика",href:"/sudebnaya-praktika"},{label:c.type+" № "+c.number}]}/>
- <div className="notice"><strong>Статус: официальный полный текст изучен · 31.10.2026</strong><p>{c.comment}</p></div>
+ <div className="notice"><strong>Статус: официальный первоисточник · проверено {c.reviewedAt}</strong><p>{c.comment}</p></div>
  <h2>Предмет рассмотрения</h2><p>{c.issue}</p>
  <h2>Основная правовая позиция</h2><p>{c.finding}</p>
  <h2>Результат рассмотрения</h2><p>{c.result}</p>

@@ -7,11 +7,11 @@ export function generateStaticParams(){return situations.map(x=>({slug:x.slug}))
 export async function generateMetadata({params}:Params){const {slug}=await params;const s=getSituation(slug);return {title:s?.title||"Разбор ситуации",description:s?.summary}}
 export default async function CasePage({params}:Params){
  const {slug}=await params;const s=getSituation(slug);if(!s)notFound();
- const topic=getTopic(s.topic);const checked=s.legalStatus==="source_checked_2026-10-31";const expanded=s.legalStatus.startsWith("sector_sources_checked");
+ const topic=getTopic(s.topic);const checked=s.legalStatus.startsWith("source_checked_");const expanded=s.legalStatus.startsWith("sector_sources_checked");
  return <><PageIntro eyebrow="РАЗБОР СИТУАЦИИ" title={s.title} lead={s.summary}/>
  <section className="container section narrow">
  <Trail items={[{label:"Ситуации",href:"/situacii"},{label:topic?.title||"Тема",href:"/situacii/"+s.topic},{label:s.title}]}/>
- <div className="notice"><strong>{checked?"Алгоритм сверён с источниками 31.10.2026":expanded?"Отраслевой маршрут расширен; требуется проверка конкретных оснований":"Материал требует индивидуальной правовой доработки"}</strong>
+ <div className="notice"><strong>{checked?"Алгоритм сверён с источниками: "+s.sourceReviewedAt:expanded?"Отраслевой маршрут расширен; требуется проверка конкретных оснований":"Материал требует индивидуальной правовой доработки"}</strong>
  <p>{checked?"Практические шаги и нормы сверены с указанными источниками. Выбор требования, применимость исключений и сроков зависят от обстоятельств конкретного спора и действующей редакции права на дату события.":expanded?"Для этой ситуации приведены индивидуальные действия, доказательства, правовые ориентиры и ведомственные источники по отрасли. Конкретная норма, срок, исключения и допустимое требование проверяются на дату события; это ещё не окончательная юридическая квалификация.":"Это универсальный первичный алгоритм. Право на конкретное требование, сроки и исключения должны проверяться индивидуально до использования документа."}</p></div>
  {s.checks.length>0&&<><h2>Что выяснить перед выбором требования</h2><ul className="guide-checklist">{s.checks.map((x,i)=><li key={i}>{x}</li>)}</ul></>}
  <h2>Порядок действий</h2><ol className="steps">{s.steps.map((x,i)=><li key={i}>{x}</li>)}</ol>

@@ -41,8 +41,8 @@ for g in guides:
     assert len(g['sources'])>=2 and all(x['url'].startswith('https://') for x in g['sources'])
     assert len(g['description'])>=80 and len(g['description'])<240
     assert len(g['title'])>30
-assert len(regions)==5 and len({r['slug'] for r in regions})==len(regions)
-assert len(court_acts)>=1 and len({a['slug'] for a in court_acts})==len(court_acts)
+assert len(regions)>=8 and len({r['slug'] for r in regions})==len(regions)
+assert len(court_acts)>=2 and len({a['slug'] for a in court_acts})==len(court_acts)
 for region in regions:
     assert region['official'].startswith('https://')
     assert region['sources'] and all(url.startswith('https://') for url in region['sources'])
@@ -52,10 +52,12 @@ for act in court_acts:
     assert len(act['sources'])>=2 and all(a['url'].startswith('https://') for a in act['sources'])
     assert all(t in known_topics for t in act['topics'])
     assert all(s in known_cases for s in act['situationSlugs'])
+assert sum(c['legalStatus']=='source_checked_2026-11-01' for c in cases)>=4
 for case in cases:
+    assert case['sourceReviewedAt'] in ('2026-10-31','2026-11-01')
     assert len(case['steps'])>=5 and len(case['checks'])>=2 and len(case['cautions'])>=1
     assert len(case['legalBasis'])>=2 and len(case['sources'])>=2
-    assert case['legalStatus'] in ('source_checked_2026-10-31', 'sector_sources_checked_individual_facts_required_2026-10-31')
+    assert case['legalStatus'] in ('source_checked_2026-10-31', 'source_checked_2026-11-01','sector_sources_checked_individual_facts_required_2026-10-31')
 for case in cases:
     assert isinstance(case['checks'],list) and isinstance(case['cautions'],list)
     assert isinstance(case['relatedPages'],list) and isinstance(case['legalBasis'],list)
@@ -88,4 +90,4 @@ for item in news:
     assert item['checkedAt'] >= item['date']
 
 
-print(json.dumps({'result':'OK','topics':len(topics),'situations':len(cases),'institutions':len(institutions),'draft_documents':len(docs),'official_sources':len(sources),'verified_court_acts':len(court_acts),'regional_offices':len(regions),'full_routes':len(cases),'sector_source_checked':sum(x['legalStatus'].startswith('sector_sources_checked') for x in cases)},ensure_ascii=False))
+print(json.dumps({'result':'OK','topics':len(topics),'situations':len(cases),'institutions':len(institutions),'draft_documents':len(docs),'official_sources':len(sources),'verified_court_acts':len(court_acts),'regional_offices':len(regions),'legally_source_checked':sum(x['legalStatus'].startswith('source_checked_') for x in cases),'full_routes':len(cases),'sector_source_checked':sum(x['legalStatus'].startswith('sector_sources_checked') for x in cases)},ensure_ascii=False))

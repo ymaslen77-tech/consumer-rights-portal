@@ -50,6 +50,8 @@ jobs:
         run: npm install -g pnpm@10.0.0
       - name: Install dependencies (temporary until lockfile is generated)
         run: pnpm install --frozen-lockfile
+      - name: Test browser-only DOCX format and document fields
+        run: node --test scripts/tests/office-export.test.mjs scripts/tests/document-compose.test.mjs
       - name: Check TypeScript
         run: pnpm typecheck
       - name: Production build

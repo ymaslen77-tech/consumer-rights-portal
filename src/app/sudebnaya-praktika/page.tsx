@@ -12,6 +12,13 @@ export default function Courts(){return <>
  <small>{c.title} · {c.date}</small></span><span className="arrow">→</span>
  </Link>)}
  </div>
+ <h2>Обзоры судебной практики Верховного Суда Российской Федерации</h2>
+ <div className="notice"><strong>Обзор — не отдельное решение по иску</strong><p>Обзоры утверждаются Президиумом ВС РФ и содержат подборки правовых позиций по нескольким делам. Мы не приписываем им самостоятельное взыскание денежных сумм или отдельного ответчика.</p></div>
+ <div className="linkstack">
+ <SourceLink href="https://vsrf.ru/documents/all/33968">Обзор по делам о защите прав потребителей, утверждён 23.10.2024</SourceLink>
+ <SourceLink href="https://vsrf.ru/documents/all/33038">Обзор по делам о защите прав потребителей, утверждён 18.10.2023</SourceLink>
+ <SourceLink href="https://vsrf.ru/documents/all/35663/">Обзор судебной практики ВС РФ № 1 (2026), утверждён 25.03.2026</SourceLink>
+ </div>
  <h2>Источники для дальнейшего расширения базы</h2><div className="linkstack">
  <SourceLink href="https://www.ksrf.ru/">Конституционный Суд РФ</SourceLink>
  <SourceLink href="https://vsrf.ru/">Верховный Суд РФ</SourceLink>
