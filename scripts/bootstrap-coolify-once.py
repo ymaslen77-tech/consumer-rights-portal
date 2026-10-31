@@ -71,13 +71,16 @@ def single_named(items: Any, name: str, noun: str) -> dict[str, Any] | None:
 
 
 def app_is_safe(app: dict[str, Any]) -> bool:
+    # Coolify v4 returns auto-deploy state inside "settings" on GET /applications/uuid.
+    settings = app.get("settings") or {}
+    auto_deploy = app.get("is_auto_deploy_enabled", settings.get("is_auto_deploy_enabled"))
     return (
         app.get("name") == APPLICATION
         and app.get("git_repository") == REPOSITORY
         and app.get("git_branch") == BRANCH
         and app.get("build_pack") == "dockerfile"
         and app.get("dockerfile_location") == DOCKERFILE
-        and app.get("is_auto_deploy_enabled") in (False, 0)
+        and auto_deploy in (False, 0)
         and not (app.get("fqdn") or app.get("domains"))
     )
 
