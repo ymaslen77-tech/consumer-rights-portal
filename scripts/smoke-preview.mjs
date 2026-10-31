@@ -6,11 +6,14 @@ const topics = JSON.parse(readFileSync("src/data/topics.json", "utf8"));
 const situations = JSON.parse(readFileSync("src/data/situations.json", "utf8"));
 const docs = JSON.parse(readFileSync("src/data/documents.json", "utf8"));
 const seoGuides = JSON.parse(readFileSync("src/data/seo-guides.json", "utf8"));
+const regions = JSON.parse(readFileSync("src/data/rospotrebnadzor-regions.json", "utf8"));
+const courtCases = JSON.parse(readFileSync("src/data/verified-court-cases.json", "utf8"));
 const cases = ["/", "/situacii", "/organy", "/dokumenty", "/istochniki",
-  "/sudebnaya-praktika", "/novosti", "/normativnye-akty", "/o-proekte",
-  ...seoGuides.map(g => g.path), "/situacii/" + topics[0].slug, "/razbor/" + situations[0].slug,
+  "/sudebnaya-praktika", ...courtCases.map(x => "/sudebnaya-praktika/" + x.slug), "/novosti", "/normativnye-akty", "/o-proekte",
+  ...seoGuides.map(g => g.path), "/rospotrebnadzor/regiony", ...regions.map(r => "/rospotrebnadzor/regiony/" + r.slug), "/situacii/" + topics[0].slug, "/razbor/" + situations[0].slug,
   "/dokumenty/" + docs[0].slug, "/dokumenty/trebovanie-vozvrat-predoplaty",
-  "/razbor/internet-magaziny-2", "/api/health"];
+  "/razbor/internet-magaziny-2", "/razbor/zhkh-1", "/razbor/banki-strahovanie-3",
+  "/dokumenty/finansovyy-upolnomochennyy-obrashchenie", "/dokumenty/zayavlenie-pereraschet-zhkh", "/api/health"];
 
 async function get(path) {
   const response = await fetch(new URL(path, origin), { signal: AbortSignal.timeout(10000), redirect: "manual" });
