@@ -5,10 +5,12 @@ const origin = process.env.CONSUMER_SMOKE_ORIGIN || "http://127.0.0.1:3000";
 const topics = JSON.parse(readFileSync("src/data/topics.json", "utf8"));
 const situations = JSON.parse(readFileSync("src/data/situations.json", "utf8"));
 const docs = JSON.parse(readFileSync("src/data/documents.json", "utf8"));
+const seoGuides = JSON.parse(readFileSync("src/data/seo-guides.json", "utf8"));
 const cases = ["/", "/situacii", "/organy", "/dokumenty", "/istochniki",
   "/sudebnaya-praktika", "/novosti", "/normativnye-akty", "/o-proekte",
-  "/situacii/" + topics[0].slug, "/razbor/" + situations[0].slug,
-  "/dokumenty/" + docs[0].slug, "/api/health"];
+  ...seoGuides.map(g => g.path), "/situacii/" + topics[0].slug, "/razbor/" + situations[0].slug,
+  "/dokumenty/" + docs[0].slug, "/dokumenty/trebovanie-vozvrat-predoplaty",
+  "/razbor/internet-magaziny-2", "/api/health"];
 
 async function get(path) {
   const response = await fetch(new URL(path, origin), { signal: AbortSignal.timeout(10000), redirect: "manual" });
