@@ -72,7 +72,10 @@ class FakeCoolify:
             self.apps[0].update(body)
             return Response({"uuid": "app-1"})
         if (method, path) == ("GET", "/applications/app-1"):
-            return Response(self.apps[0])
+            app = dict(self.apps[0])
+            auto = app.pop("is_auto_deploy_enabled", None)
+            app["settings"] = {"is_auto_deploy_enabled": auto}
+            return Response(app)
         if (method, path) == ("GET", "/applications/app-1/envs"):
             return Response(self.envs)
         if (method, path) == ("POST", "/applications/app-1/envs"):
