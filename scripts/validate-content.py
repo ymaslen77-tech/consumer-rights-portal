@@ -52,6 +52,15 @@ for case in cases:
 assert sum(s['legalStatus'].startswith('source_checked') for s in cases)>=13
 for d in docs:
     assert d.get('requestHint'), "Document template must carry a tailored request hint"
+news=read('news.json')
+assert len(news)<=5 and len(news)>=2
+assert len({item['slug'] for item in news})==len(news)
+for item in news:
+    assert item['status']=='source_checked'
+    assert item['sourceUrl'].startswith('https://')
+    assert item['relatedUrl'] in links
+    assert item['checkedAt'] >= item['date']
+
 links=set(['/','/situacii','/organy','/dokumenty','/normativnye-akty',*paths])
 links.update('/situacii/'+t for t in known_topics)
 links.update('/razbor/'+c for c in known_cases)

@@ -12,3 +12,11 @@
 .guide-checklist{display:grid;gap:12px;padding-left:23px;margin:18px 0 30px}
 .guide-checklist li{padding-left:3px}
 @media(max-width:720px){.guide-faq{grid-template-columns:1fr}}
+
+.news-card{min-height:0;margin-bottom:6px}
+.news-card h2{font-size:23px;margin:10px 0}
+.news-card .external,.news-card .textlink{margin-top:12px}
+.guide-act{align-items:flex-start}
+.guide-act h3{font-size:21px;margin:0 0 6px}
+.guide-act p{font-size:14px;margin:9px 0}
+.guide-act-actions{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:16px}
