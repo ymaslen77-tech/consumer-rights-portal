@@ -52,6 +52,14 @@ for case in cases:
 assert sum(s['legalStatus'].startswith('source_checked') for s in cases)>=13
 for d in docs:
     assert d.get('requestHint'), "Document template must carry a tailored request hint"
+links=set(['/','/situacii','/organy','/dokumenty','/normativnye-akty',*paths])
+links.update('/situacii/'+t for t in known_topics)
+links.update('/razbor/'+c for c in known_cases)
+links.update('/dokumenty/'+d for d in known_docs)
+links.update('/organy/'+i['slug'] for i in institutions)
+for g in guides:
+    assert all(link['href'] in links for link in g['links']), "Unresolved SEO guide link"
+
 news=read('news.json')
 assert len(news)<=5 and len(news)>=2
 assert len({item['slug'] for item in news})==len(news)
@@ -61,12 +69,5 @@ for item in news:
     assert item['relatedUrl'] in links
     assert item['checkedAt'] >= item['date']
 
-links=set(['/','/situacii','/organy','/dokumenty','/normativnye-akty',*paths])
-links.update('/situacii/'+t for t in known_topics)
-links.update('/razbor/'+c for c in known_cases)
-links.update('/dokumenty/'+d for d in known_docs)
-links.update('/organy/'+i['slug'] for i in institutions)
-for g in guides:
-    assert all(link['href'] in links for link in g['links']), "Unresolved SEO guide link"
 
 print(json.dumps({'result':'OK','topics':len(topics),'situations':len(cases),'institutions':len(institutions),'draft_documents':len(docs),'official_sources':len(sources),'verified_court_acts':0},ensure_ascii=False))
