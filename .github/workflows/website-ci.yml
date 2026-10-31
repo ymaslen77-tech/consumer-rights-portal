@@ -52,6 +52,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Test browser-only DOCX format and document fields
         run: node --test scripts/tests/office-export.test.mjs scripts/tests/document-compose.test.mjs
+      - name: Validate generated DOCX ZIP and Office XML
+        run: python3 scripts/tests/test_office_docx.py
       - name: Check TypeScript
         run: pnpm typecheck
       - name: Production build
