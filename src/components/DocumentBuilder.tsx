@@ -1,7 +1,7 @@
 "use client";
 import {useMemo,useState} from "react";
 type Fields={recipient:string,sender:string,address:string,contact:string,agreement:string,eventDate:string,description:string,request:string,evidence:string};
-export function DocumentBuilder({title,recipient,requestHint}:{title:string,recipient:string,requestHint:string}){
+export function DocumentBuilder({title,recipient,requestHint,legalBasis,claimType}:{title:string,recipient:string,requestHint:string,legalBasis:string,claimType:string}){
  const [f,setF]=useState<Fields>({recipient:'',sender:'',address:'',contact:'',agreement:'',eventDate:'',description:'',request:'',evidence:''});
  const fields:[keyof Fields,string,string][]=[
  ['recipient','Кому (организация, наименование или суд)','Название организации / адресат'],
@@ -35,7 +35,7 @@ ${f.evidence||'[перечень прилагаемых документов]'}
 
 Дата: ____________    Подпись: ____________
 
-[Черновик составлен автоматически. Проверьте правильность адресата, требования, правовых оснований, сроков, способа подачи и приложений.]`,[f,title]);
+[Черновик составлен автоматически. Проверьте правильность адресата, требования, правовых оснований, сроков, способа подачи и приложений.]`,[f,title,legalBasis,claimType]);
  function exportText(){const blob=new Blob([content],{type:'text/plain;charset=utf-8'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='consumer-document-draft.txt';a.click();URL.revokeObjectURL(u)}
- return <div className="builder"><div className="builderform"><h2>Заполнить документ</h2>{fields.map(([key,label,placeholder])=><label key={key}>{label}{['description','request','evidence'].includes(key)?<textarea value={f[key]} onChange={e=>setF({...f,[key]:e.target.value})} placeholder={key==='request'?requestHint:placeholder} rows={3} maxLength={3000}/>:<input value={f[key]} onChange={e=>setF({...f,[key]:e.target.value})} placeholder={key==='recipient'?recipient:placeholder} maxLength={300}/>}</label>)}</div><div className="builderpreview"><div className="previewhead"><h2>Предварительный просмотр</h2><button className="btn primary small" type="button" onClick={exportText}>Сохранить TXT</button></div><pre>{content}</pre><p className="disclaimer">Данные не отправляются на наш сервер. Сервис не осуществляет официальную подачу обращения.</p></div></div>
+ return <div className="builder"><div className="builderform"><h2>Заполнить документ</h2><p className="subtle">В документ автоматически включены отраслевые правовые основания. Перед отправкой проверьте их применимость, действующую редакцию, сроки и адресата.</p>{fields.map(([key,label,placeholder])=><label key={key}>{label}{['description','request','evidence'].includes(key)?<textarea value={f[key]} onChange={e=>setF({...f,[key]:e.target.value})} placeholder={key==='request'?requestHint:placeholder} rows={3} maxLength={3000}/>:<input value={f[key]} onChange={e=>setF({...f,[key]:e.target.value})} placeholder={key==='recipient'?recipient:placeholder} maxLength={300}/>}</label>)}</div><div className="builderpreview"><div className="previewhead"><h2>Предварительный просмотр</h2><button className="btn primary small" type="button" onClick={exportText}>Сохранить TXT</button></div><pre>{content}</pre><p className="disclaimer">Данные не отправляются на наш сервер. Сервис не осуществляет официальную подачу обращения.</p></div></div>
 }

@@ -6,7 +6,7 @@ from datetime import date
 import json, sys
 ROOT=Path(__file__).resolve().parents[1]
 def read(name):return json.loads((ROOT/'src/data'/name).read_text(encoding='utf8'))
-topics=read('topics.json');cases=read('situations.json');institutions=read('institutions.json');docs=read('documents.json');sources=read('official-sources.json');guides=read('seo-guides.json')
+topics=read('topics.json');cases=read('situations.json');institutions=read('institutions.json');docs=read('documents.json');sources=read('official-sources.json');guides=read('seo-guides.json');regions=read('rospotrebnadzor-regions.json');court_acts=read('verified-court-cases.json')
 for name,items in [('topics',topics),('situations',cases),('institutions',institutions),('documents',docs),('sources',sources)]:
     ids=[x.get('slug') or x.get('id') for x in items]
     assert all(ids) and len(ids)==len(set(ids)),f'duplicate IDs in {name}'
@@ -14,7 +14,7 @@ assert len(topics)==20, len(topics)
 assert len(cases)>=60, len(cases)
 assert len(institutions)>=8
 assert len(read('moscow-district-offices.json'))==12
-assert len(docs)>=10
+assert len(docs)>=25
 known_topics={x['slug'] for x in topics}
 known_cases={x['slug'] for x in cases}
 known_docs={x['slug'] for x in docs}
@@ -41,6 +41,21 @@ for g in guides:
     assert len(g['sources'])>=2 and all(x['url'].startswith('https://') for x in g['sources'])
     assert len(g['description'])>=80 and len(g['description'])<240
     assert len(g['title'])>30
+assert len(regions)==5 and len({r['slug'] for r in regions})==len(regions)
+assert len(court_acts)>=1 and len({a['slug'] for a in court_acts})==len(court_acts)
+for region in regions:
+    assert region['official'].startswith('https://')
+    assert region['sources'] and all(url.startswith('https://') for url in region['sources'])
+    assert region['phoneHref'].startswith('tel:') and len(region['steps'])>=4
+for act in court_acts:
+    assert act['verification'].startswith('official_full_text')
+    assert len(act['sources'])>=2 and all(a['url'].startswith('https://') for a in act['sources'])
+    assert all(t in known_topics for t in act['topics'])
+    assert all(s in known_cases for s in act['situationSlugs'])
+for case in cases:
+    assert len(case['steps'])>=5 and len(case['checks'])>=2 and len(case['cautions'])>=1
+    assert len(case['legalBasis'])>=2 and len(case['sources'])>=2
+    assert case['legalStatus'] in ('source_checked_2026-10-31', 'sector_sources_checked_individual_facts_required_2026-10-31')
 for case in cases:
     assert isinstance(case['checks'],list) and isinstance(case['cautions'],list)
     assert isinstance(case['relatedPages'],list) and isinstance(case['legalBasis'],list)
@@ -52,7 +67,10 @@ for case in cases:
 assert sum(s['legalStatus'].startswith('source_checked') for s in cases)>=13
 for d in docs:
     assert d.get('requestHint'), "Document template must carry a tailored request hint"
-links=set(['/','/situacii','/organy','/dokumenty','/normativnye-akty',*paths])
+    assert d.get("legalBasis") and d.get("claimType") in ("pretrial_claim","state_notification","court_document")
+links=set(['/','/situacii','/organy','/dokumenty','/normativnye-akty','/sudebnaya-praktika','/rospotrebnadzor/regiony',*paths])
+links.update('/rospotrebnadzor/regiony/'+r['slug'] for r in regions)
+links.update('/sudebnaya-praktika/'+a['slug'] for a in court_acts)
 links.update('/situacii/'+t for t in known_topics)
 links.update('/razbor/'+c for c in known_cases)
 links.update('/dokumenty/'+d for d in known_docs)
@@ -70,4 +88,4 @@ for item in news:
     assert item['checkedAt'] >= item['date']
 
 
-print(json.dumps({'result':'OK','topics':len(topics),'situations':len(cases),'institutions':len(institutions),'draft_documents':len(docs),'official_sources':len(sources),'verified_court_acts':0},ensure_ascii=False))
+print(json.dumps({'result':'OK','topics':len(topics),'situations':len(cases),'institutions':len(institutions),'draft_documents':len(docs),'official_sources':len(sources),'verified_court_acts':len(court_acts),'regional_offices':len(regions),'full_routes':len(cases),'sector_source_checked':sum(x['legalStatus'].startswith('sector_sources_checked') for x in cases)},ensure_ascii=False))
