@@ -38,17 +38,28 @@ export function draftText(fields, meta) {
   const requestHeading = isState ? "ПРОШУ ОРГАН РАССМОТРЕТЬ ОБРАЩЕНИЕ В ПРЕДЕЛАХ КОМПЕТЕНЦИИ:" :
     isCourt ? "ПРОШУ СУД (ТРЕБОВАНИЯ К СУДУ):" : "ТРЕБОВАНИЕ К АДРЕСАТУ:";
   const legal = orBlank(meta.legalBasis,"проверить закон");
+  // Legal links are descriptive source pointers, not an assertion that all
+  // listed provisions necessarily apply to the user's dispute.
+  const legalLinks = Array.isArray(meta.legalLinks) ? meta.legalLinks.filter(x=>
+    x && typeof x.title==="string" && typeof x.url==="string" &&
+    /^https:\/\//.test(x.url) && !/[\s<>]/.test(x.url)
+  ).slice(0,8) : [];
+  const referenceText = legalLinks.length ?
+    "\n\nНОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ РЕДАКЦИИ:\n" +
+    legalLinks.map((item,index)=>`${index+1}. ${item.title}\n${item.url}`).join("\n") : "";
+  const context = meta.contextTitle ?
+    "\nИсходная правовая ситуация: " + String(meta.contextTitle) : "";
   return "Кому: " + recipient + "\n" +
     "От: " + issuer + "\nАдрес для ответа: " + orBlank(f.address,"почтовый адрес") +
     "\nКонтакты: " + orBlank(f.contact,"телефон / электронная почта") + counterparty +
-    "\n\n" + meta.title.toUpperCase() + "\n\n" +
+    "\n\n" + meta.title.toUpperCase() + context + "\n\n" +
     "Договор / заказ / предмет отношений: " + orBlank(f.agreement,"наименование договора, номер и дата") +
     "\nДата события: " + orBlank(f.eventDate,"дата события") +
     "\n\nФАКТИЧЕСКИЕ ОБСТОЯТЕЛЬСТВА:\n" + orBlank(f.description,"опишите обстоятельства по датам без необоснованных обвинений") +
     amountLine + "\n\n" + requestHeading + "\n" +
     orBlank(f.request,"укажите одно законное требование и обстоятельства, подтверждающие его применимость") +
     "\n\nПРАВОВЫЕ ОРИЕНТИРЫ ДЛЯ ПРОВЕРКИ ПЕРЕД ОТПРАВКОЙ:\n" + legal +
-    "\n\nПРИЛОЖЕНИЯ (копии):\n" + orBlank(f.evidence,"перечислите приложенные подтверждения") +
+    "\n\nПРИЛОЖЕНИЯ (копии):\n" + orBlank(f.evidence,"перечислите приложенные подтверждения") + referenceText +
     (isCourt ? "\n\nПодсудность, цена иска, госпошлина и требования к приложениям должны быть проверены отдельно по ГПК РФ." : "") +
     "\n\nДата составления: _________________\nПодпись заявителя: _________________\n\n" +
     "ПРОЕКТ ДОКУМЕНТА. Не подан адресату. Требования, нормы, сроки, сумма и приложения требуют проверки по обстоятельствам и действующей редакции права.";

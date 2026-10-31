@@ -3,7 +3,8 @@ import {useMemo, useState} from "react";
 import {makeDocx} from "@/lib/office-export.mjs";
 import {draftText,validateDraft,type DraftFields,type ClaimType} from "@/lib/document-compose.mjs";
 
-type Meta={slug:string;title:string;recipient:string;requestHint:string;legalBasis:string;claimType:ClaimType};
+type Meta={slug:string;title:string;recipient:string;requestHint:string;legalBasis:string;claimType:ClaimType;
+ legalLinks?:Array<{title:string;url:string}>; contextTitle?:string; inline?:boolean};
 const initial:DraftFields={
  recipient:"",sender:"",address:"",contact:"",agreement:"",eventDate:"",
  description:"",request:"",evidence:"",claimAmount:"",counterpartyName:"",counterpartyAddress:""
@@ -52,7 +53,7 @@ export function DocumentBuilder(meta:Meta){
  const [fields,setFields]=useState<DraftFields>(initial);
  const [showWarnings,setShowWarnings]=useState(false);
  const [feedback,setFeedback]=useState("");
- const content=useMemo(()=>draftText(fields,meta),[fields,meta.title,meta.legalBasis,meta.claimType]);
+ const content=useMemo(()=>draftText(fields,meta),[fields,meta.title,meta.legalBasis,meta.claimType,meta.contextTitle,meta.legalLinks]);
  const problems=useMemo(()=>validateDraft(fields,meta.claimType),[fields,meta.claimType]);
  const valid=problems.length===0;
  const update=(key:keyof DraftFields,value:string)=>{setFields(f=>({...f,[key]:value}));setFeedback("");};
@@ -89,6 +90,13 @@ export function DocumentBuilder(meta:Meta){
    setFeedback("В диалоге печати выберите «Сохранить как PDF». Документ остаётся только в вашем браузере.");
  }
  const options=choices[meta.slug]||[];
+ const essentials=descriptors.filter(x=>["recipient","sender","address","description","request"].includes(x.key));
+ const additional=descriptors.filter(x=>!["recipient","sender","address","description","request"].includes(x.key));
+ const renderField=(item:(typeof descriptors)[number])=><label key={item.key}>{item.label}
+   {item.multiline?<textarea value={fields[item.key]} onChange={e=>update(item.key,e.target.value)}
+     placeholder={item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
+   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.hint} maxLength={500}/>}
+ </label>;
  return <div className="builder">
   <div className="builderform">
    <h2>Подготовить юридический черновик</h2>
@@ -99,6 +107,11 @@ export function DocumentBuilder(meta:Meta){
     <p>Укажите точный суд, ответчика и его адрес, проверьте подсудность, цену иска, приложения и направление копий участникам до подачи.</p>
    </div>}
    <p className="subtle"><strong>Подсказка по предмету:</strong> {meta.requestHint}</p>
+   {meta.legalLinks?.length?<div className="situation-legal-links">
+    <strong>Нормативные акты и официальные источники</strong>
+    <p>Проверьте актуальную редакцию и применимость. URL попадут в скачиваемый документ.</p>
+    <ul>{meta.legalLinks.map(x=><li key={x.url}><a href={x.url} target="_blank" rel="noopener noreferrer">{x.title}</a></li>)}</ul>
+   </div>:null}
    {options.length>0&&<label>Пример возможной формулировки
     <select value="" onChange={e=>{if(e.target.value)update("request",e.target.value);}}>
      <option value="">Выберите для заполнения поля требования</option>
@@ -111,11 +124,11 @@ export function DocumentBuilder(meta:Meta){
    ].map(item=><label key={item.key}>{item.label}
     <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.hint} maxLength={400}/>
    </label>)}</>}
-   {descriptors.map(item=><label key={item.key}>{item.label}
-    {item.multiline?<textarea value={fields[item.key]} onChange={e=>update(item.key,e.target.value)}
-        placeholder={item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
-      <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.hint} maxLength={500}/>}
-   </label>)}
+   {essentials.map(renderField)}
+   <details className="builder-optional">
+    <summary>Дополнительные сведения: дата, номер заказа, сумма, приложения</summary>
+    {additional.map(renderField)}
+   </details>
    {showWarnings&&problems.length>0&&<div className="notice" role="alert">
     <strong>Не хватает для сохранения документа</strong>
     <ul>{problems.map(key=><li key={key}>{fieldNames[key]||key}</li>)}</ul>
