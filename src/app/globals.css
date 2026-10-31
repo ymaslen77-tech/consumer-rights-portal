@@ -20,3 +20,10 @@
 .guide-act h3{font-size:21px;margin:0 0 6px}
 .guide-act p{font-size:14px;margin:9px 0}
 .guide-act-actions{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:16px}
+
+/* Browser-only document preparation controls */
+.document-actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 20px}
+.builderform select{width:100%;min-height:44px;border:1px solid var(--line,#d8dce4);border-radius:8px;padding:10px;background:#fff;color:#111}
+.builderform label small{display:block;font-size:12px;margin-top:6px;color:#596474}
+.builderform .notice ul{padding-left:20px}
+@media(max-width:650px){.document-actions .btn{flex:1 1 100%}}
