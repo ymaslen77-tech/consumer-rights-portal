@@ -33,7 +33,16 @@ for (let i = 0; i < 35; i++) {
   }
 }
 assert.ok(ready, "Next.js preview failed to start");
-for (const path of cases) await get(path);
+for (const path of cases) {
+ const html=await get(path);
+ if(path.startsWith("/razbor/")) assert.match(html,/situation-document-generator|Составить документ по этой ситуации/,path+" lacks inline generator");
+}
+const allSituationUrls=situations.map(x=>"/razbor/"+x.slug);
+for(const path of allSituationUrls){
+ const html=await get(path);
+ assert.match(html,/situation-document-generator/,path+" missing generator");
+}
+
 const robots = await get("/robots.txt");
 assert.match(robots, /Disallow:\s*\//i);
 const sitemap = await get("/sitemap.xml");

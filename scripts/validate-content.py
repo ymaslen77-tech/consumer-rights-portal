@@ -21,6 +21,24 @@ known_docs={x['slug'] for x in docs}
 assert all(x['topic'] in known_topics for x in cases)
 assert all(x['relatedTopics'] and all(k in known_topics for k in x['relatedTopics']) for x in cases)
 assert all(all(k in known_docs for k in x['documents']) for x in cases)
+assert len(cases)==60 and all(1<=len(s['documents'])<=5 for s in cases)
+assert (ROOT/'src/components/SituationDocumentWizard.tsx').exists(), 'All situation pages must embed a generator'
+assert 'SituationDocumentWizard' in (ROOT/'src/app/razbor/[slug]/page.tsx').read_text(encoding='utf8')
+assert (ROOT/'src/lib/consumer-legal-links.ts').exists()
+# Important sector-specific documents must be proposed before a broad fallback.
+required_primary={
+    'zhkh-1':'zayavlenie-pereraschet-zhkh',
+    'medicina-3':'zapros-medicinskie-dokumenty',
+    'transport-2':'zayavlenie-bagazh',
+    'obrazovanie-1':'pretenziya-obrazovanie',
+    'svyaz-internet-2':'pretenziya-svyaz',
+    'bytovye-uslugi-1':'pretenziya-himchistka',
+    'navyazannye-usloviya-3':'zhaloba-fas-reklama',
+}
+for slug,document in required_primary.items():
+    item=next(c for c in cases if c['slug']==slug)
+    assert item['documents'][0]==document,(slug,item['documents'])
+
 assert all(set(x['situationSlugs'])=={c['slug'] for c in cases if c['topic']==x['slug']} for x in topics)
 for row in sources:
     p=urlsplit(row['url'])

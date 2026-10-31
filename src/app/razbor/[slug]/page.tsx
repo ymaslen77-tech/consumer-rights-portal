@@ -2,6 +2,9 @@ import Link from "next/link";
 import {notFound} from "next/navigation";
 import {situations,getSituation,getTopic,documents} from "@/lib/content";
 import {PageIntro,SourceLink,Trail} from "@/components/SiteShell";
+import {SituationDocumentWizard,type SituationDocumentOption} from "@/components/SituationDocumentWizard";
+import {lawsForSituation} from "@/lib/consumer-legal-links";
+import type {ClaimType} from "@/lib/document-compose.mjs";
 type Params={params:Promise<{slug:string}>};
 export function generateStaticParams(){return situations.map(x=>({slug:x.slug}))}
 export async function generateMetadata({params}:Params){const {slug}=await params;const s=getSituation(slug);return {title:s?.title||"Разбор ситуации",description:s?.summary}}
@@ -17,7 +20,20 @@ export default async function CasePage({params}:Params){
  <h2>Порядок действий</h2><ol className="steps">{s.steps.map((x,i)=><li key={i}>{x}</li>)}</ol>
  {s.cautions.length>0&&<><h2>Исключения и риски</h2><div className="notice">{s.cautions.map((x,i)=><p key={i}>{x}</p>)}</div></>}
  {s.legalBasis.length>0&&<><h2>Нормативные основания</h2><ul className="guide-checklist">{s.legalBasis.map((x,i)=><li key={i}>{x}</li>)}</ul><p><Link className="textlink" href="/normativnye-akty">Смотреть нормативные акты и изменения →</Link></p></>}
- <h2>Документы, которые могут понадобиться</h2>
+ <h2>Документы для защиты права</h2>
+ <p className="subtle">Ниже расположен работающий генератор, а не только ссылки на образцы. Выберите нужный документ и заполните данные на этой странице.</p>
+ <SituationDocumentWizard situationTitle={s.title} checks={s.checks} documents={s.documents.map(key=>{
+   const d=documents.find(x=>x.slug===key);
+   if(!d)throw new Error("Missing document for situation "+s.slug+": "+key);
+   const choice:SituationDocumentOption={
+     slug:d.slug,title:d.title,recipient:d.recipient,claimType:d.claimType as ClaimType,
+     sourceUrl:d.sourceUrl,requestHint:s.title+". "+d.requestHint,
+     legalBasis:[d.legalBasis,...s.legalBasis].filter(Boolean).join("; "),
+     lawLinks:lawsForSituation(s.topic,d.slug)
+   };
+   return choice;
+ })}/>
+ <h2>Другие способы открыть документы</h2>
  <div className="linkstack">{s.documents.map(key=>{const d=documents.find(x=>x.slug===key);return d?<Link href={"/dokumenty/"+d.slug} key={key}>▤ {d.title}<span>→</span></Link>:null})}</div>
  <h2>Первоисточники</h2><div className="linkstack">{s.sources.map(url=><SourceLink key={url} href={url}>{url}</SourceLink>)}</div>
  <h2>Смежные вопросы</h2><div className="linkstack">

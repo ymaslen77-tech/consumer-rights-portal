@@ -27,3 +27,26 @@
 .builderform label small{display:block;font-size:12px;margin-top:6px;color:#596474}
 .builderform .notice ul{padding-left:20px}
 @media(max-width:650px){.document-actions .btn{flex:1 1 100%}}
+
+/* One contextual document generator in every consumer-law situation */
+.situation-wizard{margin:26px 0 42px;padding:26px;background:#f8fafc;border:1px solid #cdd8e2;border-radius:10px}
+.situation-wizard-header h2{margin:9px 0 8px}
+.situation-wizard-header p{font-size:14px;color:var(--muted);max-width:75ch}
+.situation-wizard-choice{margin:22px 0 15px;background:white;padding:20px;border:1px solid var(--border);border-radius:8px}
+.situation-wizard-choice label{display:block;margin:0 0 8px;font-weight:750}
+.situation-wizard-choice select{width:100%;padding:13px;font:inherit;color:var(--ink);background:white;border-radius:6px;border:1px solid #cdd6e0}
+.situation-wizard-context{border-left:3px solid var(--red);padding:10px 22px;margin:18px 0 24px;background:#fff}
+.situation-wizard-context li{font-size:13px;margin:9px 0}
+.situation-wizard-context p{font-size:12px;color:var(--muted);margin-bottom:0}
+.situation-wizard .builder{grid-template-columns:1fr;gap:18px}
+.situation-wizard .builderpreview{position:static}
+.situation-wizard-footer{margin:22px 0 0;font-size:13px;line-height:2}
+.situation-wizard-footer a{color:var(--red);font-weight:750}
+.builder-optional{border:1px solid var(--border);background:#fff;border-radius:7px;padding:16px 19px;margin:20px 0}
+.builder-optional summary{cursor:pointer;font-weight:750;font-size:14px}
+.situation-legal-links{border:1px solid var(--border);border-radius:6px;padding:15px;margin:12px 0 22px;background:#fff}
+.situation-legal-links p{font-size:12px;color:var(--muted)}
+.situation-legal-links ul{padding-left:19px}
+.situation-legal-links li{margin:10px 0;font-size:13px}
+.situation-legal-links a{color:var(--red);text-decoration:underline}
+@media(max-width:720px){.situation-wizard{padding:14px}.situation-wizard .builderform,.situation-wizard .builderpreview{padding:16px}}
