@@ -30,7 +30,7 @@ test("all 60 situation routes generate legally referenced DOCX and text",()=>{
   assert.ok(topics.some(x=>x.slug===situation.topic),situation.slug);
   for(const slug of situation.documents){
    const d=docs.get(slug);assert.ok(d,slug);
-   const audit=getLegalAudit(situation.topic,slug,d.claimType);
+   const audit=getLegalAudit(situation.topic,slug,d.claimType,situation.slug);
    const lawLinks=audit.links.map(x=>({title:x.name,url:x.url}));
    const body=draftText(sample,{
     title:d.title,claimType:d.claimType,contextTitle:situation.title,

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {STATUTES,getLegalAudit,validateLegalReferenceMatrix} from "../../src/lib/consumer-law-audit.mjs";
+import {STATUTES,CASE_LEGAL_REFERENCES,getLegalAudit,validateLegalReferenceMatrix} from "../../src/lib/consumer-law-audit.mjs";
 import topics from "../../src/data/topics.json" with {type:"json"};
 import documents from "../../src/data/documents.json" with {type:"json"};
 import situations from "../../src/data/situations.json" with {type:"json"};
@@ -12,7 +12,7 @@ test("every situation/document choice has multiple legal links and caveats",()=>
  let checked=0;
  for(const s of situations)for(const slug of s.documents){
   const d=docs.get(slug);assert.ok(d,"Missing document "+slug);
-  const r=getLegalAudit(s.topic,slug,d.claimType);
+  const r=getLegalAudit(s.topic,slug,d.claimType,s.slug);
   assert.ok(r.links.length>=2,s.slug+" / "+slug);
   assert.ok(r.links.every(l=>l.url.startsWith("https://")&&l.name.length>15),slug);
   assert.ok(r.risk.length>60,s.slug);
@@ -20,6 +20,8 @@ test("every situation/document choice has multiple legal links and caveats",()=>
   checked++;
  }
  assert.equal(situations.length,60);
+ assert.equal(Object.keys(CASE_LEGAL_REFERENCES).length,60);
+ assert.ok(situations.every(x=>Array.isArray(CASE_LEGAL_REFERENCES[x.slug])));
  assert.ok(checked>=80,"Expected a selection of document choices in 60 routes");
 });
 test("Plenum is only required automatically on court draft",()=>{

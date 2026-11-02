@@ -25,13 +25,13 @@ export default async function CasePage({params}:Params){
  <SituationDocumentWizard situationTitle={s.title} checks={s.checks} documents={s.documents.map(key=>{
    const d=documents.find(x=>x.slug===key);
    if(!d)throw new Error("Missing document for situation "+s.slug+": "+key);
-   const audit=getLegalAudit(s.topic,d.slug,d.claimType);
+   const audit=getLegalAudit(s.topic,d.slug,d.claimType,s.slug);
    const choice:SituationDocumentOption={
      slug:d.slug,title:d.title,recipient:d.recipient,claimType:d.claimType as ClaimType,
      sourceUrl:d.sourceUrl,requestHint:s.title+". "+d.requestHint,
      legalBasis:audit.links.slice(0,6).map(x=>x.name).join("; "),
      lawLinks:audit.links.map(x=>({title:x.name,url:x.url})),
-     legalRisk:audit.risk,reviewDate:audit.reviewDate
+     legalRisk:[audit.risk,...s.cautions.slice(0,1)].filter(Boolean).join(' '),reviewDate:audit.reviewDate
    };
    return choice;
  })}/>
