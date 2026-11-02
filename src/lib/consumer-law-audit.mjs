@@ -2,6 +2,7 @@
 // (ConsultantPlus) and primary regulators / Supreme Court (see docs/AUDIT...).
 // This is a reference index, not a promise that every provision applies.
 export const STATUTES={
+ overview:{name:"Закон РФ от 07.02.1992 № 2300-1 «О защите прав потребителей» (действующая редакция)",url:"https://www.consultant.ru/document/cons_doc_LAW_305/"},
  goods:{name:"Закон РФ № 2300-1, статья 18 — недостатки товара",url:"https://www.consultant.ru/document/cons_doc_LAW_305/76ae101b731ecc22467fd9f1f14cb9e2b8799026/"},
  claims:{name:"Закон РФ № 2300-1, статья 22 — сроки отдельных требований по товару",url:"https://www.consultant.ru/document/cons_doc_LAW_305/00616d1e160d7ff7ac8d5a6a8e4525fb75e3b486/"},
  exchange:{name:"Закон РФ № 2300-1, статья 25 — обмен качественного товара",url:"https://www.consultant.ru/document/cons_doc_LAW_305/07e266c138f7d30d498ff235626083e75b770ff3/"},
