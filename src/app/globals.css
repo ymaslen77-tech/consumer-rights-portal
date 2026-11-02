@@ -50,3 +50,8 @@
 .situation-legal-links li{margin:10px 0;font-size:13px}
 .situation-legal-links a{color:var(--red);text-decoration:underline}
 @media(max-width:720px){.situation-wizard{padding:14px}.situation-wizard .builderform,.situation-wizard .builderpreview{padding:16px}}
+
+/* Legal grounding gate for downloaded consumer-law drafts */
+.legal-confirmation{display:flex!important;align-items:flex-start;gap:12px;padding:17px;background:#fff;border:1px solid #d9e0e7;border-radius:6px;margin:18px 0 25px!important;cursor:pointer}
+.legal-confirmation input{width:20px!important;min-width:20px;margin:2px 0 0!important;height:20px;accent-color:var(--red)}
+.legal-confirmation span{font-weight:450;font-size:13px;line-height:1.6}

@@ -3,7 +3,7 @@ import {notFound} from "next/navigation";
 import {situations,getSituation,getTopic,documents} from "@/lib/content";
 import {PageIntro,SourceLink,Trail} from "@/components/SiteShell";
 import {SituationDocumentWizard,type SituationDocumentOption} from "@/components/SituationDocumentWizard";
-import {lawsForSituation} from "@/lib/consumer-legal-links";
+import {getLegalAudit} from "@/lib/consumer-law-audit.mjs";
 import type {ClaimType} from "@/lib/document-compose.mjs";
 type Params={params:Promise<{slug:string}>};
 export function generateStaticParams(){return situations.map(x=>({slug:x.slug}))}
@@ -25,11 +25,13 @@ export default async function CasePage({params}:Params){
  <SituationDocumentWizard situationTitle={s.title} checks={s.checks} documents={s.documents.map(key=>{
    const d=documents.find(x=>x.slug===key);
    if(!d)throw new Error("Missing document for situation "+s.slug+": "+key);
+   const audit=getLegalAudit(s.topic,d.slug,d.claimType);
    const choice:SituationDocumentOption={
      slug:d.slug,title:d.title,recipient:d.recipient,claimType:d.claimType as ClaimType,
      sourceUrl:d.sourceUrl,requestHint:s.title+". "+d.requestHint,
-     legalBasis:[d.legalBasis,...s.legalBasis].filter(Boolean).join("; "),
-     lawLinks:lawsForSituation(s.topic,d.slug)
+     legalBasis:audit.links.slice(0,6).map(x=>x.name).join("; "),
+     lawLinks:audit.links.map(x=>({title:x.name,url:x.url})),
+     legalRisk:audit.risk,reviewDate:audit.reviewDate
    };
    return choice;
  })}/>

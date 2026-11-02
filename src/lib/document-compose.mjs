@@ -47,6 +47,8 @@ export function draftText(fields, meta) {
   const referenceText = legalLinks.length ?
     "\n\nНОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ РЕДАКЦИИ:\n" +
     legalLinks.map((item,index)=>`${index+1}. ${item.title}\n${item.url}`).join("\n") : "";
+  const legalWarning = meta.legalRisk ? "\n\nОСОБЫЕ УСЛОВИЯ ПРИМЕНЕНИЯ НОРМ:\n" +
+    String(meta.legalRisk) : "";
   const context = meta.contextTitle ?
     "\nИсходная правовая ситуация: " + String(meta.contextTitle) : "";
   return "Кому: " + recipient + "\n" +
@@ -58,7 +60,7 @@ export function draftText(fields, meta) {
     "\n\nФАКТИЧЕСКИЕ ОБСТОЯТЕЛЬСТВА:\n" + orBlank(f.description,"опишите обстоятельства по датам без необоснованных обвинений") +
     amountLine + "\n\n" + requestHeading + "\n" +
     orBlank(f.request,"укажите одно законное требование и обстоятельства, подтверждающие его применимость") +
-    "\n\nПРАВОВЫЕ ОРИЕНТИРЫ ДЛЯ ПРОВЕРКИ ПЕРЕД ОТПРАВКОЙ:\n" + legal +
+    "\n\nПРАВОВЫЕ ОСНОВАНИЯ ТРЕБОВАНИЯ (ПРИ ПОДТВЕРЖДЕНИИ УКАЗАННЫХ ФАКТОВ):\n" + legal + legalWarning +
     "\n\nПРИЛОЖЕНИЯ (копии):\n" + orBlank(f.evidence,"перечислите приложенные подтверждения") + referenceText +
     (isCourt ? "\n\nПодсудность, цена иска, госпошлина и требования к приложениям должны быть проверены отдельно по ГПК РФ." : "") +
     "\n\nДата составления: _________________\nПодпись заявителя: _________________\n\n" +

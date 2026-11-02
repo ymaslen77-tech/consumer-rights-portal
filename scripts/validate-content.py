@@ -24,7 +24,9 @@ assert all(all(k in known_docs for k in x['documents']) for x in cases)
 assert len(cases)==60 and all(1<=len(s['documents'])<=5 for s in cases)
 assert (ROOT/'src/components/SituationDocumentWizard.tsx').exists(), 'All situation pages must embed a generator'
 assert 'SituationDocumentWizard' in (ROOT/'src/app/razbor/[slug]/page.tsx').read_text(encoding='utf8')
-assert (ROOT/'src/lib/consumer-legal-links.ts').exists()
+assert (ROOT/'src/lib/consumer-law-audit.mjs').exists()
+assert (ROOT/'src/lib/consumer-law-audit.d.mts').exists()
+assert (ROOT/'scripts/tests/consumer-law-audit.test.mjs').exists()
 # Important sector-specific documents must be proposed before a broad fallback.
 required_primary={
     'zhkh-1':'zayavlenie-pereraschet-zhkh',

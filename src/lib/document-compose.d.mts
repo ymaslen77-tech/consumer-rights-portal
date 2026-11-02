@@ -7,4 +7,5 @@ export type DraftFields = {
 export function parseRubles(value: string): number | null;
 export const REQUIRED_FIELDS: string[];
 export function validateDraft(fields: Partial<DraftFields>, claimType: ClaimType): string[];
-export function draftText(fields: DraftFields, meta:{title:string; legalBasis:string; claimType:ClaimType}): string;
+export function draftText(fields: DraftFields, meta:{title:string; legalBasis:string; claimType:ClaimType; contextTitle?:string;
+ legalRisk?:string; legalLinks?:Array<{title:string;url:string}>}): string;
