@@ -4,10 +4,12 @@ import {makeDocx} from "@/lib/office-export.mjs";
 import {draftText,validateDraft,type DraftFields,type ClaimType} from "@/lib/document-compose.mjs";
 
 type Meta={slug:string;title:string;recipient:string;requestHint:string;legalBasis:string;claimType:ClaimType;
- legalLinks?:Array<{title:string;url:string}>; contextTitle?:string; inline?:boolean};
+ legalLinks?:Array<{title:string;url:string}>; contextTitle?:string; inline?:boolean;
+ legalRisk?:string; reviewDate?:string};
 const initial:DraftFields={
  recipient:"",sender:"",address:"",contact:"",agreement:"",eventDate:"",
- description:"",request:"",evidence:"",claimAmount:"",counterpartyName:"",counterpartyAddress:""
+ description:"",request:"",evidence:"",claimAmount:"",counterpartyName:"",counterpartyAddress:"",
+ courtBirth:"",courtIdentifier:"",courtNotices:"",courtPretrial:"",courtCalculation:"",courtFee:""
 };
 const choices:Record<string,string[]>={
  "pretensiya-vozvrat":["Прошу вернуть уплаченную за товар сумму в связи с установленным недостатком на основании применимого требования статьи 18 Закона № 2300-1."],
@@ -36,7 +38,9 @@ const descriptors: Array<{key:keyof DraftFields;label:string;hint:string;multili
 const fieldNames:Record<string,string>={
  recipient:"Адресат",sender:"Ф. И. О. заявителя",address:"Почтовый адрес",description:"Обстоятельства",
  request:"Сформулированное требование",counterpartyName:"Наименование ответчика",
- counterpartyAddress:"Адрес ответчика",claimAmount:"Корректная сумма в рублях"
+ counterpartyAddress:"Адрес ответчика",claimAmount:"Корректная сумма в рублях",
+ courtBirth:"Дата и место рождения истца",courtIdentifier:"Идентификатор истца",
+ courtNotices:"Подтверждение направления копий иска",evidence:"Доказательства и приложения"
 };
 function toFileName(slug:string,ext:string){return slug.replace(/[^a-z0-9-]/g,"-")+"-draft."+ext;}
 function plainHtml(text:string){
@@ -53,13 +57,18 @@ export function DocumentBuilder(meta:Meta){
  const [fields,setFields]=useState<DraftFields>(initial);
  const [showWarnings,setShowWarnings]=useState(false);
  const [feedback,setFeedback]=useState("");
- const content=useMemo(()=>draftText(fields,meta),[fields,meta.title,meta.legalBasis,meta.claimType,meta.contextTitle,meta.legalLinks]);
+ const [lawConfirmed,setLawConfirmed]=useState(false);
+ const content=useMemo(()=>draftText(fields,meta),[fields,meta.title,meta.legalBasis,meta.claimType,meta.contextTitle,meta.legalLinks,meta.legalRisk]);
  const problems=useMemo(()=>validateDraft(fields,meta.claimType),[fields,meta.claimType]);
  const valid=problems.length===0;
  const update=(key:keyof DraftFields,value:string)=>{setFields(f=>({...f,[key]:value}));setFeedback("");};
  function allowExport(){
    setShowWarnings(true);
    if(!valid){setFeedback("Заполните обязательные поля и исправьте ошибки суммы перед выгрузкой.");return false;}
+   if(meta.legalRisk && !lawConfirmed){
+     setFeedback("Прочитайте ограничения по выбранной ситуации и подтвердите проверку обстоятельств перед сохранением.");
+     return false;
+   }
    setFeedback("");return true;
  }
  function exportText(){
@@ -107,6 +116,11 @@ export function DocumentBuilder(meta:Meta){
     <p>Укажите точный суд, ответчика и его адрес, проверьте подсудность, цену иска, приложения и направление копий участникам до подачи.</p>
    </div>}
    <p className="subtle"><strong>Подсказка по предмету:</strong> {meta.requestHint}</p>
+   {meta.legalRisk&&<div className="notice" role="note">
+     <strong>Ключевые ограничения для выбора требования</strong>
+     <p>{meta.legalRisk}</p>
+     <p className="subtle">Первоисточники сверены {meta.reviewDate}. Применимость зависит от даты и фактов вашего дела.</p>
+   </div>}
    {meta.legalLinks?.length?<div className="situation-legal-links">
     <strong>Нормативные акты и официальные источники</strong>
     <p>Проверьте актуальную редакцию и применимость. URL попадут в скачиваемый документ.</p>
@@ -120,7 +134,13 @@ export function DocumentBuilder(meta:Meta){
    </label>}
    {meta.claimType==="court_document"&&<>{[
     {key:"counterpartyName" as const,label:"Ответчик *",hint:"Полное наименование, Ф. И. О. или организационно-правовая форма"},
-    {key:"counterpartyAddress" as const,label:"Адрес ответчика *",hint:"Адрес регистрации или местонахождения"}
+    {key:"counterpartyAddress" as const,label:"Адрес ответчика *",hint:"Адрес регистрации или местонахождения"},
+    {key:"courtBirth" as const,label:"Дата и место рождения истца *",hint:"Дата и населённый пункт рождения"},
+    {key:"courtIdentifier" as const,label:"Идентификатор истца *",hint:"СНИЛС или ИНН / паспорт / водительское удостоверение"},
+    {key:"courtNotices" as const,label:"Доказательства отправки копий участникам *",hint:"Квитанция отправки, дата, опись и адрес"},
+    {key:"courtPretrial" as const,label:"Досудебный порядок",hint:"Претензия и ответ / отметка о неприменимости"},
+    {key:"courtCalculation" as const,label:"Расчёт иска",hint:"Разбивка по суммам; не добавлять штраф без подтверждения"},
+    {key:"courtFee" as const,label:"Госпошлина / основание льготы",hint:"Укажите основание или документ; размер не рассчитывается автоматически"}
    ].map(item=><label key={item.key}>{item.label}
     <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.hint} maxLength={400}/>
    </label>)}</>}
@@ -134,6 +154,10 @@ export function DocumentBuilder(meta:Meta){
     <ul>{problems.map(key=><li key={key}>{fieldNames[key]||key}</li>)}</ul>
    </div>}
   </div>
+  {meta.legalRisk&&<label className="legal-confirmation">
+    <input type="checkbox" checked={lawConfirmed} onChange={e=>{setLawConfirmed(e.target.checked);setFeedback("");}}/>
+    <span>Я проверил факты своего дела, вид требования и ограничения, указанные выше. Документ остаётся черновиком до проверки реквизитов и применимой редакции закона.</span>
+   </label>}
   <div className="builderpreview">
    <div className="previewhead"><h2>Предварительный просмотр</h2></div>
    <div className="document-actions">

@@ -8,6 +8,7 @@ type Law={title:string;url:string};
 export type SituationDocumentOption={
  slug:string;title:string;recipient:string;requestHint:string;
  legalBasis:string;claimType:ClaimType;sourceUrl:string;lawLinks:Law[];
+ legalRisk:string;reviewDate:string;
 };
 export function SituationDocumentWizard({situationTitle,checks,documents}:{
  situationTitle:string;checks:string[];documents:SituationDocumentOption[]
@@ -36,7 +37,8 @@ export function SituationDocumentWizard({situationTitle,checks,documents}:{
  <DocumentBuilder key={current.slug} slug={current.slug} title={current.title}
  recipient={current.recipient} requestHint={current.requestHint}
  legalBasis={current.legalBasis} claimType={current.claimType}
- legalLinks={current.lawLinks} contextTitle={situationTitle} inline={true}/>
+ legalLinks={current.lawLinks} contextTitle={situationTitle} inline={true}
+ legalRisk={current.legalRisk} reviewDate={current.reviewDate}/>
  <p className="situation-wizard-footer">
  <Link href={"/dokumenty/"+current.slug}>Открыть отдельную страницу документа</Link>
  <span> · </span>
