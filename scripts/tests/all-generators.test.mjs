@@ -13,7 +13,9 @@ const sample={
  eventDate:"20.10.2026",description:"Согласно договору услуга не была исполнена в согласованный срок. Приложены доказательства.",
  request:"Прошу рассмотреть указанное требование по подтверждённым обстоятельствам.",
  evidence:"Копия договора, копия квитанции, переписка",claimAmount:"1250,00",
- counterpartyName:"ООО «Пример»",counterpartyAddress:"г. Тест, ул. Юридическая, 2"
+ counterpartyName:"ООО «Пример»",counterpartyAddress:"г. Тест, ул. Юридическая, 2",
+ courtBirth:"01.01.1990, Москва",courtIdentifier:"СНИЛС тестовый",courtNotices:"Почтовое отправление № TEST123",
+ courtPretrial:"Потребитель направил претензию 01.10.2026",courtCalculation:"1250,00 руб.; дополнительные суммы не заявлены",courtFee:"Основание льготы требует проверки"
 };
 function sanity(bytes,docname){
  assert.ok(bytes instanceof Uint8Array&&bytes.length>1000,docname+" DOCX empty");

@@ -15,6 +15,10 @@ export function validateDraft(fields, claimType) {
   if (claimType === "court_document") {
     if(!String(fields.counterpartyName || "").trim()) issues.push("counterpartyName");
     if(!String(fields.counterpartyAddress || "").trim()) issues.push("counterpartyAddress");
+    if(!String(fields.courtBirth || "").trim()) issues.push("courtBirth");
+    if(!String(fields.courtIdentifier || "").trim()) issues.push("courtIdentifier");
+    if(!String(fields.courtNotices || "").trim()) issues.push("courtNotices");
+    if(!String(fields.evidence || "").trim()) issues.push("evidence");
   }
   if(String(fields.claimAmount || "").trim() && !Number.isFinite(parseRubles(fields.claimAmount))) issues.push("claimAmount");
   return issues;
@@ -30,7 +34,11 @@ export function draftText(fields, meta) {
   const issuer = orBlank(f.sender,"Ф. И. О. заявителя");
   const counterparty = isCourt ?
     "\nОтветчик: " + orBlank(f.counterpartyName,"полное наименование ответчика") +
-    "\nАдрес ответчика: " + orBlank(f.counterpartyAddress,"адрес ответчика") : "";
+    "\nАдрес ответчика: " + orBlank(f.counterpartyAddress,"адрес ответчика") +
+    "\nДата и место рождения истца: " + orBlank(f.courtBirth,"дата и место рождения истца") +
+    "\nИдентификатор истца: " + orBlank(f.courtIdentifier,"СНИЛС / ИНН / документ") +
+    "\nДоказательство направления копий иска и приложений участникам: " +
+    orBlank(f.courtNotices,"подтверждение направления копий") : "";
   const money = parseRubles(f.claimAmount);
   const amountLine = money === null ? "" : Number.isFinite(money) ?
     "\nУказанная стоимость / сумма денежного требования: " + money.toLocaleString("ru-RU",{minimumFractionDigits:2,maximumFractionDigits:2}) + " руб.\n(Это исходная сумма без автоматического расчёта неустойки, штрафа, процентов и госпошлины.)" :
@@ -62,7 +70,13 @@ export function draftText(fields, meta) {
     orBlank(f.request,"укажите одно законное требование и обстоятельства, подтверждающие его применимость") +
     "\n\nПРАВОВЫЕ ОСНОВАНИЯ ТРЕБОВАНИЯ (ПРИ ПОДТВЕРЖДЕНИИ УКАЗАННЫХ ФАКТОВ):\n" + legal + legalWarning +
     "\n\nПРИЛОЖЕНИЯ (копии):\n" + orBlank(f.evidence,"перечислите приложенные подтверждения") + referenceText +
-    (isCourt ? "\n\nПодсудность, цена иска, госпошлина и требования к приложениям должны быть проверены отдельно по ГПК РФ." : "") +
+    (isCourt ? "\n\nСведения о досудебном обращении и обязательной процедуре (если применимо):\n" +
+      orBlank(f.courtPretrial,"требуется указать применимый порядок и подтверждения") +
+      "\n\nРасчёт взыскиваемых сумм (если подлежат оценке):\n" +
+      orBlank(f.courtCalculation,"расчёт или отметка о неимущественном требовании") +
+      "\n\nВопрос государственной пошлины / льготы:\n" +
+      orBlank(f.courtFee,"документ об оплате либо основание освобождения/ходатайство") +
+      "\n\nПодсудность, цена иска, госпошлина и требования к приложениям должны быть проверены отдельно по статьям 131–132 ГПК РФ." : "") +
     "\n\nДата составления: _________________\nПодпись заявителя: _________________\n\n" +
     "ПРОЕКТ ДОКУМЕНТА. Не подан адресату. Требования, нормы, сроки, сумма и приложения требуют проверки по обстоятельствам и действующей редакции права.";
 }

@@ -20,7 +20,7 @@ test("state complaint wording is different from commercial money demand",()=>{
 });
 test("court drafts require respondent details",()=>{
  assert.ok(validateDraft(f,"court_document").includes("counterpartyAddress"));
- const completed={...f,counterpartyName:"ООО",counterpartyAddress:"адрес"};
+ const completed={...f,counterpartyName:"ООО",counterpartyAddress:"адрес",courtBirth:"01.01.1990, Москва",courtIdentifier:"ИНН тестовый",courtNotices:"квитанция отправки",evidence:"договор и чек"};
  assert.deepEqual(validateDraft(completed,"court_document"),[]);
 });
 test("incomplete drafts are not valid for export",()=>{

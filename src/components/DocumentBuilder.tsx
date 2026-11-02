@@ -8,7 +8,8 @@ type Meta={slug:string;title:string;recipient:string;requestHint:string;legalBas
  legalRisk?:string; reviewDate?:string};
 const initial:DraftFields={
  recipient:"",sender:"",address:"",contact:"",agreement:"",eventDate:"",
- description:"",request:"",evidence:"",claimAmount:"",counterpartyName:"",counterpartyAddress:""
+ description:"",request:"",evidence:"",claimAmount:"",counterpartyName:"",counterpartyAddress:"",
+ courtBirth:"",courtIdentifier:"",courtNotices:"",courtPretrial:"",courtCalculation:"",courtFee:""
 };
 const choices:Record<string,string[]>={
  "pretensiya-vozvrat":["Прошу вернуть уплаченную за товар сумму в связи с установленным недостатком на основании применимого требования статьи 18 Закона № 2300-1."],
@@ -37,7 +38,9 @@ const descriptors: Array<{key:keyof DraftFields;label:string;hint:string;multili
 const fieldNames:Record<string,string>={
  recipient:"Адресат",sender:"Ф. И. О. заявителя",address:"Почтовый адрес",description:"Обстоятельства",
  request:"Сформулированное требование",counterpartyName:"Наименование ответчика",
- counterpartyAddress:"Адрес ответчика",claimAmount:"Корректная сумма в рублях"
+ counterpartyAddress:"Адрес ответчика",claimAmount:"Корректная сумма в рублях",
+ courtBirth:"Дата и место рождения истца",courtIdentifier:"Идентификатор истца",
+ courtNotices:"Подтверждение направления копий иска",evidence:"Доказательства и приложения"
 };
 function toFileName(slug:string,ext:string){return slug.replace(/[^a-z0-9-]/g,"-")+"-draft."+ext;}
 function plainHtml(text:string){
@@ -131,7 +134,13 @@ export function DocumentBuilder(meta:Meta){
    </label>}
    {meta.claimType==="court_document"&&<>{[
     {key:"counterpartyName" as const,label:"Ответчик *",hint:"Полное наименование, Ф. И. О. или организационно-правовая форма"},
-    {key:"counterpartyAddress" as const,label:"Адрес ответчика *",hint:"Адрес регистрации или местонахождения"}
+    {key:"counterpartyAddress" as const,label:"Адрес ответчика *",hint:"Адрес регистрации или местонахождения"},
+    {key:"courtBirth" as const,label:"Дата и место рождения истца *",hint:"Дата и населённый пункт рождения"},
+    {key:"courtIdentifier" as const,label:"Идентификатор истца *",hint:"СНИЛС или ИНН / паспорт / водительское удостоверение"},
+    {key:"courtNotices" as const,label:"Доказательства отправки копий участникам *",hint:"Квитанция отправки, дата, опись и адрес"},
+    {key:"courtPretrial" as const,label:"Досудебный порядок",hint:"Претензия и ответ / отметка о неприменимости"},
+    {key:"courtCalculation" as const,label:"Расчёт иска",hint:"Разбивка по суммам; не добавлять штраф без подтверждения"},
+    {key:"courtFee" as const,label:"Госпошлина / основание льготы",hint:"Укажите основание или документ; размер не рассчитывается автоматически"}
    ].map(item=><label key={item.key}>{item.label}
     <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.hint} maxLength={400}/>
    </label>)}</>}
