@@ -51,7 +51,7 @@ jobs:
       - name: Install dependencies (temporary until lockfile is generated)
         run: pnpm install --frozen-lockfile
       - name: Test browser-only DOCX format and document fields
-        run: node --test scripts/tests/office-export.test.mjs scripts/tests/document-compose.test.mjs scripts/tests/consumer-law-audit.test.mjs
+        run: node --test scripts/tests/office-export.test.mjs scripts/tests/document-compose.test.mjs scripts/tests/consumer-law-audit.test.mjs scripts/tests/all-generators.test.mjs
       - name: Validate generated DOCX ZIP and Office XML
         run: python3 scripts/tests/test_office_docx.py
       - name: Check TypeScript
@@ -66,3 +66,4 @@ jobs:
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true; tail -70 /tmp/consumer-preview.log' EXIT
           node scripts/smoke-preview.mjs
+          node scripts/tests/browser-document-smoke.mjs
