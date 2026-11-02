@@ -335,7 +335,11 @@ export function getLegalAudit(topic,docSlug,claimType,situationSlug){
    docSlug==="isk-zpp"?["courtForm","plenum17","courtPenalty","statute2026",...thematic]:
    [...specialDoc[docSlug],...thematic];
  if(claimType==="court_document")keys=[...keys,"courtForm","plenum17","courtPenalty","statute2026"];
- const unique=[...new Set(keys)].slice(0,9);
+ // A narrow document provision remains primary; the whole statutory act is
+ // included as a second navigation link, not counted as independent corroboration.
+ const unique=[...new Set(keys)];
+ if(unique.length===1) unique.push("overview");
+ unique.splice(9);
  return {
   links:unique.map(k=>STATUTES[k]),
   risk:specialRisks[topic],
