@@ -111,18 +111,229 @@ const specialRisks={
  "produkty-pitanie":"При пищевой угрозе обращение в Роспотребнадзор возможно отдельно от возврата денег продавцом; при симптомах отравления нужна медицинская помощь.",
  "navyazannye-usloviya":"Требования о возврате за дополнительную услугу без согласия регулирует статья 16. По нарушениям рекламы обычно компетентна ФАС, а не только Роспотребнадзор."
 };
+export const CASE_LEGAL_REFERENCES={
+  "nekachestvennyy-tovar-1": [
+    "goods",
+    "claims"
+  ],
+  "nekachestvennyy-tovar-2": [
+    "goods",
+    "claims"
+  ],
+  "nekachestvennyy-tovar-3": [
+    "goods"
+  ],
+  "vozvrat-obmen-1": [
+    "exchange"
+  ],
+  "vozvrat-obmen-2": [
+    "exchange",
+    "goods"
+  ],
+  "vozvrat-obmen-3": [
+    "exchange"
+  ],
+  "internet-magaziny-1": [
+    "goods",
+    "remote"
+  ],
+  "internet-magaziny-2": [
+    "prepaid",
+    "remote"
+  ],
+  "internet-magaziny-3": [
+    "remote",
+    "constitutional7"
+  ],
+  "marketpleysy-1": [
+    "prepaid",
+    "remote"
+  ],
+  "marketpleysy-2": [
+    "remote"
+  ],
+  "marketpleysy-3": [
+    "remote",
+    "goods"
+  ],
+  "dostavka-oplata-1": [
+    "prepaid"
+  ],
+  "dostavka-oplata-2": [
+    "banking"
+  ],
+  "dostavka-oplata-3": [
+    "goods",
+    "remote"
+  ],
+  "garantiya-servis-1": [
+    "repair"
+  ],
+  "garantiya-servis-2": [
+    "goods"
+  ],
+  "garantiya-servis-3": [
+    "goods"
+  ],
+  "tehnicheski-slozhnye-1": [
+    "goods",
+    "statute2026"
+  ],
+  "tehnicheski-slozhnye-2": [
+    "goods",
+    "repair"
+  ],
+  "tehnicheski-slozhnye-3": [
+    "goods",
+    "repair"
+  ],
+  "avtomobili-1": [
+    "goods",
+    "statute2026"
+  ],
+  "avtomobili-2": [
+    "serviceQuality",
+    "damagedProperty"
+  ],
+  "avtomobili-3": [
+    "forcedExtras"
+  ],
+  "bytovye-uslugi-1": [
+    "damagedProperty"
+  ],
+  "bytovye-uslugi-2": [
+    "damagedProperty"
+  ],
+  "bytovye-uslugi-3": [
+    "serviceLate",
+    "serviceQuality"
+  ],
+  "remont-stroitelstvo-1": [
+    "serviceLate"
+  ],
+  "remont-stroitelstvo-2": [
+    "serviceQuality"
+  ],
+  "remont-stroitelstvo-3": [
+    "serviceQuality"
+  ],
+  "zhkh-1": [
+    "housing"
+  ],
+  "zhkh-2": [
+    "housing"
+  ],
+  "zhkh-3": [
+    "housing"
+  ],
+  "medicina-1": [
+    "medicine",
+    "serviceQuality"
+  ],
+  "medicina-2": [
+    "medicine",
+    "forcedExtras"
+  ],
+  "medicina-3": [
+    "medicine"
+  ],
+  "obrazovanie-1": [
+    "education",
+    "serviceExit"
+  ],
+  "obrazovanie-2": [
+    "education",
+    "serviceQuality"
+  ],
+  "obrazovanie-3": [
+    "education",
+    "serviceQuality"
+  ],
+  "turizm-gostinicy-1": [
+    "travel",
+    "serviceExit"
+  ],
+  "turizm-gostinicy-2": [
+    "hotel"
+  ],
+  "turizm-gostinicy-3": [
+    "travel",
+    "serviceExit"
+  ],
+  "transport-1": [
+    "carriage",
+    "air"
+  ],
+  "transport-2": [
+    "carriage"
+  ],
+  "transport-3": [
+    "carriage"
+  ],
+  "banki-strahovanie-1": [
+    "ombudsman",
+    "serviceExit"
+  ],
+  "banki-strahovanie-2": [
+    "banking"
+  ],
+  "banki-strahovanie-3": [
+    "ombudsman"
+  ],
+  "svyaz-internet-1": [
+    "communication"
+  ],
+  "svyaz-internet-2": [
+    "communication"
+  ],
+  "svyaz-internet-3": [
+    "communication"
+  ],
+  "podpiski-cifrovye-1": [
+    "subscription"
+  ],
+  "podpiski-cifrovye-2": [
+    "serviceQuality",
+    "serviceExit"
+  ],
+  "podpiski-cifrovye-3": [
+    "subscription"
+  ],
+  "produkty-pitanie-1": [
+    "goods"
+  ],
+  "produkty-pitanie-2": [
+    "serviceQuality"
+  ],
+  "produkty-pitanie-3": [
+    "goods"
+  ],
+  "navyazannye-usloviya-1": [
+    "forcedExtras"
+  ],
+  "navyazannye-usloviya-2": [
+    "forcedExtras"
+  ],
+  "navyazannye-usloviya-3": [
+    "ads",
+    "goods"
+  ]
+};
 export function validateLegalReferenceMatrix(topics,documents){
  const missing=[...topics.filter(x=>!categories[x]),...documents.filter(x=>!specialDoc[x])];
  if(missing.length) throw new Error("Missing legal categories/document rules: "+missing.join(","));
  for(const key of Object.keys(categories))if(!specialRisks[key])throw new Error("Missing risk "+key);
  return true;
 }
-export function getLegalAudit(topic,docSlug,claimType){
+export function getLegalAudit(topic,docSlug,claimType,situationSlug){
  if(!categories[topic]||!specialDoc[docSlug])throw new Error("Legal rule missing for "+topic+" / "+docSlug);
- let keys=docSlug==="zhaloba-rospotrebnadzor"?["regulator",...categories[topic]]:
+ const thematic = situationSlug ? CASE_LEGAL_REFERENCES[situationSlug] : categories[topic];
+ if(!thematic || (situationSlug && !situationSlug.startsWith(topic+"-")))
+   throw new Error("Case-specific legal references missing for "+situationSlug);
+ let keys=docSlug==="zhaloba-rospotrebnadzor"?["regulator",...thematic]:
    docSlug==="zhaloba-fas-reklama"?["ads","regulator"]:
-   docSlug==="isk-zpp"?["courtForm","plenum17","courtPenalty","statute2026",...categories[topic]]:
-   [...specialDoc[docSlug],...categories[topic]];
+   docSlug==="isk-zpp"?["courtForm","plenum17","courtPenalty","statute2026",...thematic]:
+   [...specialDoc[docSlug],...thematic];
  if(claimType==="court_document")keys=[...keys,"courtForm","plenum17","courtPenalty","statute2026"];
  const unique=[...new Set(keys)].slice(0,9);
  return {
