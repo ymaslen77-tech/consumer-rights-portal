@@ -47,4 +47,22 @@ const robots = await get("/robots.txt");
 assert.match(robots, /Disallow:\s*\//i);
 const sitemap = await get("/sitemap.xml");
 assert.doesNotMatch(sitemap, /https:\/\//i, "Closed preview must not advertise public URLs");
+// The legal-review intake MUST be disabled until a real HTTPS destination is configured.
+const statusResponse=await fetch(new URL("/api/lawyer/status",origin),{cache:"no-store"});
+assert.equal(statusResponse.status,200);
+const intake=await statusResponse.json();
+assert.equal(intake.enabled,false,"Preview must not accept legal submissions");
+assert.equal(intake.lawyerOnline,null,"Never claim fictitious online lawyer availability");
+const disabled=await fetch(new URL("/api/lawyer/review",origin),{
+ method:"POST",headers:{"Content-Type":"application/json"},
+ body:JSON.stringify({kind:"document",title:"Тестовая претензия",text:"Проверка текста претензии с тестовыми данными",contact:"test@example.invalid",consent:true,website:""})
+});
+assert.equal(disabled.status,503,"Unconfigured consultation intake must fail closed");
+const visitor=await fetch(new URL("/api/presence",origin),{
+ method:"POST",headers:{"Content-Type":"application/json"},
+ body:JSON.stringify({id:"6f1b85b4-1bc0-4e9b-82ca-aac5779c2e6b"})
+});
+assert.equal(visitor.status,200);
+assert.ok((await visitor.json()).online>=1,"Anonymous online counter should use actual heartbeats");
+console.log("LAWYER_INTAKE_CLOSED_PREVIEW_AND_PRESENCE_OK");
 console.log("PREVIEW_HTTP_SMOKE_OK", cases.length + 2, "routes; noindex enforced");
