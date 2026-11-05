@@ -3,6 +3,7 @@
 from pathlib import Path
 from urllib.parse import urlsplit
 from datetime import date
+from court_evidence import validate_published_acts
 import json, sys
 ROOT=Path(__file__).resolve().parents[1]
 def read(name):return json.loads((ROOT/'src/data'/name).read_text(encoding='utf8'))
@@ -63,6 +64,7 @@ for g in guides:
     assert len(g['title'])>30
 assert len(regions)>=8 and len({r['slug'] for r in regions})==len(regions)
 assert len(court_acts)>=2 and len({a['slug'] for a in court_acts})==len(court_acts)
+assert validate_published_acts(court_acts)==len(court_acts)
 for region in regions:
     assert region['official'].startswith('https://')
     assert region['sources'] and all(url.startswith('https://') for url in region['sources'])

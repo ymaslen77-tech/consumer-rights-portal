@@ -21,7 +21,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Validate content model and cross-links
-        run: python3 scripts/validate-content.py
+        run: |
+          python3 scripts/validate-content.py
+          python3 -m unittest discover -s scripts/tests -p 'test_court_evidence.py' -v
       - name: Ensure release stays private until an explicit cutover
         run: python3 scripts/validate-release-config.py
       - name: Validate one-time Coolify setup script (offline tests)
