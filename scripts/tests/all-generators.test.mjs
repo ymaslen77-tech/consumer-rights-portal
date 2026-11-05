@@ -67,7 +67,7 @@ test("all 25 standalone documents can generate an editable Word file",()=>{
   if(d.claimType==="court_document"){
    assert.match(text,/ГПК РФ/);
    assert.match(text,/Ответчик:/);
-   assert.match(text,/Подсудность/);
+   assert.match(text,/Доказательство направления копий иска/);
   }
   sanity(makeDocx(text),d.slug);count++;
  }
