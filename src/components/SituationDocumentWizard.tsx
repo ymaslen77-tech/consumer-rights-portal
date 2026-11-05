@@ -20,7 +20,7 @@ export function SituationDocumentWizard({situationTitle,checks,documents}:{
  <div className="situation-wizard-header">
  <span className="eyebrow">ДОКУМЕНТЫ ПО ВАШЕЙ СИТУАЦИИ</span>
  <h2>Составить документ по этой ситуации</h2>
- <p>Выберите адресата и документ. Укажите факты, затем сохраните DOCX, TXT или PDF через печать. Сведения об обстоятельствах останутся только в вашем браузере.</p>
+ <p>Выберите подходящий документ, укажите адресата по его назначению и заполните обстоятельства. Сохраните документ в DOCX, TXT или PDF через печать.</p>
  </div>
  <div className="situation-wizard-choice">
  <label htmlFor="situation-document-select">Какой документ подготовить?</label>
