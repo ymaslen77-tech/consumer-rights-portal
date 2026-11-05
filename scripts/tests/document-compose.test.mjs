@@ -37,7 +37,7 @@ test("draft carries legal grounds without editorial source appendix",()=>{
    {title:"Закон № 2300-1",url:"https://www.consultant.ru/document/cons_doc_LAW_305/"}
   ]
  });
- assert.match(text,/Исходная правовая ситуация: Просроченный продукт/);
+ assert.match(text,/По вопросу: Просроченный продукт/);
  assert.match(text,/ПРАВОВЫЕ ОСНОВАНИЯ/);
  assert.doesNotMatch(text,/НОРМАТИВНЫЕ ИСТОЧНИКИ|ПРОЕКТ ДОКУМЕНТА|ОСОБЫЕ УСЛОВИЯ ПРИМЕНЕНИЯ НОРМ/);
  assert.match(text,/Закон № 59-ФЗ/);
