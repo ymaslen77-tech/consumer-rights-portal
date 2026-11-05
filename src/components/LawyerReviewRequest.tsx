@@ -1,5 +1,6 @@
 "use client";
 import {useEffect,useState,type FormEvent} from "react";
+import Link from "next/link";
 
 type RequestKind="document"|"consultation";
 type Props={kind:RequestKind;title:string;documentText?:string;isReady?:boolean};
