@@ -6,7 +6,11 @@ export function ConsultationWidget(){
  const [open,setOpen]=useState(false);
  const [online,setOnline]=useState<number|null>(null);
  useEffect(()=>{
-  const id=crypto.randomUUID();
+  // randomUUID may be unavailable on an HTTP preview (insecure browser context).
+  // This value is only an ephemeral tab-presence token, never an auth credential.
+  const id=typeof crypto!=="undefined"&&typeof crypto.randomUUID==="function"?
+   crypto.randomUUID():
+   "00000000-0000-4000-8000-"+Math.random().toString(16).slice(2).padEnd(12,"0").slice(0,12);
   let mounted=true;
   async function heartbeat(){
    try{
