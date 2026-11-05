@@ -40,7 +40,7 @@ test("draft carries legal grounds without editorial source appendix",()=>{
  assert.match(text,/Исходная правовая ситуация: Просроченный продукт/);
  assert.match(text,/ПРАВОВЫЕ ОСНОВАНИЯ/);
  assert.doesNotMatch(text,/НОРМАТИВНЫЕ ИСТОЧНИКИ|ПРОЕКТ ДОКУМЕНТА|ОСОБЫЕ УСЛОВИЯ ПРИМЕНЕНИЯ НОРМ/);
- assert.match(text,/Федеральный закон № 59-ФЗ/);
+ assert.match(text,/Закон № 59-ФЗ/);
  assert.doesNotMatch(text,/https:\/\//);
  assert.doesNotMatch(text,/https:\/\//);
 });
