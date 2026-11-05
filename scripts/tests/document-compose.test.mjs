@@ -28,7 +28,7 @@ test("incomplete drafts are not valid for export",()=>{
  assert.ok(REQUIRED_FIELDS.every(k=> k==="sender" || missing.includes(k)));
 });
 
-test("draft carries explicit legislation links and names the selected situation",()=>{
+test("draft carries legal grounds without editorial source appendix",()=>{
  const text=draftText(f,{
   title:"Обращение в Роспотребнадзор",legalBasis:"Закон № 59-ФЗ",
   claimType:"state_notification",contextTitle:"Просроченный продукт",
@@ -38,16 +38,24 @@ test("draft carries explicit legislation links and names the selected situation"
   ]
  });
  assert.match(text,/Исходная правовая ситуация: Просроченный продукт/);
- assert.match(text,/НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ РЕДАКЦИИ/);
+ assert.match(text,/ПРАВОВЫЕ ОСНОВАНИЯ/);
+ assert.doesNotMatch(text,/НОРМАТИВНЫЕ ИСТОЧНИКИ|ПРОЕКТ ДОКУМЕНТА|ОСОБЫЕ УСЛОВИЯ ПРИМЕНЕНИЯ НОРМ/);
  assert.match(text,/Федеральный закон № 59-ФЗ/);
- assert.match(text,/https:\/\/www.consultant.ru\/document\/cons_doc_LAW_59999\//);
- assert.match(text,/https:\/\/www.consultant.ru\/document\/cons_doc_LAW_305\//);
+ assert.doesNotMatch(text,/https:\/\//);
+ assert.doesNotMatch(text,/https:\/\//);
 });
-test("invalid links are not inserted into legal drafts",()=>{
+test("editorial links never appear in formal legal drafts",()=>{
  const text=draftText(f,{
   title:"Претензия",legalBasis:"Закон № 2300-1",claimType:"pretrial_claim",
   legalLinks:[{title:"unsafe",url:"javascript:alert(1)"},{title:"safe",url:"https://www.consultant.ru/document/cons_doc_LAW_305/"}]
  });
  assert.doesNotMatch(text,/javascript:alert/);
- assert.match(text,/https:\/\/www.consultant.ru/);
+ assert.doesNotMatch(text,/https:\/\//);
+});
+
+test("pretrial claims reject court recipients but court filings accept them",()=>{
+ assert.ok(validateDraft({...f,recipient:"В районный суд"},"pretrial_claim").includes("recipient"));
+ assert.ok(validateDraft({...f,recipient:"Мировому судье"},"pretrial_claim").includes("recipient"));
+ assert.equal(validateDraft({...f,recipient:"ООО «Продавец»"},"pretrial_claim").length,0);
+ assert.equal(validateDraft({...f,recipient:"Районный суд",counterpartyName:"ООО",counterpartyAddress:"Адрес",courtBirth:"Дата",courtIdentifier:"Идентификатор",courtNotices:"Отправлено",evidence:"Копии"},"court_document").length,0);
 });
