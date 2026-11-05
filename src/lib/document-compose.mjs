@@ -49,10 +49,10 @@ export function draftText(fields, meta) {
     "\nСумма требует исправления: [введите положительное число с двумя десятичными знаками]";
   const isFinancialOmbudsman = meta.slug === "finansovyy-upolnomochennyy-obrashchenie";
   const requestHeading = isFinancialOmbudsman ? "ПРОШУ ФИНАНСОВОГО УПОЛНОМОЧЕННОГО:" : isState ? "ПРОШУ ОРГАН РАССМОТРЕТЬ ОБРАЩЕНИЕ В ПРЕДЕЛАХ КОМПЕТЕНЦИИ:" :
-    isCourt ? "ПРОШУ СУД (ТРЕБОВАНИЯ К СУДУ):" : "ТРЕБОВАНИЕ К АДРЕСАТУ:";
+    isCourt ? "ПРОШУ СУД:" : "ТРЕБОВАНИЕ К АДРЕСАТУ:";
   const legal = orBlank(meta.legalBasis,"проверить закон");
   const context = meta.contextTitle ?
-    "\nИсходная правовая ситуация: " + String(meta.contextTitle) : "";
+    "\nПо вопросу: " + String(meta.contextTitle) : "";
   return "Кому: " + recipient + "\n" +
     "От: " + issuer + "\nАдрес для ответа: " + orBlank(f.address,"почтовый адрес") +
     "\nКонтакты: " + orBlank(f.contact,"телефон / электронная почта") + counterparty +
