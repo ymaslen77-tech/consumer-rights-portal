@@ -12,6 +12,10 @@ export function parseRubles(value) {
 export function validateDraft(fields, claimType) {
   const issues=[];
   for(const field of REQUIRED_FIELDS) if(!String(fields[field] || "").trim()) issues.push(field);
+  // A pre-trial demand is sent to the obligated business/person, never to the court.
+  if (claimType === "pretrial_claim" && /(^|[^а-яё])(суд(а|у|ом|е)?|судье|судьи|судью)(?=$|[^а-яё])/iu.test(String(fields.recipient || ""))) {
+    if (!issues.includes("recipient")) issues.push("recipient");
+  }
   if (claimType === "court_document") {
     if(!String(fields.counterpartyName || "").trim()) issues.push("counterpartyName");
     if(!String(fields.counterpartyAddress || "").trim()) issues.push("counterpartyAddress");
@@ -41,24 +45,14 @@ export function draftText(fields, meta) {
     orBlank(f.courtNotices,"подтверждение направления копий") : "";
   const money = parseRubles(f.claimAmount);
   const amountLine = money === null ? "" : Number.isFinite(money) ?
-    "\nУказанная стоимость / сумма денежного требования: " + money.toLocaleString("ru-RU",{minimumFractionDigits:2,maximumFractionDigits:2}) + " руб.\n(Это исходная сумма без автоматического расчёта неустойки, штрафа, процентов и госпошлины.)" :
+    "\nУказанная стоимость / сумма денежного требования: " + money.toLocaleString("ru-RU",{minimumFractionDigits:2,maximumFractionDigits:2}) + " руб." :
     "\nСумма требует исправления: [введите положительное число с двумя десятичными знаками]";
-  const requestHeading = isState ? "ПРОШУ ОРГАН РАССМОТРЕТЬ ОБРАЩЕНИЕ В ПРЕДЕЛАХ КОМПЕТЕНЦИИ:" :
-    isCourt ? "ПРОШУ СУД (ТРЕБОВАНИЯ К СУДУ):" : "ТРЕБОВАНИЕ К АДРЕСАТУ:";
+  const isFinancialOmbudsman = meta.slug === "finansovyy-upolnomochennyy-obrashchenie";
+  const requestHeading = isFinancialOmbudsman ? "ПРОШУ ФИНАНСОВОГО УПОЛНОМОЧЕННОГО:" : isState ? "ПРОШУ ОРГАН РАССМОТРЕТЬ ОБРАЩЕНИЕ В ПРЕДЕЛАХ КОМПЕТЕНЦИИ:" :
+    isCourt ? "ПРОШУ СУД:" : "ТРЕБОВАНИЕ К АДРЕСАТУ:";
   const legal = orBlank(meta.legalBasis,"проверить закон");
-  // Legal links are descriptive source pointers, not an assertion that all
-  // listed provisions necessarily apply to the user's dispute.
-  const legalLinks = Array.isArray(meta.legalLinks) ? meta.legalLinks.filter(x=>
-    x && typeof x.title==="string" && typeof x.url==="string" &&
-    /^https:\/\//.test(x.url) && !/[\s<>]/.test(x.url)
-  ).slice(0,8) : [];
-  const referenceText = legalLinks.length ?
-    "\n\nНОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ РЕДАКЦИИ:\n" +
-    legalLinks.map((item,index)=>`${index+1}. ${item.title}\n${item.url}`).join("\n") : "";
-  const legalWarning = meta.legalRisk ? "\n\nОСОБЫЕ УСЛОВИЯ ПРИМЕНЕНИЯ НОРМ:\n" +
-    String(meta.legalRisk) : "";
   const context = meta.contextTitle ?
-    "\nИсходная правовая ситуация: " + String(meta.contextTitle) : "";
+    "\nПо вопросу: " + String(meta.contextTitle) : "";
   return "Кому: " + recipient + "\n" +
     "От: " + issuer + "\nАдрес для ответа: " + orBlank(f.address,"почтовый адрес") +
     "\nКонтакты: " + orBlank(f.contact,"телефон / электронная почта") + counterparty +
@@ -68,15 +62,14 @@ export function draftText(fields, meta) {
     "\n\nФАКТИЧЕСКИЕ ОБСТОЯТЕЛЬСТВА:\n" + orBlank(f.description,"опишите обстоятельства по датам без необоснованных обвинений") +
     amountLine + "\n\n" + requestHeading + "\n" +
     orBlank(f.request,"укажите одно законное требование и обстоятельства, подтверждающие его применимость") +
-    "\n\nПРАВОВЫЕ ОСНОВАНИЯ ТРЕБОВАНИЯ (ПРИ ПОДТВЕРЖДЕНИИ УКАЗАННЫХ ФАКТОВ):\n" + legal + legalWarning +
-    "\n\nПРИЛОЖЕНИЯ (копии):\n" + orBlank(f.evidence,"перечислите приложенные подтверждения") + referenceText +
+    "\n\nПРАВОВЫЕ ОСНОВАНИЯ:\n" + legal +
+    "\n\nПРИЛОЖЕНИЯ (копии):\n" + orBlank(f.evidence,"перечислите приложенные подтверждения") +
     (isCourt ? "\n\nСведения о досудебном обращении и обязательной процедуре (если применимо):\n" +
       orBlank(f.courtPretrial,"требуется указать применимый порядок и подтверждения") +
       "\n\nРасчёт взыскиваемых сумм (если подлежат оценке):\n" +
       orBlank(f.courtCalculation,"расчёт или отметка о неимущественном требовании") +
       "\n\nВопрос государственной пошлины / льготы:\n" +
       orBlank(f.courtFee,"документ об оплате либо основание освобождения/ходатайство") +
-      "\n\nПодсудность, цена иска, госпошлина и требования к приложениям должны быть проверены отдельно по статьям 131–132 ГПК РФ." : "") +
-    "\n\nДата составления: _________________\nПодпись заявителя: _________________\n\n" +
-    "ПРОЕКТ ДОКУМЕНТА. Не подан адресату. Требования, нормы, сроки, сумма и приложения требуют проверки по обстоятельствам и действующей редакции права.";
+      "" : "") +
+    "\n\nДата составления: _________________\nПодпись заявителя: _________________";
 }

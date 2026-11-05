@@ -1,6 +1,7 @@
 "use client";
 import {useMemo, useState} from "react";
 import {makeDocx} from "@/lib/office-export.mjs";
+import {LawyerReviewRequest} from "@/components/LawyerReviewRequest";
 import {draftText,validateDraft,type DraftFields,type ClaimType} from "@/lib/document-compose.mjs";
 
 type Meta={slug:string;title:string;recipient:string;requestHint:string;legalBasis:string;claimType:ClaimType;
@@ -24,7 +25,7 @@ const choices:Record<string,string[]>={
  "pretenziya-perevozchik":["Прошу рассмотреть требование, связанное с нарушением условий перевозки, в установленном отраслевым законодательством порядке."]
 };
 const descriptors: Array<{key:keyof DraftFields;label:string;hint:string;multiline?:boolean}>= [
- {key:"recipient",label:"Адресат (полное наименование) *",hint:"Конкретная организация, ведомство или суд"},
+ {key:"recipient",label:"Адресат (полное наименование) *",hint:"Полное наименование адресата"},
  {key:"sender",label:"Заявитель (Ф. И. О.) *",hint:"Полностью"},
  {key:"address",label:"Почтовый адрес для ответа *",hint:"Укажите индекс и адрес"},
  {key:"contact",label:"Контактные данные",hint:"Телефон / email (по необходимости)"},
@@ -99,17 +100,25 @@ export function DocumentBuilder(meta:Meta){
    setFeedback("В диалоге печати выберите «Сохранить как PDF». Документ остаётся только в вашем браузере.");
  }
  const options=choices[meta.slug]||[];
+ const recipientLabel = meta.claimType==="court_document" ? "Суд (наименование) *" :
+   meta.slug==="finansovyy-upolnomochennyy-obrashchenie" ? "Финансовый уполномоченный *" :
+   meta.claimType==="state_notification" ? "Государственный орган (наименование) *" :
+   "Продавец, исполнитель или иное обязанное лицо *";
+ const recipientHint = meta.claimType==="court_document" ? "Например, районный суд по установленной подсудности" :
+   meta.slug==="finansovyy-upolnomochennyy-obrashchenie" ? "Финансовому уполномоченному" :
+   meta.claimType==="state_notification" ? "Например, территориальное управление Роспотребнадзора" :
+   (meta.recipient || "Наименование организации или Ф. И. О. индивидуального предпринимателя");
  const essentials=descriptors.filter(x=>["recipient","sender","address","description","request"].includes(x.key));
  const additional=descriptors.filter(x=>!["recipient","sender","address","description","request"].includes(x.key));
- const renderField=(item:(typeof descriptors)[number])=><label key={item.key}>{item.label}
+ const renderField=(item:(typeof descriptors)[number])=><label key={item.key}>{item.key==="recipient"?recipientLabel:item.label}
    {item.multiline?<textarea value={fields[item.key]} onChange={e=>update(item.key,e.target.value)}
-     placeholder={item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
-   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.hint} maxLength={500}/>}
+     placeholder={item.key==="recipient"?recipientHint:item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
+   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.key==="recipient"?recipientHint:item.hint} maxLength={500}/>}
  </label>;
  return <div className="builder">
   <div className="builderform">
    <h2>Подготовить юридический черновик</h2>
-   <p className="subtle">Все поля заполняются локально в браузере. Мы не получаем ваши Ф. И. О., адрес, документы или содержание требований.</p>
+   <p className="subtle">Сведения остаются в браузере при подготовке и скачивании. Передача юристу возможна только после отдельного согласия и подключения защищённой связи.</p>
    <div className="notice"><strong>Перед отправкой проверьте</strong><p>Адресата, юридическое основание и исключения, сроки, доказательства, расчёты и порядок подачи. Автоматически не начисляем неустойку, штраф, проценты и госпошлину.</p></div>
    {meta.claimType==="court_document"&&<div className="notice">
     <strong>Судебный документ требует отдельной проверки</strong>
@@ -123,7 +132,7 @@ export function DocumentBuilder(meta:Meta){
    </div>}
    {meta.legalLinks?.length?<div className="situation-legal-links">
     <strong>Нормативные акты и официальные источники</strong>
-    <p>Проверьте актуальную редакцию и применимость. URL попадут в скачиваемый документ.</p>
+    <p>Проверьте актуальную редакцию и применимость. Ссылки предназначены для проверки норм и не добавляются в текст обращения.</p>
     <ul>{meta.legalLinks.map(x=><li key={x.url}><a href={x.url} target="_blank" rel="noopener noreferrer">{x.title}</a></li>)}</ul>
    </div>:null}
    {options.length>0&&<label>Пример возможной формулировки
@@ -167,7 +176,9 @@ export function DocumentBuilder(meta:Meta){
    </div>
    {feedback&&<p className="disclaimer" role="status">{feedback}</p>}
    <pre>{content}</pre>
-   <p className="disclaimer">Черновик формируется только в браузере. DOCX редактируется в Word/LibreOffice; PDF сохраняется через диалог печати. Ни один файл автоматически не направляется адресату или в ведомство.</p>
+   <LawyerReviewRequest kind="document" title={meta.title} documentText={content}
+     isReady={valid && (!meta.legalRisk || lawConfirmed)}/>
+   <p className="disclaimer">Черновик формируется только в браузере. DOCX редактируется в Word/LibreOffice; PDF сохраняется через диалог печати. Самостоятельно сохранённый файл не направляется адресату. Запрос юридической проверки передаётся только с вашего согласия, при наличии защищённого канала.</p>
   </div>
  </div>;
 }

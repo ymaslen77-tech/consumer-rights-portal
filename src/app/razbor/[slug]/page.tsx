@@ -21,7 +21,7 @@ export default async function CasePage({params}:Params){
  {s.cautions.length>0&&<><h2>Исключения и риски</h2><div className="notice">{s.cautions.map((x,i)=><p key={i}>{x}</p>)}</div></>}
  {s.legalBasis.length>0&&<><h2>Нормативные основания</h2><ul className="guide-checklist">{s.legalBasis.map((x,i)=><li key={i}>{x}</li>)}</ul><p><Link className="textlink" href="/normativnye-akty">Смотреть нормативные акты и изменения →</Link></p></>}
  <h2>Документы для защиты права</h2>
- <p className="subtle">Ниже расположен работающий генератор, а не только ссылки на образцы. Выберите нужный документ и заполните данные на этой странице.</p>
+ <p className="subtle">Выберите подходящий документ, укажите обстоятельства и сохраните готовый текст.</p>
  <SituationDocumentWizard situationTitle={s.title} checks={s.checks} documents={s.documents.map(key=>{
    const d=documents.find(x=>x.slug===key);
    if(!d)throw new Error("Missing document for situation "+s.slug+": "+key);

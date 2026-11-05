@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {ConsultationWidget} from "@/components/ConsultationWidget";
 import type { ReactNode } from "react";
 const links = [
  ["Ситуации","/situacii"],["Органы и контакты","/organy"],
@@ -6,7 +7,7 @@ const links = [
  ["Судебная практика","/sudebnaya-praktika"],["Новости","/novosti"],
 ] as const;
 export function SiteShell({children}: {children:ReactNode}) {
- return <><div className="topline"><div className="container topbar"><span>Независимый информационно-правовой справочник</span><a href="tel:88005554943">Роспотребнадзор: 8 800 555-49-43</a></div></div>
+ return <><ConsultationWidget/><div className="topline"><div className="container topbar"><span>Независимый информационно-правовой справочник</span><a href="tel:88005554943">Роспотребнадзор: 8 800 555-49-43</a></div></div>
  <header className="siteheader"><div className="container navrow"><Link href="/" className="brand"><span className="brandmark">§</span><span><strong>Права потребителя</strong><small>Правовые решения и документы</small></span></Link><nav aria-label="Основная навигация">{links.map(([label,href])=><Link key={href} href={href}>{label}</Link>)}</nav></div></header>
  <main id="main">{children}</main>
  <footer className="footer"><div className="container footgrid"><div><strong>Права потребителя</strong><p>Информационный сервис. Не является государственным органом, общественной организацией или сервисом Роспотребнадзора.</p></div><div><strong>Разделы</strong><Link href="/organy">Органы и общественные объединения</Link><Link href="/dokumenty">Претензии и документы</Link><Link href="/istochniki">Официальные первоисточники</Link><Link href="/normativnye-akty">Нормативные акты</Link><Link href="/rospotrebnadzor/zhaloba">Жалоба в Роспотребнадзор</Link><Link href="/rospotrebnadzor/obrashchenie">Написать обращение</Link><Link href="/rospotrebnadzor/regiony">Роспотребнадзор по регионам</Link><Link href="/zashchita-prav-potrebiteley/zhaloba">Жалоба потребителя</Link></div><div><strong>Проверка сведений</strong><p>Первичные источники и даты проверки указаны в карточках. Действующие редакции законодательства проверяются отдельно для каждой ситуации.</p><Link href="/o-proekte">О проекте</Link></div></div><div className="container copyright">© 2026 Независимый справочник · тестовая версия без публичного релиза</div></footer></>;

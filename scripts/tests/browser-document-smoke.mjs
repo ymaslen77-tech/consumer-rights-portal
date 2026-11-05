@@ -93,6 +93,8 @@ try{
  assert.equal(await client.evaluate(setForm),true);
  await until(()=>client.evaluate('document.querySelector(".builderpreview pre")?.textContent?.includes("Тестовый Клиент")'),"preview updates");
  assert.ok(await client.evaluate('document.querySelector(".builderpreview pre")?.textContent?.includes("Закон РФ № 2300-1")'));
+ assert.ok(await client.evaluate('!document.querySelector(".builderpreview pre")?.textContent?.includes("НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ")'));
+ assert.ok(await client.evaluate('!document.querySelector(".builderpreview pre")?.textContent?.includes("ПРОЕКТ ДОКУМЕНТА")'));
  await client.evaluate('document.querySelector(".document-actions button").click()');
  const filename=await until(()=>{
   const files=readdirSync(downloads).filter(x=>x.endsWith(".docx"));
@@ -117,7 +119,9 @@ try{
    setter.call(select,next.value);select.dispatchEvent(new Event("change",{bubbles:true}));return true;
  })()`);
  assert.equal(switched,true);
- await until(()=>client.evaluate('document.querySelector(".builderpreview pre")?.textContent?.includes("ПРОЕКТ ДОКУМЕНТА")'),"second document");
+ await until(()=>client.evaluate('(()=>{const select=document.querySelector("#situation-document-select");const text=document.querySelector(".builderpreview pre")?.textContent||"";return text.includes(select.selectedOptions[0].textContent.toUpperCase())&&!text.includes("ПРОЕКТ ДОКУМЕНТА")&&!text.includes("НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ");})()'),"second document");
+ assert.equal(await client.evaluate('Boolean(document.querySelector(".lawyer-review-request button"))'),true);
+ assert.equal(await client.evaluate('Boolean(document.querySelector(".consultation-widget button"))'),true);
  console.log("BROWSER_MULTI_DOCUMENT_SELECTOR_OK");
 }finally{
  client?.close();chrome.kill("SIGKILL");
