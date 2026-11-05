@@ -55,3 +55,21 @@
 .legal-confirmation{display:flex!important;align-items:flex-start;gap:12px;padding:17px;background:#fff;border:1px solid #d9e0e7;border-radius:6px;margin:18px 0 25px!important;cursor:pointer}
 .legal-confirmation input{width:20px!important;min-width:20px;margin:2px 0 0!important;height:20px;accent-color:var(--red)}
 .legal-confirmation span{font-weight:450;font-size:13px;line-height:1.6}
+
+/* Consultation is optional; no fabricated lawyer-online indicator. */
+.consultation-widget{position:fixed;right:20px;bottom:20px;z-index:90;max-width:min(370px,calc(100vw - 30px));font-family:inherit}
+.consultation-toggle{background:#ba1734;color:white;border:1px solid #a3122e;border-radius:999px;padding:13px 20px;box-shadow:0 6px 24px #0f20303b;font:inherit;font-size:14px;font-weight:750;cursor:pointer}
+.consultation-toggle:focus-visible,.lawyer-review-request button:focus-visible{outline:3px solid #345b9e;outline-offset:3px}
+.consultation-panel{background:white;color:#192b40;border:1px solid #cfd8e0;border-radius:12px;box-shadow:0 12px 40px #0f203033;padding:20px;margin-bottom:12px;max-height:70vh;overflow-y:auto;font-size:14px}
+.consultation-panel p{margin:10px 0;line-height:1.5}
+.consultation-panel strong{display:block;font-size:16px}
+.online-count{font-weight:700;color:#243b58}
+.lawyer-status{font-size:12px;color:#596676}
+.lawyer-review-request{margin:20px 0 15px}
+.lawyer-request-panel{border:1px solid #d7e0e8;background:#f9fbfd;border-radius:8px;padding:16px;margin-top:12px;font-size:13px;line-height:1.6}
+.lawyer-request-panel label{display:block;font-size:13px;margin:12px 0}
+.lawyer-request-panel input:not([type="checkbox"]),.lawyer-request-panel textarea{width:100%;padding:10px;border:1px solid #b9c5d0;border-radius:6px;background:white;color:#172a3d;box-sizing:border-box}
+.lawyer-request-panel .lawyer-consent{display:flex;align-items:flex-start;gap:10px;font-weight:400}
+.lawyer-consent input{width:18px;min-width:18px;height:18px}
+.lawyer-request-panel button:disabled{opacity:.65;cursor:not-allowed}
+@media(max-width:720px){.consultation-widget{right:12px;bottom:12px}.consultation-panel{max-height:65vh}.consultation-toggle{padding:11px 15px}}
