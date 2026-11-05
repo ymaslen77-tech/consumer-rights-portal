@@ -23,7 +23,7 @@ function sanity(bytes,docname){
  const raw=new TextDecoder().decode(bytes);
  assert.match(raw,/word\/document\.xml/,docname);
  assert.match(raw,/Тестов Иван Иванович/,docname);
- assert.match(raw,/НОРМАТИВНЫЕ ИСТОЧНИКИ/,docname);
+ assert.match(raw,/ПРАВОВЫЕ ОСНОВАНИЯ/,docname);
 }
 test("all 60 situation routes generate legally referenced DOCX and text",()=>{
  const docs=new Map(documents.map(d=>[d.slug,d]));
@@ -39,11 +39,11 @@ test("all 60 situation routes generate legally referenced DOCX and text",()=>{
     legalBasis:lawLinks.map(x=>x.title).join("; "),
     legalRisk:audit.risk,legalLinks:lawLinks
    });
-   assert.match(body,/ПРОЕКТ ДОКУМЕНТА/);
-   assert.match(body,/ОСОБЫЕ УСЛОВИЯ ПРИМЕНЕНИЯ НОРМ/);
-   assert.match(body,/НОРМАТИВНЫЕ ИСТОЧНИКИ/);
+   assert.doesNotMatch(body,/ПРОЕКТ ДОКУМЕНТА/);
+   assert.doesNotMatch(body,/ОСОБЫЕ УСЛОВИЯ ПРИМЕНЕНИЯ НОРМ/);
+   assert.match(body,/ПРАВОВЫЕ ОСНОВАНИЯ/);
    assert.ok(body.includes(situation.title),situation.slug);
-   assert.ok(lawLinks.every(ref=>body.includes(ref.url)&&body.includes(ref.title)),slug);
+   assert.ok(lawLinks.every(ref=>!body.includes(ref.url)),slug);
    assert.deepEqual(validateDraft(sample,d.claimType),[]);
    assert.doesNotMatch(body,/неустойка\s*:\s*\d+\s*руб\./i);
    sanity(makeDocx(body),situation.slug+"/"+slug);
@@ -63,7 +63,7 @@ test("all 25 standalone documents can generate an editable Word file",()=>{
    [STATUTES.overview,STATUTES.statute2026];
   const text=draftText(sample,{title:d.title,claimType:d.claimType,legalBasis:d.legalBasis,
    legalLinks:links.map(x=>({title:x.name,url:x.url}))});
-  assert.ok(links.every(x=>text.includes(x.url)),d.slug);
+  assert.ok(links.every(x=>!text.includes(x.url)),d.slug);
   if(d.claimType==="court_document"){
    assert.match(text,/ГПК РФ/);
    assert.match(text,/Ответчик:/);
