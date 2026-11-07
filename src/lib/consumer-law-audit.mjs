@@ -29,6 +29,15 @@ export const STATUTES={
  civilLoss:{name:"Постановление Пленума Верховного Суда РФ от 23.06.2015 № 25 — убытки и общие положения ГК РФ",url:"https://vsrf.ru/documents/all/8435"},
  courtForm:{name:"ГПК РФ, статьи 131–132 — содержание и приложения к иску",url:"https://www.consultant.ru/document/cons_doc_LAW_39570/"},
  regulator:{name:"Федеральный закон № 59-ФЗ — порядок обращений граждан",url:"https://www.consultant.ru/document/cons_doc_LAW_59999/"},
+ housingQuality:{name:"Правила № 354, раздел X — проверка качества",url:"https://www.consultant.ru/document/cons_doc_LAW_114247/1dc2ccc34653658a6d4ab1c18f42c5cf0ab5b46a/"},
+ housingReduction:{name:"Правила № 354, раздел IX — изменение размера платы",url:"https://www.consultant.ru/document/cons_doc_LAW_114247/f01b049d6d3be0e58d178a4474175ac58896e7e3/"},
+ housingHeating:{name:"Правила № 354, приложение № 1 — отопление",url:"https://www.consultant.ru/document/cons_doc_LAW_114247/38f223113cabebcdfa928503d5524f19d8309589/"},
+ housingDamage:{name:"Правила № 354, пункт 152 — акт ущерба",url:"https://www.consultant.ru/document/cons_doc_LAW_114247/db8cad163809d551a7894176b7b97b80b127cf7e/"},
+ housingCommon:{name:"Правила содержания общего имущества № 491",url:"https://www.consultant.ru/document/cons_doc_LAW_62293/"},
+ housingManagement:{name:"Правила управления МКД № 416",url:"https://www.consultant.ru/document/cons_doc_LAW_146444/0259cf92401281eca352f1765c4939bbd8a07d6e/"},
+ housingCapital:{name:"ЖК РФ, статья 189 — капитальный ремонт",url:"https://www.consultant.ru/document/cons_doc_LAW_51057/5e32509a22a65680e91e1829b690fb372b0dc61a/"},
+ housingWaste:{name:"Правила № 354, раздел XV(1) — ТКО",url:"https://www.consultant.ru/document/cons_doc_LAW_114247/f608f710b118e5cf596aab34500c1a64c0c67a44/"},
+ housingControl:{name:"ЖК РФ, статья 161 — обязанности по управлению МКД",url:"https://www.consultant.ru/document/cons_doc_LAW_51057/71c7149b7b2a7693ca3f88b93580da0a5376e041/"},
  housing:{name:"Правила коммунальных услуг, постановление Правительства РФ № 354",url:"https://www.consultant.ru/document/cons_doc_LAW_114247/"},
  medicine:{name:"Платные медицинские услуги: постановление Правительства РФ от 30.05.2026 № 659 (с 01.09.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_535622/"},
  education:{name:"Федеральный закон № 273-ФЗ «Об образовании в Российской Федерации»",url:"https://www.consultant.ru/document/cons_doc_LAW_140174/"},
@@ -55,7 +64,7 @@ const categories={
  "avtomobili":["goods","serviceQuality"],
  "bytovye-uslugi":["serviceQuality","damagedProperty"],
  "remont-stroitelstvo":["serviceLate","serviceQuality"],
- "zhkh":["housing","serviceQuality"],
+ "zhkh":["housing","housingQuality","housingCommon","housingControl"],
  "medicina":["medicine","serviceQuality"],
  "obrazovanie":["education","serviceQuality"],
  "turizm-gostinicy":["travel","tour2026","hotel","serviceExit"],
@@ -80,7 +89,13 @@ const specialDoc={
  "trebovanie-vozvrat-predoplaty":["prepaid"],
  "pretenziya-marketpleys":["platform2026","trade2026","remote","goods"],
  "uvedomlenie-otkaz-podpiska":["subscription"],
- "zayavlenie-pereraschet-zhkh":["housing"],
+ "zayavlenie-pereraschet-zhkh":["housing","housingReduction"],
+ "zayavlenie-proverka-kachestva-zhkh":["housingQuality","housing"],
+ "zayavlenie-akt-ushcherba-zhkh":["housingDamage","housingCommon"],
+ "trebovanie-remont-obshchego-imushchestva":["housingCommon","housingManagement"],
+ "zhaloba-gzhi":["housingControl","housingManagement"],
+ "obrashchenie-kapremont":["housingCapital","housingControl"],
+ "trebovanie-pereraschet-soderzhanie-zhkh":["housingCommon","housingControl"],
  "pretenziya-obrazovanie":["education","serviceQuality"],
  "zapros-medicinskie-dokumenty":["medicine"],
  "pretenziya-turprodukt":["travel","tour2026","serviceExit"],
@@ -109,7 +124,7 @@ const specialRisks={
  "avtomobili":"Договор купли-продажи автомобиля и договор автосервиса — разные правовые отношения. Не подставляйте статьи 18 и 29 как взаимозаменяемые.",
  "bytovye-uslugi":"Повреждение вещи, принятой у заказчика, может регулироваться статьёй 35; не рассчитывайте автоматически двукратную стоимость без оценки условий.",
  "remont-stroitelstvo":"Нарушение сроков работ (статья 28) и недостатки качества результата (статья 29) требуют разного выбора требований. Для недвижимости могут действовать особые сроки.",
- "zhkh":"Порядок перерасчёта и измерения качества зависит от вида коммунальной услуги и Правил № 354; адресат может быть управляющая или ресурсоснабжающая организация.",
+ "zhkh":"Качество коммунальных услуг регулируют Правила № 354; содержание общего имущества — № 491 и № 416; капитальный ремонт — Жилищный кодекс РФ. Перед оформлением требования проверьте характер нарушения, адресата, дату и доказательства.",
  "medicina":"Нормы № 659 действуют с 01.09.2026. Не выводите наличие медицинского дефекта из субъективного недовольства и не включайте заключения об ошибке врача без доказательств.",
  "obrazovanie":"Определите, относится ли договор к платной образовательной деятельности, и какие услуги фактически оказаны.",
  "turizm-gostinicy":"Различайте турпродукт и отдельное проживание. Правила турпродукта № 551 действуют с 01.09.2026, гостиниц № 1912 — с 01.03.2026; проверяйте применимую редакцию на дату события.",
@@ -338,7 +353,16 @@ export const CASE_LEGAL_REFERENCES={
   "navyazannye-usloviya-3": [
     "ads",
     "goods"
-  ]
+  ],
+  "zhkh-4": ["housingHeating", "housingQuality", "housingReduction"],
+  "zhkh-5": ["housingDamage", "housingCommon", "housingControl"],
+  "zhkh-6": ["housingCommon", "housingManagement"],
+  "zhkh-7": ["housingCapital", "housingControl"],
+  "zhkh-8": ["housingCommon", "housingControl"],
+  "zhkh-9": ["housingManagement", "housingControl"],
+  "zhkh-10": ["housingQuality", "housingReduction"],
+  "zhkh-11": ["housingWaste", "housingQuality", "housingReduction"]
+
 };
 export function validateLegalReferenceMatrix(topics,documents){
  const missing=[...topics.filter(x=>!categories[x]),...documents.filter(x=>!specialDoc[x])];
@@ -364,7 +388,7 @@ export function getLegalAudit(topic,docSlug,claimType,situationSlug){
  return {
   links:unique.map(k=>STATUTES[k]),
   risk:specialRisks[topic],
-  reviewDate:"2026-11-02",
+  reviewDate:topic==="zhkh"?"2026-11-08":"2026-11-02",
   eligibilityRequired:true,
   sources:[STATUTES[unique[0]],STATUTES[unique[1]]].filter(Boolean)
  };
