@@ -15,7 +15,7 @@ assert len(topics)==20, len(topics)
 assert len(cases)>=60, len(cases)
 assert len(institutions)>=8
 assert len(read('moscow-district-offices.json'))==12
-assert len(docs)>=25
+assert len(docs)>=28
 known_topics={x['slug'] for x in topics}
 known_cases={x['slug'] for x in cases}
 known_docs={x['slug'] for x in docs}
@@ -37,6 +37,9 @@ required_primary={
     'svyaz-internet-2':'pretenziya-svyaz',
     'bytovye-uslugi-1':'pretenziya-himchistka',
     'navyazannye-usloviya-3':'zhaloba-fas-reklama',
+    'banki-strahovanie-3':'pretenziya-strahovshchiku',
+    'dostavka-oplata-2':'pretenziya-dvoynoe-spisanie',
+    'navyazannye-usloviya-2':'pretenziya-cena-na-kasse',
 }
 for slug,document in required_primary.items():
     item=next(c for c in cases if c['slug']==slug)

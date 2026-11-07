@@ -1,10 +1,13 @@
 // Curated source pointers for independent legal review; never infer a right solely
 // from a topic. Every draft displays a scope warning and requires the user to
-// select the legal demand. These links go into the exported document as URLs.
+// select the legal demand. Links are for on-site source verification; exported formal documents do not contain editorial URLs.
 export type LawLink={title:string;url:string;note?:string};
 const L={
  consumer:{title:"Закон РФ от 07.02.1992 № 2300-1 «О защите прав потребителей»",url:"https://www.consultant.ru/document/cons_doc_LAW_305/"},
- trade:{title:"Правила розничной и дистанционной торговли, постановление № 2463",url:"https://www.consultant.ru/document/cons_doc_LAW_373622/"},
+ trade:{title:"Правила розничной и дистанционной торговли № 657 (с 01.09.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_535649/"},
+ platform:{title:"Закон № 289-ФЗ о платформенной экономике (с 01.10.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_511088/"},
+ tourRules:{title:"Правила реализации турпродукта № 551 (с 01.09.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_534242/"},
+ carriage:{title:"ГК РФ: договор перевозки; специальные правила по виду транспорта",url:"https://www.consultant.ru/document/cons_doc_LAW_9027/"},
  citizens:{title:"Федеральный закон от 02.05.2006 № 59-ФЗ «О порядке рассмотрения обращений граждан»",url:"https://www.consultant.ru/document/cons_doc_LAW_59999/"},
  proc:{title:"Гражданский процессуальный кодекс РФ",url:"https://www.consultant.ru/document/cons_doc_LAW_39570/"},
  housing:{title:"Жилищный кодекс РФ",url:"https://www.consultant.ru/document/cons_doc_LAW_51057/"},
@@ -26,7 +29,7 @@ const topicKeys:Record<string,(keyof typeof L)[]>={
  "nekachestvennyy-tovar":["consumer","trade"],
  "vozvrat-obmen":["consumer","trade"],
  "internet-magaziny":["consumer","trade"],
- "marketpleysy":["consumer","trade"],
+ "marketpleysy":["consumer","trade","platform"],
  "dostavka-oplata":["consumer","trade"],
  "garantiya-servis":["consumer"],
  "tehnicheski-slozhnye":["consumer"],
@@ -36,8 +39,8 @@ const topicKeys:Record<string,(keyof typeof L)[]>={
  "zhkh":["housing","utility","consumer"],
  "medicina":["medicine","medicineRules","consumer"],
  "obrazovanie":["education","consumer"],
- "turizm-gostinicy":["travel","consumer"],
- "transport":["aviation","consumer"],
+ "turizm-gostinicy":["travel","tourRules","consumer"],
+ "transport":["carriage","consumer"],
  "banki-strahovanie":["finances","consumer"],
  "svyaz-internet":["communication","consumer"],
  "podpiski-cifrovye":["consumer","renewal"],
