@@ -4,7 +4,7 @@ import {STATUTES,CASE_LEGAL_REFERENCES,getLegalAudit,validateLegalReferenceMatri
 import topics from "../../src/data/topics.json" with {type:"json"};
 import documents from "../../src/data/documents.json" with {type:"json"};
 import situations from "../../src/data/situations.json" with {type:"json"};
-test("all 20 domains and all 27 document drafts have legal reference coverage",()=>{
+test("all 20 domains and all 28 document drafts have legal reference coverage",()=>{
  assert.equal(validateLegalReferenceMatrix(topics.map(x=>x.slug),documents.map(x=>x.slug)),true);
 });
 test("every situation/document choice has multiple legal links and caveats",()=>{
@@ -33,7 +33,7 @@ test("Plenum is only required automatically on court draft",()=>{
 });
 
 test("2026 trade, platform, tour changes and specialized documents",()=>{
- assert.equal(documents.length,27);
+ assert.equal(documents.length,28);
  const docs=new Set(documents.map(x=>x.slug));
  assert.ok(docs.has("pretenziya-strahovshchiku"));
  assert.ok(docs.has("pretenziya-dvoynoe-spisanie"));

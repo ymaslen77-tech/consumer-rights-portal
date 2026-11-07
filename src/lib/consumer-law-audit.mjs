@@ -92,6 +92,7 @@ const specialDoc={
  "pretenziya-himchistka":["damagedProperty","serviceQuality"],
  "pretenziya-operatsiya-banka":["banking"],
  "pretenziya-strahovshchiku":["insuranceClaim","ombudsman"],
+ "pretenziya-cena-na-kasse":["trade2026","overview"],
  "pretenziya-dvoynoe-spisanie":["doublePayment","overview"],
  "pretenziya-svyaz":["communication"]
 };

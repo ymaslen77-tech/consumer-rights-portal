@@ -2899,10 +2899,11 @@
       "https://zpp.rospotrebnadzor.ru/handbook/actual",
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
       "https://www.consultant.ru/document/cons_doc_LAW_535649/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593801"
     ],
     "documents": [
-      "zapros-dokumentov",
+      "pretenziya-cena-na-kasse",
       "zhaloba-rospotrebnadzor"
     ],
     "relatedTopics": [

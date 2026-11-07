@@ -54,7 +54,7 @@ test("all 60 situation routes generate legally referenced DOCX and text",()=>{
  assert.ok(count>=80,"Expected 80+ distinct case-document combinations; got "+count);
  console.log("ALL_LEGAL_GENERATORS_TESTED",count,"documents in",situations.length,"situations");
 });
-test("all 27 standalone documents can generate an editable Word file",()=>{
+test("all 28 standalone documents can generate an editable Word file",()=>{
  let count=0;
  for(const d of documents){
   const links =d.claimType==="court_document"?
@@ -71,7 +71,7 @@ test("all 27 standalone documents can generate an editable Word file",()=>{
   }
   sanity(makeDocx(text),d.slug);count++;
  }
- assert.equal(count,27);
+ assert.equal(count,28);
  console.log("STANDALONE_DOCUMENT_TEMPLATES_TESTED",count);
 });
 test("invalid amount and missing parties are blocked before export",()=>{
