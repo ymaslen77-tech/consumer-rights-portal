@@ -4,7 +4,7 @@ import {STATUTES,CASE_LEGAL_REFERENCES,getLegalAudit,validateLegalReferenceMatri
 import topics from "../../src/data/topics.json" with {type:"json"};
 import documents from "../../src/data/documents.json" with {type:"json"};
 import situations from "../../src/data/situations.json" with {type:"json"};
-test("all 20 domains and all 25 document drafts have legal reference coverage",()=>{
+test("all 20 domains and all 27 document drafts have legal reference coverage",()=>{
  assert.equal(validateLegalReferenceMatrix(topics.map(x=>x.slug),documents.map(x=>x.slug)),true);
 });
 test("every situation/document choice has multiple legal links and caveats",()=>{
@@ -30,4 +30,14 @@ test("Plenum is only required automatically on court draft",()=>{
  const b=getLegalAudit("nekachestvennyy-tovar","isk-zpp","court_document");
  assert.ok(b.links.some(x=>/Пленума/.test(x.name)));
  assert.ok(b.links.some(x=>/500-ФЗ/.test(x.name)));
+});
+
+test("2026 trade, platform, tour changes and specialized documents",()=>{
+ assert.equal(documents.length,27);
+ const docs=new Set(documents.map(x=>x.slug));
+ assert.ok(docs.has("pretenziya-strahovshchiku"));
+ assert.ok(docs.has("pretenziya-dvoynoe-spisanie"));
+ assert.ok(getLegalAudit("marketpleysy","pretenziya-marketpleys","pretrial_claim","marketpleysy-3").links.some(x=>x.url.includes("cons_doc_LAW_511088")));
+ assert.ok(getLegalAudit("turizm-gostinicy","pretenziya-turprodukt","pretrial_claim","turizm-gostinicy-1").links.some(x=>x.url.includes("cons_doc_LAW_534242")));
+ assert.ok(getLegalAudit("vozvrat-obmen","pretensiya-obmen","pretrial_claim","vozvrat-obmen-3").links.some(x=>x.url.includes("cons_doc_LAW_535649")));
 });

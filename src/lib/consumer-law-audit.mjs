@@ -2,6 +2,12 @@
 // (ConsultantPlus) and primary regulators / Supreme Court (see docs/AUDIT...).
 // This is a reference index, not a promise that every provision applies.
 export const STATUTES={
+ trade2026:{name:"Правила розничной и дистанционной торговли № 657 (действуют с 01.09.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_535649/"},
+ platform2026:{name:"Закон № 289-ФЗ о платформенной экономике (с 01.10.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_511088/"},
+ tour2026:{name:"Правила реализации туристского продукта № 551 (с 01.09.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_534242/"},
+ dining:{name:"Роспотребнадзор: Правила оказания услуг общественного питания № 1515",url:"https://zpp.rospotrebnadzor.ru/news/federal/574119"},
+ insuranceClaim:{name:"Банк России: предварительное заявление страховщику",url:"https://www.cbr.ru/faq/insh/"},
+ doublePayment:{name:"Роспотребнадзор: действия при двойном списании денег",url:"https://zpp.rospotrebnadzor.ru/news/regional/542412"},
  overview:{name:"Закон РФ от 07.02.1992 № 2300-1 «О защите прав потребителей» (действующая редакция)",url:"https://www.consultant.ru/document/cons_doc_LAW_305/"},
  goods:{name:"Закон РФ № 2300-1, статья 18 — недостатки товара",url:"https://www.consultant.ru/document/cons_doc_LAW_305/76ae101b731ecc22467fd9f1f14cb9e2b8799026/"},
  claims:{name:"Закон РФ № 2300-1, статья 22 — сроки отдельных требований по товару",url:"https://www.consultant.ru/document/cons_doc_LAW_305/00616d1e160d7ff7ac8d5a6a8e4525fb75e3b486/"},
@@ -40,9 +46,9 @@ export const STATUTES={
 };
 const categories={
  "nekachestvennyy-tovar":["goods","claims","penalty","statute2026"],
- "vozvrat-obmen":["exchange","goods"],
- "internet-magaziny":["remote","goods","constitutional7"],
- "marketpleysy":["remote","goods"],
+ "vozvrat-obmen":["trade2026","exchange","goods"],
+ "internet-magaziny":["trade2026","remote","goods","constitutional7"],
+ "marketpleysy":["platform2026","trade2026","remote","goods"],
  "dostavka-oplata":["prepaid","remote"],
  "garantiya-servis":["goods","repair","claims"],
  "tehnicheski-slozhnye":["goods","repair","statute2026"],
@@ -52,32 +58,32 @@ const categories={
  "zhkh":["housing","serviceQuality"],
  "medicina":["medicine","serviceQuality"],
  "obrazovanie":["education","serviceQuality"],
- "turizm-gostinicy":["travel","hotel","serviceExit"],
+ "turizm-gostinicy":["travel","tour2026","hotel","serviceExit"],
  "transport":["carriage","air"],
  "banki-strahovanie":["ombudsman","banking"],
  "svyaz-internet":["communication","serviceQuality"],
  "podpiski-cifrovye":["subscription","serviceExit"],
- "produkty-pitanie":["goods","serviceQuality"],
+ "produkty-pitanie":["goods","dining","serviceQuality"],
  "navyazannye-usloviya":["forcedExtras","ads"]
 };
 const specialDoc={
  "pretensiya-vozvrat":["goods","claims"],
- "pretensiya-obmen":["exchange"],
+ "pretensiya-obmen":["trade2026","exchange"],
  "pretensiya-remont":["goods","repair"],
  "pretensiya-usluga":["serviceQuality","servicePeriod"],
- "pretensiya-distanciya":["remote"],
+ "pretensiya-distanciya":["trade2026","remote"],
  "zhaloba-rospotrebnadzor":["regulator"],
  "isk-zpp":["courtForm","plenum17","courtPenalty","moral","statute2026"],
  "zayavlenie-otkaz-uslugi":["serviceExit"],
  "zayavlenie-vozvrat-zadatka":["serviceExit"],
  "zapros-dokumentov":["goods"],
  "trebovanie-vozvrat-predoplaty":["prepaid"],
- "pretenziya-marketpleys":["remote","goods"],
+ "pretenziya-marketpleys":["platform2026","trade2026","remote","goods"],
  "uvedomlenie-otkaz-podpiska":["subscription"],
  "zayavlenie-pereraschet-zhkh":["housing"],
  "pretenziya-obrazovanie":["education","serviceQuality"],
  "zapros-medicinskie-dokumenty":["medicine"],
- "pretenziya-turprodukt":["travel","serviceExit"],
+ "pretenziya-turprodukt":["travel","tour2026","serviceExit"],
  "pretenziya-gostinica":["hotel"],
  "pretenziya-perevozchik":["carriage"],
  "zayavlenie-bagazh":["carriage"],
@@ -85,6 +91,8 @@ const specialDoc={
  "zhaloba-fas-reklama":["ads","regulator"],
  "pretenziya-himchistka":["damagedProperty","serviceQuality"],
  "pretenziya-operatsiya-banka":["banking"],
+ "pretenziya-strahovshchiku":["insuranceClaim","ombudsman"],
+ "pretenziya-dvoynoe-spisanie":["doublePayment","overview"],
  "pretenziya-svyaz":["communication"]
 };
 // Semantic guardrails. A consumer-law article is not automatically applicable
@@ -93,8 +101,8 @@ const specialRisks={
  "nekachestvennyy-tovar":"Установите дефект, доказательства покупки, момент передачи и срок предъявления требования. Продавец может провести проверку качества; экспертиза и распределение расходов регулируются статьёй 18.",
  "vozvrat-obmen":"Статья 25 регулирует обмен качественного непродовольственного товара; возврат денег зависит от отсутствия аналога на день обращения. Дистанционный возврат регулируется отдельно статьёй 26.1.",
  "internet-magaziny":"Отличайте отказ от качественной дистанционной покупки по статье 26.1 от требования по недостаткам по статье 18. Учитывайте постановление КС РФ № 7-П от 17.02.2026 о способе возврата.",
- "marketpleysy":"Установите юридического продавца по чеку, договору и условиям заказа. Платформа не во всех случаях несёт ту же ответственность, что и продавец.",
- "dostavka-oplata":"Не применяйте статью 23.1 к любому списанию: она относится к предварительно оплаченному товару с нарушенным сроком передачи. Банковское оспаривание проводится отдельно.",
+ "marketpleysy":"Установите продавца по чеку и договору. С 01.10.2026 учитывайте закон № 289-ФЗ; обязанности платформы, продавца и ПВЗ различаются. Для более ранних событий проверяйте прежнее регулирование.",
+ "dostavka-oplata":"Статья 23.1 не относится к любому списанию: она применяется к нарушению сроков передачи предоплаченного товара. При повторном списании установите, получил ли вторую сумму продавец или это операция банка.",
  "garantiya-servis":"Сроки статьи 20 для товара не равны срокам устранения недостатков оказанной услуги. Уточните, что именно ремонтируется, и закреплён ли срок письменно.",
  "tehnicheski-slozhnye":"Для технически сложных товаров возврат денег по статье 18 после 15 дней требует специального основания; учитывайте изменения от 01.02.2026 по статье 24.",
  "avtomobili":"Договор купли-продажи автомобиля и договор автосервиса — разные правовые отношения. Не подставляйте статьи 18 и 29 как взаимозаменяемые.",
@@ -103,9 +111,9 @@ const specialRisks={
  "zhkh":"Порядок перерасчёта и измерения качества зависит от вида коммунальной услуги и Правил № 354; адресат может быть управляющая или ресурсоснабжающая организация.",
  "medicina":"Нормы № 659 действуют с 01.09.2026. Не выводите наличие медицинского дефекта из субъективного недовольства и не включайте заключения об ошибке врача без доказательств.",
  "obrazovanie":"Определите, относится ли договор к платной образовательной деятельности, и какие услуги фактически оказаны.",
- "turizm-gostinicy":"Различайте турпродукт и отдельное проживание. Правила гостиничных услуг № 1912 действуют с 01.03.2026; добровольный отказ и нарушение исполнителя имеют разные последствия.",
+ "turizm-gostinicy":"Различайте турпродукт и отдельное проживание. Правила турпродукта № 551 действуют с 01.09.2026, гостиниц № 1912 — с 01.03.2026; проверяйте применимую редакцию на дату события.",
  "transport":"Правила воздушной, железнодорожной и других перевозок различаются. Воздушный кодекс цитируйте только для перелёта; для другого транспорта проверьте отраслевой акт.",
- "banki-strahovanie":"Споры с финансовой организацией могут требовать обращения к финансовому уполномоченному до суда. Установите вид продукта, сумму, применимость и соблюдение предварительного обращения.",
+ "banki-strahovanie":"Для споров в компетенции финансового уполномоченного сначала направляют требование финансовой организации. Учитывайте вид продукта, сумму, способ обращения и специальный срок ответа по разъяснениям Банка России.",
  "svyaz-internet":"Уточните, является ли услуга связью или самостоятельным цифровым сервисом. Правила уведомления и претензионного порядка зависят от оператора и вида услуги.",
  "podpiski-cifrovye":"С 01.03.2026 действует запрет использования ранее сохранённых платёжных реквизитов после отказа потребителя от их использования. Не приравнивайте этот отказ к автоматическому расторжению договора.",
  "produkty-pitanie":"При пищевой угрозе обращение в Роспотребнадзор возможно отдельно от возврата денег продавцом; при симптомах отравления нужна медицинская помощь.",
@@ -131,7 +139,8 @@ export const CASE_LEGAL_REFERENCES={
     "goods"
   ],
   "vozvrat-obmen-3": [
-    "exchange"
+    "exchange",
+    "trade2026"
   ],
   "internet-magaziny-1": [
     "goods",
@@ -147,19 +156,24 @@ export const CASE_LEGAL_REFERENCES={
   ],
   "marketpleysy-1": [
     "prepaid",
-    "remote"
+    "remote",
+    "platform2026"
   ],
   "marketpleysy-2": [
-    "remote"
+    "remote",
+    "platform2026",
+    "trade2026"
   ],
   "marketpleysy-3": [
     "remote",
-    "goods"
+    "goods",
+    "platform2026"
   ],
   "dostavka-oplata-1": [
     "prepaid"
   ],
   "dostavka-oplata-2": [
+    "doublePayment",
     "banking"
   ],
   "dostavka-oplata-3": [
@@ -251,6 +265,7 @@ export const CASE_LEGAL_REFERENCES={
   ],
   "turizm-gostinicy-1": [
     "travel",
+    "tour2026",
     "serviceExit"
   ],
   "turizm-gostinicy-2": [
@@ -258,11 +273,11 @@ export const CASE_LEGAL_REFERENCES={
   ],
   "turizm-gostinicy-3": [
     "travel",
+    "tour2026",
     "serviceExit"
   ],
   "transport-1": [
-    "carriage",
-    "air"
+    "carriage"
   ],
   "transport-2": [
     "carriage"
@@ -271,6 +286,7 @@ export const CASE_LEGAL_REFERENCES={
     "carriage"
   ],
   "banki-strahovanie-1": [
+    "insuranceClaim",
     "ombudsman",
     "serviceExit"
   ],
@@ -278,6 +294,7 @@ export const CASE_LEGAL_REFERENCES={
     "banking"
   ],
   "banki-strahovanie-3": [
+    "insuranceClaim",
     "ombudsman"
   ],
   "svyaz-internet-1": [
@@ -303,16 +320,19 @@ export const CASE_LEGAL_REFERENCES={
     "goods"
   ],
   "produkty-pitanie-2": [
+    "dining",
     "serviceQuality"
   ],
   "produkty-pitanie-3": [
-    "goods"
+    "dining",
+    "serviceQuality"
   ],
   "navyazannye-usloviya-1": [
     "forcedExtras"
   ],
   "navyazannye-usloviya-2": [
-    "forcedExtras"
+    "trade2026",
+    "overview"
   ],
   "navyazannye-usloviya-3": [
     "ads",
