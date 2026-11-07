@@ -13,7 +13,9 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/573529"
+      "https://zpp.rospotrebnadzor.ru/news/federal/573529",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-vozvrat",
@@ -60,7 +62,9 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/575721"
+      "https://zpp.rospotrebnadzor.ru/news/federal/575721",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-vozvrat",
@@ -106,7 +110,9 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/573529",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-vozvrat",
@@ -155,7 +161,9 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/568655"
+      "https://zpp.rospotrebnadzor.ru/news/federal/568655",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-obmen"
@@ -200,7 +208,9 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/568655"
+      "https://zpp.rospotrebnadzor.ru/news/federal/568655",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-obmen",
@@ -246,7 +256,9 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/568655",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-obmen"
@@ -265,7 +277,7 @@
       "Не смешивайте обмен качественной вещи, дистанционный отказ и требования при недостатке."
     ],
     "legalBasis": [
-      "Закон № 2300-1: статьи 18, 25, 26.1; постановление № 2463",
+      "Закон № 2300-1: статьи 18, 25, 26.1; Правила продажи № 657 (с 01.09.2026)",
       "Проверка по Закону РФ № 2300-1 с учётом специальных отраслевых норм и даты события"
     ],
     "relatedPages": [
@@ -294,7 +306,9 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/572363"
+      "https://zpp.rospotrebnadzor.ru/news/federal/572363",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-distanciya",
@@ -340,7 +354,9 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/572363"
+      "https://zpp.rospotrebnadzor.ru/news/federal/572363",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "trebovanie-vozvrat-predoplaty",
@@ -388,7 +404,9 @@
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
       "https://zpp.rospotrebnadzor.ru/news/federal/572363",
-      "https://www.consultant.ru/document/cons_doc_LAW_526704/"
+      "https://www.consultant.ru/document/cons_doc_LAW_526704/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-distanciya",
@@ -436,7 +454,11 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/570504",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809",
+      "https://www.consultant.ru/document/cons_doc_LAW_511088/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/594052"
     ],
     "documents": [
       "pretenziya-marketpleys",
@@ -453,7 +475,8 @@
     ],
     "cautions": [
       "Фраза «заказ выдан» в приложении не заменяет доказательства реальной передачи.",
-      "Продавец, владелец агрегатора и служба доставки могут быть разными лицами."
+      "Продавец, владелец агрегатора и служба доставки могут быть разными лицами.",
+      "Для отношений с 01.10.2026 действуют нормы закона № 289-ФЗ о платформенной экономике; не приравнивайте автоматически обязанности продавца, оператора и пункта выдачи."
     ],
     "legalBasis": [
       "Закон № 2300-1: статьи 12, 18, 26.1 и обязанности агрегатора",
@@ -485,7 +508,11 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/570504",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809",
+      "https://www.consultant.ru/document/cons_doc_LAW_511088/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/594052"
     ],
     "documents": [
       "pretenziya-marketpleys",
@@ -502,7 +529,8 @@
     ],
     "cautions": [
       "Не считайте маркетплейс ответчиком автоматически без анализа договора и платежей.",
-      "Продавец, владелец агрегатора и служба доставки могут быть разными лицами."
+      "Продавец, владелец агрегатора и служба доставки могут быть разными лицами.",
+      "Для отношений с 01.10.2026 действуют нормы закона № 289-ФЗ о платформенной экономике; не приравнивайте автоматически обязанности продавца, оператора и пункта выдачи."
     ],
     "legalBasis": [
       "Закон № 2300-1: статьи 12, 18, 26.1 и обязанности агрегатора",
@@ -534,7 +562,11 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/570504"
+      "https://zpp.rospotrebnadzor.ru/news/federal/570504",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809",
+      "https://www.consultant.ru/document/cons_doc_LAW_511088/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/594052"
     ],
     "documents": [
       "pretenziya-marketpleys",
@@ -552,7 +584,8 @@
     ],
     "cautions": [
       "Не все требования можно автоматически предъявить владельцу маркетплейса.",
-      "Условия возврата зависят от дистанционного способа продажи и качества товара."
+      "Условия возврата зависят от дистанционного способа продажи и качества товара.",
+      "Для отношений с 01.10.2026 действуют нормы закона № 289-ФЗ о платформенной экономике; не приравнивайте автоматически обязанности продавца, оператора и пункта выдачи."
     ],
     "legalBasis": [
       "Закон № 2300-1: статьи 12, 18, 26.1",
@@ -580,7 +613,9 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/572363"
+      "https://zpp.rospotrebnadzor.ru/news/federal/572363",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "trebovanie-vozvrat-predoplaty"
@@ -625,9 +660,11 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/572363",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://zpp.rospotrebnadzor.ru/news/regional/542412"
     ],
     "documents": [
+      "pretenziya-dvoynoe-spisanie",
       "pretenziya-operatsiya-banka",
       "zapros-dokumentov"
     ],
@@ -638,15 +675,17 @@
     "checks": [
       "Доказательства: Обе банковские операции, чек, заказ, идентификатор платежа",
       "Адресат требования: Продавец и платёжный банк — по характеру ошибки",
-      "Какие обстоятельства подтверждают нарушение: сумма покупки списана повторно?"
+      "Какие обстоятельства подтверждают нарушение: сумма покупки списана повторно?",
+      "Получил ли продавец обе суммы, или вторая операция осталась временной блокировкой банка?"
     ],
     "cautions": [
       "У авторизационной блокировки и фактического списания разные механизмы отмены.",
-      "Платёжный спор с банком не всегда равен требованию к продавцу."
+      "Платёжный спор с банком не всегда равен требованию к продавцу.",
+      "Двойное фактическое поступление денег продавцу и банковская авторизационная блокировка — разные ситуации; адресат требования зависит от результата проверки операций."
     ],
     "legalBasis": [
-      "Закон № 2300-1: статьи 18, 23.1 и 26.1; договор и правила оплаты",
-      "Проверка по Закону РФ № 2300-1 с учётом специальных отраслевых норм и даты события"
+      "Закон № 2300-1, договор и правила оплаты товара или услуги",
+      "Закон № 161-ФЗ о национальной платёжной системе (для платёжных операций)"
     ],
     "relatedPages": [
       {
@@ -674,7 +713,9 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/572363",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-vozvrat",
@@ -724,7 +765,9 @@
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
       "https://zpp.rospotrebnadzor.ru/news/federal/571058",
-      "https://zpp.rospotrebnadzor.ru/news/federal/593973"
+      "https://zpp.rospotrebnadzor.ru/news/federal/593973",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-remont"
@@ -769,7 +812,9 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/593973",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-remont"
@@ -817,7 +862,9 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/593973",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-remont",
@@ -866,7 +913,9 @@
     ],
     "sources": [
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/573529"
+      "https://zpp.rospotrebnadzor.ru/news/federal/573529",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-vozvrat",
@@ -912,7 +961,9 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/573529",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-remont",
@@ -961,7 +1012,9 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/news/federal/573529",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-remont",
@@ -1010,7 +1063,9 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/handbook/actual",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-remont",
@@ -1887,7 +1942,9 @@
     "sources": [
       "https://zpp.rospotrebnadzor.ru/info/stat/574296",
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/572025"
+      "https://zpp.rospotrebnadzor.ru/news/federal/572025",
+      "https://www.consultant.ru/document/cons_doc_LAW_534242/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593601"
     ],
     "documents": [
       "pretenziya-turprodukt",
@@ -1904,10 +1961,11 @@
     ],
     "cautions": [
       "Нельзя автоматически считать любую замену рейса основанием для возврата полной стоимости.",
-      "Турпродукт и отдельная гостиничная услуга различаются по ответчику и специальным условиям отказа."
+      "Турпродукт и отдельная гостиничная услуга различаются по ответчику и специальным условиям отказа.",
+      "Правила реализации туристского продукта № 551 действуют с 01.09.2026. Для более ранних событий необходимо проверить применимые тогда нормы и условия договора."
     ],
     "legalBasis": [
-      "Закон № 132-ФЗ о туристской деятельности, Закон № 2300-1; правила турпродукта № 1852 и гостиниц № 1912 с 01.03.2026",
+      "Закон № 132-ФЗ о туристской деятельности, Закон № 2300-1; Правила реализации туристского продукта № 551 (с 01.09.2026) и гостиниц № 1912 с 01.03.2026",
       "Проверка по Закону РФ № 2300-1 с учётом специальных отраслевых норм и даты события"
     ],
     "relatedPages": [
@@ -1937,7 +1995,9 @@
     "sources": [
       "https://zpp.rospotrebnadzor.ru/info/stat/574296",
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/572025"
+      "https://zpp.rospotrebnadzor.ru/news/federal/572025",
+      "https://www.consultant.ru/document/cons_doc_LAW_534242/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593601"
     ],
     "documents": [
       "pretenziya-gostinica"
@@ -1953,10 +2013,11 @@
     ],
     "cautions": [
       "Правила гостиниц с 01.03.2026 изменены; прежние нормы № 1853 могут быть неприменимы.",
-      "Турпродукт и отдельная гостиничная услуга различаются по ответчику и специальным условиям отказа."
+      "Турпродукт и отдельная гостиничная услуга различаются по ответчику и специальным условиям отказа.",
+      "Правила реализации туристского продукта № 551 действуют с 01.09.2026. Для более ранних событий необходимо проверить применимые тогда нормы и условия договора."
     ],
     "legalBasis": [
-      "Закон № 132-ФЗ о туристской деятельности, Закон № 2300-1; правила турпродукта № 1852 и гостиниц № 1912 с 01.03.2026",
+      "Закон № 132-ФЗ о туристской деятельности, Закон № 2300-1; Правила реализации туристского продукта № 551 (с 01.09.2026) и гостиниц № 1912 с 01.03.2026",
       "Проверка по Закону РФ № 2300-1 с учётом специальных отраслевых норм и даты события"
     ],
     "relatedPages": [
@@ -1986,7 +2047,9 @@
     "sources": [
       "https://zpp.rospotrebnadzor.ru/info/stat/574296",
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/572025"
+      "https://zpp.rospotrebnadzor.ru/news/federal/572025",
+      "https://www.consultant.ru/document/cons_doc_LAW_534242/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593601"
     ],
     "documents": [
       "pretenziya-turprodukt",
@@ -2003,10 +2066,11 @@
     ],
     "cautions": [
       "Условия полного возврата при угрозе безопасности не распространяются на любую произвольную отмену.",
-      "Турпродукт и отдельная гостиничная услуга различаются по ответчику и специальным условиям отказа."
+      "Турпродукт и отдельная гостиничная услуга различаются по ответчику и специальным условиям отказа.",
+      "Правила реализации туристского продукта № 551 действуют с 01.09.2026. Для более ранних событий необходимо проверить применимые тогда нормы и условия договора."
     ],
     "legalBasis": [
-      "Закон № 132-ФЗ о туристской деятельности, Закон № 2300-1; правила турпродукта № 1852 и гостиниц № 1912 с 01.03.2026",
+      "Закон № 132-ФЗ о туристской деятельности, Закон № 2300-1; Правила реализации туристского продукта № 551 (с 01.09.2026) и гостиниц № 1912 с 01.03.2026",
       "Проверка по Закону РФ № 2300-1 с учётом специальных отраслевых норм и даты события"
     ],
     "relatedPages": [
@@ -2184,10 +2248,12 @@
     "sources": [
       "https://zpp.rospotrebnadzor.ru/info/analysis/523603",
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/593832"
+      "https://zpp.rospotrebnadzor.ru/news/federal/593832",
+      "https://www.cbr.ru/faq/insh/"
     ],
     "documents": [
       "zayavlenie-otkaz-uslugi",
+      "pretenziya-strahovshchiku",
       "finansovyy-upolnomochennyy-obrashchenie"
     ],
     "relatedTopics": [
@@ -2234,7 +2300,8 @@
     "sources": [
       "https://zpp.rospotrebnadzor.ru/info/analysis/523603",
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/593832"
+      "https://zpp.rospotrebnadzor.ru/news/federal/593832",
+      "https://www.cbr.ru/faq/insh/"
     ],
     "documents": [
       "pretenziya-operatsiya-banka",
@@ -2284,9 +2351,11 @@
     "sources": [
       "https://zpp.rospotrebnadzor.ru/info/analysis/523603",
       "https://www.consultant.ru/document/cons_doc_LAW_305/",
-      "https://zpp.rospotrebnadzor.ru/news/federal/593832"
+      "https://zpp.rospotrebnadzor.ru/news/federal/593832",
+      "https://www.cbr.ru/faq/insh/"
     ],
     "documents": [
+      "pretenziya-strahovshchiku",
       "finansovyy-upolnomochennyy-obrashchenie",
       "zapros-dokumentov"
     ],
@@ -2301,7 +2370,8 @@
     ],
     "cautions": [
       "Не обходите обязательного финансового уполномоченного, если он компетентен рассматривать ваш спор.",
-      "Для ряда имущественных споров обязательна процедура обращения к финансовому уполномоченному до суда."
+      "Для ряда имущественных споров обязательна процедура обращения к финансовому уполномоченному до суда.",
+      "В спорах, рассматриваемых финансовым уполномоченным, первоначально обращайтесь с требованием к страховщику; срок и процедура зависят от формы обращения и категории спора."
     ],
     "legalBasis": [
       "Закон № 123-ФЗ о финансовом уполномоченном; закон о соответствующем финансовом продукте",
@@ -2631,7 +2701,9 @@
     "sources": [
       "https://86.rospotrebnadzor.ru/news/o-posledstviyax-prodazhi-tovarov-s-istekshim-srokom-godnosti.html",
       "https://zpp.rospotrebnadzor.ru/",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
       "pretensiya-vozvrat",
@@ -2825,11 +2897,13 @@
     ],
     "sources": [
       "https://zpp.rospotrebnadzor.ru/handbook/actual",
-      "https://www.consultant.ru/document/cons_doc_LAW_305/"
+      "https://www.consultant.ru/document/cons_doc_LAW_305/",
+      "https://www.consultant.ru/document/cons_doc_LAW_535649/",
+      "https://zpp.rospotrebnadzor.ru/news/federal/593809"
     ],
     "documents": [
-      "zhaloba-rospotrebnadzor",
-      "pretensiya-vozvrat"
+      "zapros-dokumentov",
+      "zhaloba-rospotrebnadzor"
     ],
     "relatedTopics": [
       "nekachestvennyy-tovar"
@@ -2841,12 +2915,11 @@
       "Какие обстоятельства подтверждают нарушение: цена на кассе не совпала с ценником?"
     ],
     "cautions": [
-      "Различайте объявленную цену и очевидную ошибку размещения чужого ценника.",
-      "По рекламе компетенция ФАС может отличаться от потребительского надзора Роспотребнадзора."
+      "Различайте объявленную цену и очевидную ошибку размещения чужого ценника."
     ],
     "legalBasis": [
-      "Закон № 2300-1: статьи 8–12, 16; закон о рекламе № 38-ФЗ",
-      "Проверка по Закону РФ № 2300-1 с учётом специальных отраслевых норм и даты события"
+      "Закон № 2300-1, статьи 8–12 — достоверная информация о товаре и цене",
+      "Правила продажи № 657 (с 01.09.2026)"
     ],
     "relatedPages": [
       {
