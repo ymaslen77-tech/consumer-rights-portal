@@ -15,14 +15,14 @@ assert len(topics)==20, len(topics)
 assert len(cases)>=60, len(cases)
 assert len(institutions)>=8
 assert len(read('moscow-district-offices.json'))==12
-assert len(docs)>=28
+assert len(docs)>=34
 known_topics={x['slug'] for x in topics}
 known_cases={x['slug'] for x in cases}
 known_docs={x['slug'] for x in docs}
 assert all(x['topic'] in known_topics for x in cases)
 assert all(x['relatedTopics'] and all(k in known_topics for k in x['relatedTopics']) for x in cases)
 assert all(all(k in known_docs for k in x['documents']) for x in cases)
-assert len(cases)==60 and all(1<=len(s['documents'])<=5 for s in cases)
+assert len(cases)==68 and all(1<=len(s['documents'])<=5 for s in cases)
 assert (ROOT/'src/components/SituationDocumentWizard.tsx').exists(), 'All situation pages must embed a generator'
 assert 'SituationDocumentWizard' in (ROOT/'src/app/razbor/[slug]/page.tsx').read_text(encoding='utf8')
 assert (ROOT/'src/lib/consumer-law-audit.mjs').exists()
@@ -31,6 +31,14 @@ assert (ROOT/'scripts/tests/consumer-law-audit.test.mjs').exists()
 # Important sector-specific documents must be proposed before a broad fallback.
 required_primary={
     'zhkh-1':'zayavlenie-pereraschet-zhkh',
+    'zhkh-4':'zayavlenie-proverka-kachestva-zhkh',
+    'zhkh-5':'zayavlenie-akt-ushcherba-zhkh',
+    'zhkh-6':'trebovanie-remont-obshchego-imushchestva',
+    'zhkh-7':'obrashchenie-kapremont',
+    'zhkh-8':'trebovanie-pereraschet-soderzhanie-zhkh',
+    'zhkh-9':'trebovanie-remont-obshchego-imushchestva',
+    'zhkh-10':'zayavlenie-proverka-kachestva-zhkh',
+    'zhkh-11':'zayavlenie-proverka-kachestva-zhkh',
     'medicina-3':'zapros-medicinskie-dokumenty',
     'transport-2':'zayavlenie-bagazh',
     'obrazovanie-1':'pretenziya-obrazovanie',
@@ -79,10 +87,10 @@ for act in court_acts:
     assert all(s in known_cases for s in act['situationSlugs'])
 assert sum(c['legalStatus']=='source_checked_2026-11-01' for c in cases)>=4
 for case in cases:
-    assert case['sourceReviewedAt'] in ('2026-10-31','2026-11-01')
+    assert case['sourceReviewedAt'] in ('2026-10-31','2026-11-01','2026-11-08')
     assert len(case['steps'])>=5 and len(case['checks'])>=2 and len(case['cautions'])>=1
     assert len(case['legalBasis'])>=2 and len(case['sources'])>=2
-    assert case['legalStatus'] in ('source_checked_2026-10-31', 'source_checked_2026-11-01','sector_sources_checked_individual_facts_required_2026-10-31')
+    assert case['legalStatus'] in ('source_checked_2026-10-31', 'source_checked_2026-11-01','sector_sources_checked_individual_facts_required_2026-10-31','sector_sources_checked_individual_facts_required_2026-11-08')
 for case in cases:
     assert isinstance(case['checks'],list) and isinstance(case['cautions'],list)
     assert isinstance(case['relatedPages'],list) and isinstance(case['legalBasis'],list)
