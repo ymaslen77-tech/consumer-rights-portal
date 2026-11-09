@@ -408,7 +408,7 @@ export function getLegalAudit(topic,docSlug,claimType,situationSlug){
  return {
   links:unique.map(k=>STATUTES[k]),
   risk:specialRisks[topic],
-  reviewDate:topic==="zhkh"?"2026-11-08":"2026-11-02",
+  reviewDate:situationSlug && ["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5"].includes(situationSlug)?"2026-11-09":topic==="zhkh"?"2026-11-08":"2026-11-02",
   eligibilityRequired:true,
   sources:[STATUTES[unique[0]],STATUTES[unique[1]]].filter(Boolean)
  };
