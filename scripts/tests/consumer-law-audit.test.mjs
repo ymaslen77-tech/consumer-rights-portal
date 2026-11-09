@@ -4,7 +4,7 @@ import {STATUTES,CASE_LEGAL_REFERENCES,getLegalAudit,validateLegalReferenceMatri
 import topics from "../../src/data/topics.json" with {type:"json"};
 import documents from "../../src/data/documents.json" with {type:"json"};
 import situations from "../../src/data/situations.json" with {type:"json"};
-test("all 20 domains and all 42 document drafts have legal reference coverage",()=>{
+test("all 20 domains and all 46 document drafts have legal reference coverage",()=>{
  assert.equal(validateLegalReferenceMatrix(topics.map(x=>x.slug),documents.map(x=>x.slug)),true);
 });
 test("every situation/document choice has multiple legal links and caveats",()=>{
@@ -19,8 +19,8 @@ test("every situation/document choice has multiple legal links and caveats",()=>
   assert.equal(r.eligibilityRequired,true);
   checked++;
  }
- assert.equal(situations.length,90);
- assert.equal(Object.keys(CASE_LEGAL_REFERENCES).length,90);
+ assert.equal(situations.length,101);
+ assert.equal(Object.keys(CASE_LEGAL_REFERENCES).length,101);
  assert.ok(situations.every(x=>Array.isArray(CASE_LEGAL_REFERENCES[x.slug])));
  assert.ok(checked>=80,"Expected a selection of document choices in 60 routes");
 });
@@ -33,7 +33,7 @@ test("Plenum is only required automatically on court draft",()=>{
 });
 
 test("2026 trade, platform, tour changes and specialized documents",()=>{
- assert.equal(documents.length,42);
+ assert.equal(documents.length,46);
  const docs=new Set(documents.map(x=>x.slug));
  assert.ok(docs.has("pretenziya-strahovshchiku"));
  assert.ok(docs.has("pretenziya-dvoynoe-spisanie"));
@@ -66,4 +66,10 @@ test("transport tourism repair additions are traceable to their sector-specific 
  const ids=["transport-4","transport-5","transport-6","transport-7","turizm-gostinicy-4","turizm-gostinicy-5","turizm-gostinicy-6","remont-stroitelstvo-4","remont-stroitelstvo-5","avtomobili-4","avtomobili-5"];
  for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
  for(const k of ["pretenziya-zaderzhka-avia","zayavlenie-vozvrat-avia","pretenziya-otmena-broni","pretenziya-ushcherb-avtoservis"])assert.ok(documents.some(x=>x.slug===k),k);
+});
+
+test("2026 subscription, telecom, education and food regulation guardrails",()=>{
+ const ids=["podpiski-cifrovye-4","podpiski-cifrovye-5","svyaz-internet-4","svyaz-internet-5","obrazovanie-4","obrazovanie-5","obrazovanie-6","produkty-pitanie-4","produkty-pitanie-5","produkty-pitanie-6","produkty-pitanie-7"];
+ for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
+ for(const slug of ["pretenziya-spisanie-posle-otkaza","zayavlenie-rastorzhenie-svyaz","zayavlenie-otkaz-obuchenie","pretenziya-dostavka-edy"])assert.ok(documents.some(x=>x.slug===slug),slug);
 });
