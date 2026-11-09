@@ -33,6 +33,17 @@ for (let i = 0; i < 35; i++) {
   }
 }
 assert.ok(ready, "Next.js preview failed to start");
+// The health response describes this running build, not GitHub branch HEAD.
+const health=JSON.parse(await get("/api/health"));
+assert.equal(health.service,"consumer-rights-portal");
+assert.equal(health.status,"ok");
+assert.equal(health.content.topics,topics.length);
+assert.equal(health.content.situations,situations.length);
+assert.equal(health.content.documents,docs.length);
+assert.equal(health.content.situationDocumentChoices,situations.reduce((n,s)=>n+s.documents.length,0));
+assert.ok(health.sourceCommit===null||/^[0-9a-f]{7,40}$/.test(health.sourceCommit));
+assert.equal(health.deployment,health.sourceCommit?"reported":"unverified");
+console.log("HEALTH_CONTENT_AND_COMMIT_METADATA_OK",health.content,health.sourceCommit||"unknown");
 for (const path of cases) {
  const html=await get(path);
  if(path.startsWith("/razbor/")) assert.match(html,/situation-document-generator|Составить документ по этой ситуации/,path+" lacks inline generator");
