@@ -370,7 +370,7 @@ export const CASE_LEGAL_REFERENCES={
   "zhkh-8": ["housingCommon", "housingControl"],
   "zhkh-9": ["housingManagement", "housingControl"],
   "zhkh-10": ["housingQuality", "housingReduction"],
-  "zhkh-11": ["housingWaste", "housingQuality", "housingReduction"]
+  "zhkh-11": ["housingWaste", "housingQuality", "housingReduction"],
 
  "banki-strahovanie-4":["bankSecurity","banking"],
  "banki-strahovanie-5":["loan2026","forcedExtras"],
