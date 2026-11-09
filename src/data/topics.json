@@ -145,7 +145,10 @@
     "situationSlugs": [
       "obrazovanie-1",
       "obrazovanie-2",
-      "obrazovanie-3"
+      "obrazovanie-3",
+      "obrazovanie-4",
+      "obrazovanie-5",
+      "obrazovanie-6"
     ]
   },
   {
@@ -196,7 +199,9 @@
     "situationSlugs": [
       "svyaz-internet-1",
       "svyaz-internet-2",
-      "svyaz-internet-3"
+      "svyaz-internet-3",
+      "svyaz-internet-4",
+      "svyaz-internet-5"
     ]
   },
   {
@@ -206,7 +211,9 @@
     "situationSlugs": [
       "podpiski-cifrovye-1",
       "podpiski-cifrovye-2",
-      "podpiski-cifrovye-3"
+      "podpiski-cifrovye-3",
+      "podpiski-cifrovye-4",
+      "podpiski-cifrovye-5"
     ]
   },
   {
@@ -216,7 +223,11 @@
     "situationSlugs": [
       "produkty-pitanie-1",
       "produkty-pitanie-2",
-      "produkty-pitanie-3"
+      "produkty-pitanie-3",
+      "produkty-pitanie-4",
+      "produkty-pitanie-5",
+      "produkty-pitanie-6",
+      "produkty-pitanie-7"
     ]
   },
   {

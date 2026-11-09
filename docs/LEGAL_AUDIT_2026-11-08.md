@@ -158,7 +158,7 @@
 ### 5. Транспорт и перевозки
 - `transport-4` — генератор `pretenziya-zaderzhka-avia`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/)
 - `transport-5` — генератор `zayavlenie-vozvrat-avia`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/)
-- `transport-6` — генератор `pretenziya-perevozchik`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_535865/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_40444/)
+- `transport-6` — генератор `pretenziya-perevozchik`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_535865/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_72388/)
 - `transport-7` — генератор `pretenziya-perevozchik`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_430073/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_40444/)
 
 ### 6. Туризм и гостиницы
@@ -171,3 +171,25 @@
 - `remont-stroitelstvo-5` — генератор `zapros-dokumentov`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/f190d8f6c0d4f03af399cc0efcc722d87a0f83a6/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/41fd88c62c89ddba445ff85149b17a63b9679810/)
 - `avtomobili-4` — генератор `pretenziya-ushcherb-avtoservis`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_506689/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/45c7ccb991b26b835bafa26beb226e4658dea317/)
 - `avtomobili-5` — генератор `pretensiya-usluga`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_506689/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/f190d8f6c0d4f03af399cc0efcc722d87a0f83a6/)
+
+
+## Дополнение — отраслевые блоки №8–10, 9 ноября 2026
+
+Разграничены отказ от реквизитов / расторжение подписки, телематическая связь / данные, платное обучение / обычный информационный сервис и договорное требование в общепите / сообщение санитарному надзору. У новых маршрутов сохраняются требования к доказательствам и индивидуальной квалификации.
+
+### 8. Подписки, цифровые сервисы и связь
+- `podpiski-cifrovye-4`: `pretenziya-spisanie-posle-otkaza`; нормы: [официальная публикация](https://zpp.rospotrebnadzor.ru/news/federal/571840) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_305/)
+- `podpiski-cifrovye-5`: `uvedomlenie-otkaz-podpiska`; нормы: [официальная публикация](https://zpp.rospotrebnadzor.ru/news/federal/571840) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_305/758e2cfdf136a621c8f66dcb3372b772c7b5e6e8/)
+- `svyaz-internet-4`: `pretenziya-svyaz`; нормы: [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_406278/) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_406236/)
+- `svyaz-internet-5`: `zayavlenie-rastorzhenie-svyaz`; нормы: [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_406278/) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_43224/)
+
+### 9. Платное образование
+- `obrazovanie-4`: `pretenziya-obrazovanie`; нормы: [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_362652/) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_140174/)
+- `obrazovanie-5`: `zayavlenie-otkaz-obuchenie`; нормы: [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_362652/) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_305/758e2cfdf136a621c8f66dcb3372b772c7b5e6e8/)
+- `obrazovanie-6`: `pretenziya-obrazovanie`; нормы: [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_362652/) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_140174/)
+
+### 10. Продукты и общественное питание
+- `produkty-pitanie-4`: `pretenziya-dostavka-edy`; нормы: [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_363241/) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_305/)
+- `produkty-pitanie-5`: `pretensiya-usluga`; нормы: [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_363241/) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_305/)
+- `produkty-pitanie-6`: `zhaloba-rospotrebnadzor`; нормы: [официальная публикация](https://zpp.rospotrebnadzor.ru/news/federal/593840) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_363241/)
+- `produkty-pitanie-7`: `pretensiya-usluga`; нормы: [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_363241/) · [официальная публикация](https://www.consultant.ru/document/cons_doc_LAW_305/758e2cfdf136a621c8f66dcb3372b772c7b5e6e8/)

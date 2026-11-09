@@ -2,7 +2,15 @@
 // (ConsultantPlus) and primary regulators / Supreme Court (see docs/AUDIT...).
 // This is a reference index, not a promise that every provision applies.
 export const STATUTES={
+ subscription2026:{name:"Роспотребнадзор: отказ от списания по сохранённым реквизитам с 01.03.2026",url:"https://zpp.rospotrebnadzor.ru/news/federal/571840"},
+ telematicRules:{name:"Правила оказания телематических услуг связи № 2607",url:"https://www.consultant.ru/document/cons_doc_LAW_406278/"},
+ dataRules:{name:"Правила услуг по передаче данных № 2606",url:"https://www.consultant.ru/document/cons_doc_LAW_406236/"},
+ education2026:{name:"Правила платных образовательных услуг № 1441, редакция 2026 года",url:"https://www.consultant.ru/document/cons_doc_LAW_362652/"},
+ diningRules:{name:"Правила оказания услуг общественного питания № 1515",url:"https://www.consultant.ru/document/cons_doc_LAW_363241/"},
+ diningSan2026:{name:"Роспотребнадзор: санитарные правила общепита СанПиН 2.3/2.4.4282-26 с 01.09.2026",url:"https://zpp.rospotrebnadzor.ru/news/federal/593840"},
+
  aviaReturn:{name:"Воздушный кодекс РФ, статья 108: основания возврата при отказе от перевозки",url:"https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/"},
+ busCharter:{name:"Федеральный закон № 259-ФЗ — Устав автомобильного транспорта",url:"https://www.consultant.ru/document/cons_doc_LAW_72388/"},
  bus2026:{name:"Приказ Минтранса № 161: автомобильные пассажирские перевозки с 01.09.2026",url:"https://www.consultant.ru/document/cons_doc_LAW_535865/"},
  rail2026:{name:"Приказ Минтранса № 352: перевозки железнодорожным транспортом",url:"https://www.consultant.ru/document/cons_doc_LAW_430073/"},
  tourClaims:{name:"Правила № 551, раздел V: порядок предъявления претензий туроператору",url:"https://www.consultant.ru/document/cons_doc_LAW_534242/2ce866c6e67b1cb1e2ec5c60a42f1275113451aa/"},
@@ -86,6 +94,11 @@ const categories={
  "navyazannye-usloviya":["forcedExtras","ads"]
 };
 const specialDoc={
+ "pretenziya-spisanie-posle-otkaza":["subscription2026","subscription"],
+ "zayavlenie-rastorzhenie-svyaz":["telematicRules","communication"],
+ "zayavlenie-otkaz-obuchenie":["education2026","serviceExit"],
+ "pretenziya-dostavka-edy":["diningRules","serviceQuality"],
+
  "pretenziya-zaderzhka-avia":["air","aviaReturn"],
  "zayavlenie-vozvrat-avia":["aviaReturn","air"],
  "pretenziya-otmena-broni":["hotel","serviceExit"],
@@ -396,7 +409,7 @@ export const CASE_LEGAL_REFERENCES={
  "internet-magaziny-5":["trade2026","remote","constitutional7"],
  "transport-4":["air","aviaReturn"],
  "transport-5":["aviaReturn","air"],
- "transport-6":["bus2026","carriage"],
+ "transport-6":["bus2026","busCharter"],
  "transport-7":["rail2026","carriage"],
  "turizm-gostinicy-4":["tourClaims","tour2026"],
  "turizm-gostinicy-5":["tour2026","tourClaims","travel"],
@@ -405,6 +418,17 @@ export const CASE_LEGAL_REFERENCES={
  "remont-stroitelstvo-5":["serviceQuality","serviceLate"],
  "avtomobili-4":["autoService","damagedProperty","serviceQuality"],
  "avtomobili-5":["autoService","serviceLate"],
+ "podpiski-cifrovye-4":["subscription2026","subscription"],
+ "podpiski-cifrovye-5":["subscription2026","serviceExit"],
+ "svyaz-internet-4":["telematicRules","dataRules","communication"],
+ "svyaz-internet-5":["telematicRules","communication"],
+ "obrazovanie-4":["education2026","education","serviceLate"],
+ "obrazovanie-5":["education2026","education","serviceExit"],
+ "obrazovanie-6":["education2026","education","serviceQuality"],
+ "produkty-pitanie-4":["diningRules","serviceQuality"],
+ "produkty-pitanie-5":["diningRules","serviceQuality"],
+ "produkty-pitanie-6":["diningSan2026","diningRules"],
+ "produkty-pitanie-7":["diningRules","serviceExit","serviceLate"],
 };
 export function validateLegalReferenceMatrix(topics,documents){
  const missing=[...topics.filter(x=>!categories[x]),...documents.filter(x=>!specialDoc[x])];
@@ -430,7 +454,7 @@ export function getLegalAudit(topic,docSlug,claimType,situationSlug){
  return {
   links:unique.map(k=>STATUTES[k]),
   risk:specialRisks[topic],
-  reviewDate:situationSlug && ["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5","transport-4","transport-5","transport-6","transport-7","turizm-gostinicy-4","turizm-gostinicy-5","turizm-gostinicy-6","remont-stroitelstvo-4","remont-stroitelstvo-5","avtomobili-4","avtomobili-5"].includes(situationSlug)?"2026-11-09":topic==="zhkh"?"2026-11-08":"2026-11-02",
+  reviewDate:situationSlug && ["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5","transport-4","transport-5","transport-6","transport-7","turizm-gostinicy-4","turizm-gostinicy-5","turizm-gostinicy-6","remont-stroitelstvo-4","remont-stroitelstvo-5","avtomobili-4","avtomobili-5","podpiski-cifrovye-4","podpiski-cifrovye-5","svyaz-internet-4","svyaz-internet-5","obrazovanie-4","obrazovanie-5","obrazovanie-6","produkty-pitanie-4","produkty-pitanie-5","produkty-pitanie-6","produkty-pitanie-7"].includes(situationSlug)?"2026-11-09":topic==="zhkh"?"2026-11-08":"2026-11-02",
   eligibilityRequired:true,
   sources:[STATUTES[unique[0]],STATUTES[unique[1]]].filter(Boolean)
  };
