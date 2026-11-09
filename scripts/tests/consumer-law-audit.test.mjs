@@ -4,7 +4,7 @@ import {STATUTES,CASE_LEGAL_REFERENCES,getLegalAudit,validateLegalReferenceMatri
 import topics from "../../src/data/topics.json" with {type:"json"};
 import documents from "../../src/data/documents.json" with {type:"json"};
 import situations from "../../src/data/situations.json" with {type:"json"};
-test("all 20 domains and all 34 document drafts have legal reference coverage",()=>{
+test("all 20 domains and all 38 document drafts have legal reference coverage",()=>{
  assert.equal(validateLegalReferenceMatrix(topics.map(x=>x.slug),documents.map(x=>x.slug)),true);
 });
 test("every situation/document choice has multiple legal links and caveats",()=>{
@@ -19,8 +19,8 @@ test("every situation/document choice has multiple legal links and caveats",()=>
   assert.equal(r.eligibilityRequired,true);
   checked++;
  }
- assert.equal(situations.length,68);
- assert.equal(Object.keys(CASE_LEGAL_REFERENCES).length,68);
+ assert.equal(situations.length,79);
+ assert.equal(Object.keys(CASE_LEGAL_REFERENCES).length,79);
  assert.ok(situations.every(x=>Array.isArray(CASE_LEGAL_REFERENCES[x.slug])));
  assert.ok(checked>=80,"Expected a selection of document choices in 60 routes");
 });
@@ -33,7 +33,7 @@ test("Plenum is only required automatically on court draft",()=>{
 });
 
 test("2026 trade, platform, tour changes and specialized documents",()=>{
- assert.equal(documents.length,34);
+ assert.equal(documents.length,38);
  const docs=new Set(documents.map(x=>x.slug));
  assert.ok(docs.has("pretenziya-strahovshchiku"));
  assert.ok(docs.has("pretenziya-dvoynoe-spisanie"));
@@ -55,4 +55,9 @@ test("expanded housing paths use their own procedural documents and sources",()=
  assert.ok(c.links.some(l=>l.url.includes("cons_doc_LAW_51057")));
  assert.equal(byDoc.get("zhaloba-gzhi").claimType,"state_notification");
  assert.equal(byDoc.get("obrashchenie-kapremont").claimType,"pretrial_claim");
+});
+
+test("2026 finance medical and platform expansion is backed by official sources",()=>{
+ const ids=["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5"];
+ for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
 });

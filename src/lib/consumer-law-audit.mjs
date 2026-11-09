@@ -2,6 +2,10 @@
 // (ConsultantPlus) and primary regulators / Supreme Court (see docs/AUDIT...).
 // This is a reference index, not a promise that every provision applies.
 export const STATUTES={
+ loan2026:{name:"Банк России: кредит и дополнительные услуги — порядок отказа",url:"https://www.cbr.ru/faq/bank_s/kredity/"},
+ bankSecurity:{name:"Банк России: несанкционированные операции, защита денег",url:"https://www.cbr.ru/faq/information_security/"},
+ med2026:{name:"Правила платных медицинских услуг № 659, действуют с 01.09.2026",url:"https://www.consultant.ru/document/cons_doc_LAW_535622/"},
+ medRights:{name:"Закон № 323-ФЗ об основах охраны здоровья",url:"https://www.consultant.ru/document/cons_doc_LAW_121895/"},
  trade2026:{name:"Правила розничной и дистанционной торговли № 657 (действуют с 01.09.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_535649/"},
  platform2026:{name:"Закон № 289-ФЗ о платформенной экономике (с 01.10.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_511088/"},
  tour2026:{name:"Правила реализации туристского продукта № 551 (с 01.09.2026)",url:"https://www.consultant.ru/document/cons_doc_LAW_534242/"},
@@ -76,6 +80,11 @@ const categories={
  "navyazannye-usloviya":["forcedExtras","ads"]
 };
 const specialDoc={
+ "zayavlenie-otkaz-dopuslug-kredit":["loan2026","forcedExtras"],
+ "pretenziya-kreditnye-komissii":["loan2026","banking"],
+ "trebovanie-vozvrat-meduslugi":["med2026","serviceLate"],
+ "zapros-prodavca-marketpleys":["platform2026","trade2026"],
+
  "pretensiya-vozvrat":["goods","claims"],
  "pretensiya-obmen":["trade2026","exchange"],
  "pretensiya-remont":["goods","repair"],
@@ -361,8 +370,19 @@ export const CASE_LEGAL_REFERENCES={
   "zhkh-8": ["housingCommon", "housingControl"],
   "zhkh-9": ["housingManagement", "housingControl"],
   "zhkh-10": ["housingQuality", "housingReduction"],
-  "zhkh-11": ["housingWaste", "housingQuality", "housingReduction"]
+  "zhkh-11": ["housingWaste", "housingQuality", "housingReduction"],
 
+ "banki-strahovanie-4":["bankSecurity","banking"],
+ "banki-strahovanie-5":["loan2026","forcedExtras"],
+ "banki-strahovanie-6":["loan2026","banking"],
+ "banki-strahovanie-7":["insuranceClaim","loan2026"],
+ "medicina-4":["med2026","medRights","serviceQuality"],
+ "medicina-5":["med2026","medRights","forcedExtras"],
+ "medicina-6":["med2026","serviceLate"],
+ "marketpleysy-4":["platform2026","trade2026","goods"],
+ "marketpleysy-5":["platform2026","prepaid","remote"],
+ "internet-magaziny-4":["trade2026","remote"],
+ "internet-magaziny-5":["trade2026","remote","constitutional7"],
 };
 export function validateLegalReferenceMatrix(topics,documents){
  const missing=[...topics.filter(x=>!categories[x]),...documents.filter(x=>!specialDoc[x])];
@@ -388,7 +408,7 @@ export function getLegalAudit(topic,docSlug,claimType,situationSlug){
  return {
   links:unique.map(k=>STATUTES[k]),
   risk:specialRisks[topic],
-  reviewDate:topic==="zhkh"?"2026-11-08":"2026-11-02",
+  reviewDate:situationSlug && ["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5"].includes(situationSlug)?"2026-11-09":topic==="zhkh"?"2026-11-08":"2026-11-02",
   eligibilityRequired:true,
   sources:[STATUTES[unique[0]],STATUTES[unique[1]]].filter(Boolean)
  };
