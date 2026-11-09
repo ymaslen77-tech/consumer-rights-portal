@@ -149,3 +149,25 @@
 - `marketpleysy-5` — первый генератор `pretenziya-marketpleys`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_511088/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)
 - `internet-magaziny-4` — первый генератор `zapros-prodavca-marketpleys`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_535649/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)
 - `internet-magaziny-5` — первый генератор `pretensiya-distanciya`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_535649/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)
+
+
+## Дополнение — отраслевые блоки №5–7, 9 ноября 2026
+
+Не переносите нормы одного вида перевозки на другой и не подменяйте турпродукт гостиничной услугой, ремонт автомобиля — строительным подрядом. Все новые маршруты требуют фактической проверки.
+
+### 5. Транспорт и перевозки
+- `transport-4` — генератор `pretenziya-zaderzhka-avia`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/)
+- `transport-5` — генератор `zayavlenie-vozvrat-avia`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/)
+- `transport-6` — генератор `pretenziya-perevozchik`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_535865/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_40444/)
+- `transport-7` — генератор `pretenziya-perevozchik`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_430073/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_40444/)
+
+### 6. Туризм и гостиницы
+- `turizm-gostinicy-4` — генератор `pretenziya-turprodukt`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_534242/2ce866c6e67b1cb1e2ec5c60a42f1275113451aa/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_12462/)
+- `turizm-gostinicy-5` — генератор `pretenziya-turprodukt`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_534242/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_534242/2ce866c6e67b1cb1e2ec5c60a42f1275113451aa/)
+- `turizm-gostinicy-6` — генератор `pretenziya-otmena-broni`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_520177/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_12462/)
+
+### 7. Ремонт, строительство и автосервисы
+- `remont-stroitelstvo-4` — генератор `pretensiya-usluga`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/41fd88c62c89ddba445ff85149b17a63b9679810/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/f190d8f6c0d4f03af399cc0efcc722d87a0f83a6/)
+- `remont-stroitelstvo-5` — генератор `zapros-dokumentov`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/f190d8f6c0d4f03af399cc0efcc722d87a0f83a6/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/41fd88c62c89ddba445ff85149b17a63b9679810/)
+- `avtomobili-4` — генератор `pretenziya-ushcherb-avtoservis`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_506689/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/45c7ccb991b26b835bafa26beb226e4658dea317/)
+- `avtomobili-5` — генератор `pretensiya-usluga`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_506689/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_305/f190d8f6c0d4f03af399cc0efcc722d87a0f83a6/)

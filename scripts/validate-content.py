@@ -15,14 +15,14 @@ assert len(topics)==20, len(topics)
 assert len(cases)>=60, len(cases)
 assert len(institutions)>=8
 assert len(read('moscow-district-offices.json'))==12
-assert len(docs)>=38
+assert len(docs)>=42
 known_topics={x['slug'] for x in topics}
 known_cases={x['slug'] for x in cases}
 known_docs={x['slug'] for x in docs}
 assert all(x['topic'] in known_topics for x in cases)
 assert all(x['relatedTopics'] and all(k in known_topics for k in x['relatedTopics']) for x in cases)
 assert all(all(k in known_docs for k in x['documents']) for x in cases)
-assert len(cases)==79 and all(1<=len(s['documents'])<=5 for s in cases)
+assert len(cases)==90 and all(1<=len(s['documents'])<=5 for s in cases)
 assert (ROOT/'src/components/SituationDocumentWizard.tsx').exists(), 'All situation pages must embed a generator'
 assert 'SituationDocumentWizard' in (ROOT/'src/app/razbor/[slug]/page.tsx').read_text(encoding='utf8')
 assert (ROOT/'src/lib/consumer-law-audit.mjs').exists()
@@ -40,6 +40,10 @@ required_primary={
     'zhkh-10':'zayavlenie-proverka-kachestva-zhkh',
     'zhkh-11':'zayavlenie-proverka-kachestva-zhkh',
     'banki-strahovanie-5':'zayavlenie-otkaz-dopuslug-kredit',
+    'transport-4':'pretenziya-zaderzhka-avia',
+    'transport-5':'zayavlenie-vozvrat-avia',
+    'turizm-gostinicy-6':'pretenziya-otmena-broni',
+    'avtomobili-4':'pretenziya-ushcherb-avtoservis',
     'banki-strahovanie-6':'pretenziya-kreditnye-komissii',
     'medicina-6':'trebovanie-vozvrat-meduslugi',
     'internet-magaziny-4':'zapros-prodavca-marketpleys',

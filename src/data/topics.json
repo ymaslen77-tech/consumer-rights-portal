@@ -80,7 +80,9 @@
     "situationSlugs": [
       "avtomobili-1",
       "avtomobili-2",
-      "avtomobili-3"
+      "avtomobili-3",
+      "avtomobili-4",
+      "avtomobili-5"
     ]
   },
   {
@@ -100,7 +102,9 @@
     "situationSlugs": [
       "remont-stroitelstvo-1",
       "remont-stroitelstvo-2",
-      "remont-stroitelstvo-3"
+      "remont-stroitelstvo-3",
+      "remont-stroitelstvo-4",
+      "remont-stroitelstvo-5"
     ]
   },
   {
@@ -151,7 +155,10 @@
     "situationSlugs": [
       "turizm-gostinicy-1",
       "turizm-gostinicy-2",
-      "turizm-gostinicy-3"
+      "turizm-gostinicy-3",
+      "turizm-gostinicy-4",
+      "turizm-gostinicy-5",
+      "turizm-gostinicy-6"
     ]
   },
   {
@@ -161,7 +168,11 @@
     "situationSlugs": [
       "transport-1",
       "transport-2",
-      "transport-3"
+      "transport-3",
+      "transport-4",
+      "transport-5",
+      "transport-6",
+      "transport-7"
     ]
   },
   {
