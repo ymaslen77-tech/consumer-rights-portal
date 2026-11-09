@@ -25,7 +25,7 @@ function sanity(bytes,docname){
  assert.match(raw,/Тестов Иван Иванович/,docname);
  assert.match(raw,/ПРАВОВЫЕ ОСНОВАНИЯ/,docname);
 }
-test("all 79 situation routes generate legally referenced DOCX and text",()=>{
+test("all 90 situation routes generate legally referenced DOCX and text",()=>{
  const docs=new Map(documents.map(d=>[d.slug,d]));
  let count=0;
  for(const situation of situations){
@@ -50,11 +50,11 @@ test("all 79 situation routes generate legally referenced DOCX and text",()=>{
    count++;
   }
  }
- assert.equal(situations.length,79);
+ assert.equal(situations.length,90);
  assert.ok(count>=80,"Expected 80+ distinct case-document combinations; got "+count);
  console.log("ALL_LEGAL_GENERATORS_TESTED",count,"documents in",situations.length,"situations");
 });
-test("all 38 standalone documents can generate an editable Word file",()=>{
+test("all 42 standalone documents can generate an editable Word file",()=>{
  let count=0;
  for(const d of documents){
   const links =d.claimType==="court_document"?
@@ -71,7 +71,7 @@ test("all 38 standalone documents can generate an editable Word file",()=>{
   }
   sanity(makeDocx(text),d.slug);count++;
  }
- assert.equal(count,38);
+ assert.equal(count,42);
  console.log("STANDALONE_DOCUMENT_TEMPLATES_TESTED",count);
 });
 test("invalid amount and missing parties are blocked before export",()=>{

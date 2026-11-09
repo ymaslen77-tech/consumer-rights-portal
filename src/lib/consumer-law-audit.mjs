@@ -2,6 +2,12 @@
 // (ConsultantPlus) and primary regulators / Supreme Court (see docs/AUDIT...).
 // This is a reference index, not a promise that every provision applies.
 export const STATUTES={
+ aviaReturn:{name:"Воздушный кодекс РФ, статья 108: основания возврата при отказе от перевозки",url:"https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/"},
+ bus2026:{name:"Приказ Минтранса № 161: автомобильные пассажирские перевозки с 01.09.2026",url:"https://www.consultant.ru/document/cons_doc_LAW_535865/"},
+ rail2026:{name:"Приказ Минтранса № 352: перевозки железнодорожным транспортом",url:"https://www.consultant.ru/document/cons_doc_LAW_430073/"},
+ tourClaims:{name:"Правила № 551, раздел V: порядок предъявления претензий туроператору",url:"https://www.consultant.ru/document/cons_doc_LAW_534242/2ce866c6e67b1cb1e2ec5c60a42f1275113451aa/"},
+ autoService:{name:"Правила техобслуживания и ремонта автомототранспортных средств № 780",url:"https://www.consultant.ru/document/cons_doc_LAW_506689/"},
+
  loan2026:{name:"Банк России: кредит и дополнительные услуги — порядок отказа",url:"https://www.cbr.ru/faq/bank_s/kredity/"},
  bankSecurity:{name:"Банк России: несанкционированные операции, защита денег",url:"https://www.cbr.ru/faq/information_security/"},
  med2026:{name:"Правила платных медицинских услуг № 659, действуют с 01.09.2026",url:"https://www.consultant.ru/document/cons_doc_LAW_535622/"},
@@ -80,6 +86,11 @@ const categories={
  "navyazannye-usloviya":["forcedExtras","ads"]
 };
 const specialDoc={
+ "pretenziya-zaderzhka-avia":["air","aviaReturn"],
+ "zayavlenie-vozvrat-avia":["aviaReturn","air"],
+ "pretenziya-otmena-broni":["hotel","serviceExit"],
+ "pretenziya-ushcherb-avtoservis":["autoService","damagedProperty"],
+
  "zayavlenie-otkaz-dopuslug-kredit":["loan2026","forcedExtras"],
  "pretenziya-kreditnye-komissii":["loan2026","banking"],
  "trebovanie-vozvrat-meduslugi":["med2026","serviceLate"],
@@ -383,6 +394,17 @@ export const CASE_LEGAL_REFERENCES={
  "marketpleysy-5":["platform2026","prepaid","remote"],
  "internet-magaziny-4":["trade2026","remote"],
  "internet-magaziny-5":["trade2026","remote","constitutional7"],
+ "transport-4":["air","aviaReturn"],
+ "transport-5":["aviaReturn","air"],
+ "transport-6":["bus2026","carriage"],
+ "transport-7":["rail2026","carriage"],
+ "turizm-gostinicy-4":["tourClaims","tour2026"],
+ "turizm-gostinicy-5":["tour2026","tourClaims","travel"],
+ "turizm-gostinicy-6":["hotel","serviceExit"],
+ "remont-stroitelstvo-4":["serviceQuality","serviceLate"],
+ "remont-stroitelstvo-5":["serviceQuality","serviceLate"],
+ "avtomobili-4":["autoService","damagedProperty","serviceQuality"],
+ "avtomobili-5":["autoService","serviceLate"],
 };
 export function validateLegalReferenceMatrix(topics,documents){
  const missing=[...topics.filter(x=>!categories[x]),...documents.filter(x=>!specialDoc[x])];
@@ -408,7 +430,7 @@ export function getLegalAudit(topic,docSlug,claimType,situationSlug){
  return {
   links:unique.map(k=>STATUTES[k]),
   risk:specialRisks[topic],
-  reviewDate:situationSlug && ["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5"].includes(situationSlug)?"2026-11-09":topic==="zhkh"?"2026-11-08":"2026-11-02",
+  reviewDate:situationSlug && ["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5","transport-4","transport-5","transport-6","transport-7","turizm-gostinicy-4","turizm-gostinicy-5","turizm-gostinicy-6","remont-stroitelstvo-4","remont-stroitelstvo-5","avtomobili-4","avtomobili-5"].includes(situationSlug)?"2026-11-09":topic==="zhkh"?"2026-11-08":"2026-11-02",
   eligibilityRequired:true,
   sources:[STATUTES[unique[0]],STATUTES[unique[1]]].filter(Boolean)
  };
