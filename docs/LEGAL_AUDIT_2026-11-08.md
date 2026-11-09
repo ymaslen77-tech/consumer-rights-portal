@@ -126,3 +126,26 @@
 Специализированные документы: `zayavlenie-proverka-kachestva-zhkh`, `zayavlenie-akt-ushcherba-zhkh`, `trebovanie-remont-obshchego-imushchestva`, `zhaloba-gzhi`, `obrashchenie-kapremont`, `trebovanie-pereraschet-soderzhanie-zhkh`.
 
 Официальные нормативные основания: [Правила № 354 (качество и перерасчёт)](https://www.consultant.ru/document/cons_doc_LAW_114247/1dc2ccc34653658a6d4ab1c18f42c5cf0ab5b46a/), [Правила № 491 (общее имущество)](https://www.consultant.ru/document/cons_doc_LAW_62293/), [Правила № 416 (управление МКД)](https://www.consultant.ru/document/cons_doc_LAW_146444/0259cf92401281eca352f1765c4939bbd8a07d6e/), [ЖК РФ, статья 189 (капремонт)](https://www.consultant.ru/document/cons_doc_LAW_51057/5e32509a22a65680e91e1829b690fb372b0dc61a/). В зависимости от способа управления домом и договора полномочия управляющей организации, РСО, регионального оператора капитального ремонта и жилищной инспекции различаются.
+
+
+## Дополнение — отраслевые блоки №2–4, 9 ноября 2026
+
+Ниже зафиксированы новые маршруты и ссылки. Проверка действующей отраслевой базы не означает индивидуальной экспертизы каждого договора и документа.
+
+### 2. Банки и страхование
+
+- `banki-strahovanie-4` — первый генератор `pretenziya-operatsiya-banka`; источники: [норма](https://www.cbr.ru/faq/information_security/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_115625/)
+- `banki-strahovanie-5` — первый генератор `zayavlenie-otkaz-dopuslug-kredit`; источники: [норма](https://www.cbr.ru/faq/bank_s/kredity/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)
+- `banki-strahovanie-6` — первый генератор `pretenziya-kreditnye-komissii`; источники: [норма](https://www.cbr.ru/faq/bank_s/kredity/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)
+- `banki-strahovanie-7` — первый генератор `pretenziya-strahovshchiku`; источники: [норма](https://www.cbr.ru/faq/insh/) · [норма](https://www.cbr.ru/faq/bank_s/kredity/)
+### 3. Медицинские услуги
+
+- `medicina-4` — первый генератор `zapros-medicinskie-dokumenty`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_535622/) · [норма](https://zpp.rospotrebnadzor.ru/news/federal/574245)
+- `medicina-5` — первый генератор `zapros-medicinskie-dokumenty`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_535622/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_121895/)
+- `medicina-6` — первый генератор `trebovanie-vozvrat-meduslugi`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_535622/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)
+### 4. Маркетплейсы и интернет-торговля
+
+- `marketpleysy-4` — первый генератор `pretenziya-marketpleys`; источники: [норма](https://zpp.rospotrebnadzor.ru/news/federal/594052) · [норма](https://www.consultant.ru/document/cons_doc_LAW_535649/)
+- `marketpleysy-5` — первый генератор `pretenziya-marketpleys`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_511088/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)
+- `internet-magaziny-4` — первый генератор `zapros-prodavca-marketpleys`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_535649/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)
+- `internet-magaziny-5` — первый генератор `pretensiya-distanciya`; источники: [норма](https://www.consultant.ru/document/cons_doc_LAW_535649/) · [норма](https://www.consultant.ru/document/cons_doc_LAW_305/)

@@ -26,7 +26,9 @@
     "situationSlugs": [
       "internet-magaziny-1",
       "internet-magaziny-2",
-      "internet-magaziny-3"
+      "internet-magaziny-3",
+      "internet-magaziny-4",
+      "internet-magaziny-5"
     ]
   },
   {
@@ -36,7 +38,9 @@
     "situationSlugs": [
       "marketpleysy-1",
       "marketpleysy-2",
-      "marketpleysy-3"
+      "marketpleysy-3",
+      "marketpleysy-4",
+      "marketpleysy-5"
     ]
   },
   {
@@ -124,7 +128,10 @@
     "situationSlugs": [
       "medicina-1",
       "medicina-2",
-      "medicina-3"
+      "medicina-3",
+      "medicina-4",
+      "medicina-5",
+      "medicina-6"
     ]
   },
   {
@@ -164,7 +171,11 @@
     "situationSlugs": [
       "banki-strahovanie-1",
       "banki-strahovanie-2",
-      "banki-strahovanie-3"
+      "banki-strahovanie-3",
+      "banki-strahovanie-4",
+      "banki-strahovanie-5",
+      "banki-strahovanie-6",
+      "banki-strahovanie-7"
     ]
   },
   {
