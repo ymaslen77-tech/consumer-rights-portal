@@ -158,7 +158,7 @@
 ### 5. Транспорт и перевозки
 - `transport-4` — генератор `pretenziya-zaderzhka-avia`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/)
 - `transport-5` — генератор `zayavlenie-vozvrat-avia`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_13744/)
-- `transport-6` — генератор `pretenziya-perevozchik`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_535865/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_40444/)
+- `transport-6` — генератор `pretenziya-perevozchik`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_535865/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_72388/)
 - `transport-7` — генератор `pretenziya-perevozchik`; [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_430073/) · [текст нормы](https://www.consultant.ru/document/cons_doc_LAW_40444/)
 
 ### 6. Туризм и гостиницы

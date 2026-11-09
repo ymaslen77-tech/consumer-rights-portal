@@ -10,6 +10,7 @@ export const STATUTES={
  diningSan2026:{name:"Роспотребнадзор: санитарные правила общепита СанПиН 2.3/2.4.4282-26 с 01.09.2026",url:"https://zpp.rospotrebnadzor.ru/news/federal/593840"},
 
  aviaReturn:{name:"Воздушный кодекс РФ, статья 108: основания возврата при отказе от перевозки",url:"https://www.consultant.ru/document/cons_doc_LAW_13744/626c05522716c9a89b8d27e4a3d2ae0e9eeaeda6/"},
+ busCharter:{name:"Федеральный закон № 259-ФЗ — Устав автомобильного транспорта",url:"https://www.consultant.ru/document/cons_doc_LAW_72388/"},
  bus2026:{name:"Приказ Минтранса № 161: автомобильные пассажирские перевозки с 01.09.2026",url:"https://www.consultant.ru/document/cons_doc_LAW_535865/"},
  rail2026:{name:"Приказ Минтранса № 352: перевозки железнодорожным транспортом",url:"https://www.consultant.ru/document/cons_doc_LAW_430073/"},
  tourClaims:{name:"Правила № 551, раздел V: порядок предъявления претензий туроператору",url:"https://www.consultant.ru/document/cons_doc_LAW_534242/2ce866c6e67b1cb1e2ec5c60a42f1275113451aa/"},
@@ -408,7 +409,7 @@ export const CASE_LEGAL_REFERENCES={
  "internet-magaziny-5":["trade2026","remote","constitutional7"],
  "transport-4":["air","aviaReturn"],
  "transport-5":["aviaReturn","air"],
- "transport-6":["bus2026","carriage"],
+ "transport-6":["bus2026","busCharter"],
  "transport-7":["rail2026","carriage"],
  "turizm-gostinicy-4":["tourClaims","tour2026"],
  "turizm-gostinicy-5":["tour2026","tourClaims","travel"],

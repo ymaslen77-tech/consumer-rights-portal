@@ -73,3 +73,11 @@ test("2026 subscription, telecom, education and food regulation guardrails",()=>
  for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
  for(const slug of ["pretenziya-spisanie-posle-otkaza","zayavlenie-rastorzhenie-svyaz","zayavlenie-otkaz-obuchenie","pretenziya-dostavka-edy"])assert.ok(documents.some(x=>x.slug===slug),slug);
 });
+
+test("bus route cites the motor transport charter instead of railway act",()=>{
+ const route=situations.find(x=>x.slug==="transport-6");
+ assert.ok(route.sources.some(x=>x.includes("cons_doc_LAW_72388")));
+ assert.ok(route.sources.every(x=>!x.includes("cons_doc_LAW_40444")));
+ const audit=getLegalAudit("transport","pretenziya-perevozchik","pretrial_claim","transport-6");
+ assert.ok(audit.links.some(x=>x.url.includes("cons_doc_LAW_72388")));
+});
