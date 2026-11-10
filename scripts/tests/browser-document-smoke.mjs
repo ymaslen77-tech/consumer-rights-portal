@@ -102,7 +102,7 @@ try{
  })()`;
  assert.equal(await client.evaluate(setForm),true);
  await until(()=>client.evaluate('document.querySelector(".builderpreview pre")?.textContent?.includes("Тестовый Клиент")'),"preview updates");
- assert.ok(await client.evaluate('document.querySelector(".builderpreview pre")?.textContent?.includes("Закон РФ № 2300-1")'));
+ assert.ok(await client.evaluate('(()=>{const draft=document.querySelector(".builderpreview pre")?.textContent||"";return draft.includes("2300-1")&&draft.includes("статьи 18 и 22");})()'));
  assert.ok(await client.evaluate('!document.querySelector(".builderpreview pre")?.textContent?.includes("НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ")'));
  assert.ok(await client.evaluate('!document.querySelector(".builderpreview pre")?.textContent?.includes("ПРОЕКТ ДОКУМЕНТА")'));
  await client.evaluate('document.querySelector(".document-actions button").click()');
@@ -149,7 +149,7 @@ try{
  })()`),"specific TKO recipient and legal basis");
  console.log("BROWSER_TKO_CLAIM_LEGAL_GROUNDS_OK");
 }catch(error){
- console.error("CHROME_STARTUP_DIAGNOSTICS",binary,"exit",chrome.exitCode,"stderr:",chromeErrors.slice(-1500));
+ console.error("BROWSER_TEST_DIAGNOSTICS",binary,"exit",chrome.exitCode,"stderr:",chromeErrors.slice(-1500));
  throw error;
 }finally{
  client?.close();chrome.kill("SIGKILL");
