@@ -239,5 +239,16 @@
       "navyazannye-usloviya-2",
       "navyazannye-usloviya-3"
     ]
+  },
+  {
+    "slug": "kulturnye-meropriyatiya",
+    "title": "Билеты и культурные мероприятия",
+    "description": "Возврат билетов на концерты, спектакли и мероприятия музеев",
+    "situationSlugs": [
+      "kulturnye-meropriyatiya-1",
+      "kulturnye-meropriyatiya-2",
+      "kulturnye-meropriyatiya-3",
+      "kulturnye-meropriyatiya-4"
+    ]
   }
 ]
