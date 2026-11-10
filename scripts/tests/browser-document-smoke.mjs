@@ -123,6 +123,21 @@ try{
  assert.equal(await client.evaluate('Boolean(document.querySelector(".lawyer-review-request button"))'),true);
  assert.equal(await client.evaluate('Boolean(document.querySelector(".consultation-widget button"))'),true);
  console.log("BROWSER_MULTI_DOCUMENT_SELECTOR_OK");
+ // Regression against the previously visible erroneous ЖКХ seller label and
+ // the replacement of legal grounds with reference-link titles.
+ await client.send("Page.navigate",{url:origin+"/razbor/zhkh-11"});
+ await until(()=>client.evaluate(`(()=>{
+  const form=document.querySelector(".builderform");
+  const content=form?.textContent||"";
+  const documentText=document.querySelector(".builderpreview pre")?.textContent||"";
+  return Boolean(form)
+   && content.includes("Исполнитель услуги по обращению с ТКО")
+   && !content.includes("Продавец, исполнитель или иное обязанное лицо")
+   && documentText.includes("Жилищный кодекс РФ, статья 157")
+   && documentText.includes("148(49)")
+   && !documentText.includes("НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ");
+ })()`),"specific TKO recipient and legal basis");
+ console.log("BROWSER_TKO_CLAIM_LEGAL_GROUNDS_OK");
 }finally{
  client?.close();chrome.kill("SIGKILL");
  rmSync(home,{recursive:true,force:true});rmSync(downloads,{recursive:true,force:true});
