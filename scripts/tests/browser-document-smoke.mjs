@@ -71,7 +71,7 @@ try{
  debuggingPort=await until(()=>{
   if(chrome.exitCode!==null)throw new Error("Chrome exited "+chrome.exitCode+": "+chromeErrors);
   try{
-   const n=Number(readFileSync(join(home,"DevToolsActivePort"),"utf8").split("\\n")[0]);
+   const n=Number(readFileSync(join(home,"DevToolsActivePort"),"utf8").split(String.fromCharCode(10))[0]);
    return Number.isInteger(n)&&n>0?n:false;
   }catch{return false;}
  },"Chrome published dynamic DevTools port",120);
