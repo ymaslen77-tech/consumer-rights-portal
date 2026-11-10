@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {makeDocx} from "../../src/lib/office-export.mjs";
-import {draftText,validateDraft} from "../../src/lib/document-compose.mjs";
+import {draftText,validateDraft,getDocumentLegalGrounds,getRecipientPrompt} from "../../src/lib/document-compose.mjs";
 import {getLegalAudit,STATUTES} from "../../src/lib/consumer-law-audit.mjs";
 import topics from "../../src/data/topics.json" with {type:"json"};
 import situations from "../../src/data/situations.json" with {type:"json"};
@@ -36,12 +36,13 @@ test("all 101 situation routes generate legally referenced DOCX and text",()=>{
    const lawLinks=audit.links.map(x=>({title:x.name,url:x.url}));
    const body=draftText(sample,{
     title:d.title,claimType:d.claimType,contextTitle:situation.title,
-    legalBasis:lawLinks.map(x=>x.title).join("; "),
+    legalBasis:getDocumentLegalGrounds(d.legalBasis,situation.slug,d.slug),
     legalRisk:audit.risk,legalLinks:lawLinks
    });
    assert.doesNotMatch(body,/ПРОЕКТ ДОКУМЕНТА/);
    assert.doesNotMatch(body,/ОСОБЫЕ УСЛОВИЯ ПРИМЕНЕНИЯ НОРМ/);
    assert.match(body,/ПРАВОВЫЕ ОСНОВАНИЯ/);
+   assert.ok(body.includes(getDocumentLegalGrounds(d.legalBasis,situation.slug,d.slug)),situation.slug+"/"+slug+" missing documented legal grounds");
    assert.ok(body.includes(situation.title),situation.slug);
    assert.ok(lawLinks.every(ref=>!body.includes(ref.url)),slug);
    assert.deepEqual(validateDraft(sample,d.claimType),[]);
@@ -61,11 +62,11 @@ test("all 46 standalone documents can generate an editable Word file",()=>{
    [STATUTES.courtForm,STATUTES.plenum17,STATUTES.courtPenalty,STATUTES.statute2026]:
    d.claimType==="state_notification"?[STATUTES.regulator,STATUTES.overview]:
    [STATUTES.overview,STATUTES.statute2026];
-  const text=draftText(sample,{title:d.title,claimType:d.claimType,legalBasis:d.legalBasis,
+  const text=draftText(sample,{title:d.title,claimType:d.claimType,legalBasis:getDocumentLegalGrounds(d.legalBasis),
    legalLinks:links.map(x=>({title:x.name,url:x.url}))});
   assert.ok(links.every(x=>!text.includes(x.url)),d.slug);
   if(d.claimType==="court_document"){
-   assert.match(text,/ГПК РФ/);
+   assert.match(text,/ГПК РФ|Гражданский процессуальный кодекс РФ/);
    assert.match(text,/Ответчик:/);
    assert.match(text,/Доказательство направления копий иска/);
   }
@@ -78,4 +79,20 @@ test("invalid amount and missing parties are blocked before export",()=>{
  assert.ok(validateDraft({...sample,recipient:""},"pretrial_claim").includes("recipient"));
  assert.ok(validateDraft({...sample,claimAmount:"2+2"},"pretrial_claim").includes("claimAmount"));
  assert.ok(validateDraft({...sample,counterpartyAddress:""},"court_document").includes("counterpartyAddress"));
+});
+
+test("46 legal templates identify their own recipient and legislation",()=>{
+ const docs=new Map(documents.map(d=>[d.slug,d]));
+ assert.equal(docs.size,46);
+ for(const d of docs.values()){
+  assert.ok(d.recipient.trim().length>3,d.slug+" recipient missing");
+  assert.ok(d.legalBasis.trim().length>=55,d.slug+" legal grounds are too vague");
+  assert.match(d.legalBasis,/Закон|закон|кодекс|Кодекс|ГК РФ|ЖК РФ|ГПК РФ|Правила/,d.slug);
+  assert.ok(d.sourceUrl.startsWith("https://"),d.slug);
+  const label=getRecipientPrompt({slug:d.slug,recipient:d.recipient,claimType:d.claimType});
+  assert.ok(label.label.includes(d.recipient)||["zayavlenie-proverka-kachestva-zhkh","zayavlenie-pereraschet-zhkh","finansovyy-upolnomochennyy-obrashchenie","isk-zpp"].includes(d.slug),d.slug+" recipient not reflected in label");
+ }
+ const tko=getDocumentLegalGrounds(docs.get("zayavlenie-proverka-kachestva-zhkh").legalBasis,"zhkh-11","zayavlenie-proverka-kachestva-zhkh");
+ assert.ok(tko.includes("148(49)"));
+ assert.ok(tko.includes("статья 157"));
 });

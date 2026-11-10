@@ -21,10 +21,13 @@ const chrome=spawn(binary,[
  "--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage",
  "--disable-popup-blocking","--no-first-run","--remote-debugging-port=9223",
  "--user-data-dir="+home,"about:blank"
-],{stdio:"ignore"});
+],{stdio:["ignore","ignore","pipe"]});
+let debuggingPort=null;
+let chromeErrors="";
+chrome.stderr?.on("data",data=>{chromeErrors=(chromeErrors+String(data)).slice(-4000);});
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function chromeJson(path,options){
- const response=await fetch("http://127.0.0.1:9223"+path,options);
+ const response=await fetch("http://127.0.0.1:"+debuggingPort+path,options);
  if(!response.ok)throw new Error("CDP HTTP "+response.status);
  return response.json();
 }
@@ -65,7 +68,8 @@ async function until(callback,label,max=60){
 }
 let client;
 try{
- await until(()=>chromeJson("/json/version"),"Chrome CDP endpoint");
+ debuggingPort=9223;
+ await until(()=>chromeJson("/json/version"),"Chrome CDP endpoint",120);
  const target=await chromeJson("/json/new?about:blank",{method:"PUT"});
  client=new CDP(target.webSocketDebuggerUrl);await client.ready;
  await client.send("Page.enable");
@@ -92,7 +96,7 @@ try{
  })()`;
  assert.equal(await client.evaluate(setForm),true);
  await until(()=>client.evaluate('document.querySelector(".builderpreview pre")?.textContent?.includes("Тестовый Клиент")'),"preview updates");
- assert.ok(await client.evaluate('document.querySelector(".builderpreview pre")?.textContent?.includes("Закон РФ № 2300-1")'));
+ assert.ok(await client.evaluate('(()=>{const draft=document.querySelector(".builderpreview pre")?.textContent||"";return draft.includes("2300-1")&&draft.includes("статьи 18 и 22");})()'));
  assert.ok(await client.evaluate('!document.querySelector(".builderpreview pre")?.textContent?.includes("НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ")'));
  assert.ok(await client.evaluate('!document.querySelector(".builderpreview pre")?.textContent?.includes("ПРОЕКТ ДОКУМЕНТА")'));
  await client.evaluate('document.querySelector(".document-actions button").click()');
@@ -123,7 +127,41 @@ try{
  assert.equal(await client.evaluate('Boolean(document.querySelector(".lawyer-review-request button"))'),true);
  assert.equal(await client.evaluate('Boolean(document.querySelector(".consultation-widget button"))'),true);
  console.log("BROWSER_MULTI_DOCUMENT_SELECTOR_OK");
+ // Regression against the previously visible erroneous ЖКХ seller label and
+ // the replacement of legal grounds with reference-link titles.
+ await client.send("Page.navigate",{url:origin+"/razbor/zhkh-11"});
+ await until(()=>client.evaluate(`(()=>{
+  const form=document.querySelector(".builderform");
+  const content=form?.textContent||"";
+  const documentText=document.querySelector(".builderpreview pre")?.textContent||"";
+  return Boolean(form)
+   && content.includes("Исполнитель услуги по обращению с ТКО")
+   && !content.includes("Продавец, исполнитель или иное обязанное лицо")
+   && documentText.includes("Жилищный кодекс РФ, статья 157")
+   && documentText.includes("148(49)")
+   && !documentText.includes("НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ");
+ })()`),"specific TKO recipient and legal basis");
+ console.log("BROWSER_TKO_CLAIM_LEGAL_GROUNDS_OK");
+}catch(error){
+ console.error("BROWSER_TEST_DIAGNOSTICS",binary,"exit",chrome.exitCode,"stderr:",chromeErrors.slice(-1500));
+ throw error;
 }finally{
- client?.close();chrome.kill("SIGKILL");
- rmSync(home,{recursive:true,force:true});rmSync(downloads,{recursive:true,force:true});
+ client?.close();
+ // Terminate Chromium before deleting its profile. Deleting immediately after
+ // kill() races Chrome's remaining file writes on GitHub-hosted runners.
+ if(chrome.exitCode===null){
+  const exited=new Promise(resolve=>chrome.once("exit",resolve));
+  chrome.kill("SIGKILL");
+  await Promise.race([exited,sleep(2000)]);
+ }
+ // A cleanup issue with an ephemeral test profile must not make an otherwise
+ // successful DOCX/PDF/UI smoke test appear to have failed.
+ for(const folder of [home,downloads]){
+  try{
+   rmSync(folder,{recursive:true,force:true,maxRetries:12,retryDelay:120});
+  }catch(error){
+   if(!["ENOTEMPTY","EBUSY","EPERM"].includes(error?.code))throw error;
+   console.warn("TEMP_CHROMIUM_PROFILE_CLEANUP_DEFERRED",error.code);
+  }
+ }
 }

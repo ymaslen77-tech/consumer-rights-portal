@@ -2,11 +2,11 @@
 import {useMemo, useState} from "react";
 import {makeDocx} from "@/lib/office-export.mjs";
 import {LawyerReviewRequest} from "@/components/LawyerReviewRequest";
-import {draftText,validateDraft,type DraftFields,type ClaimType} from "@/lib/document-compose.mjs";
+import {draftText,validateDraft,getRecipientPrompt,type DraftFields,type ClaimType} from "@/lib/document-compose.mjs";
 
 type Meta={slug:string;title:string;recipient:string;requestHint:string;legalBasis:string;claimType:ClaimType;
  legalLinks?:Array<{title:string;url:string}>; contextTitle?:string; inline?:boolean;
- legalRisk?:string; reviewDate?:string};
+ legalRisk?:string; reviewDate?:string; topicSlug?:string; situationSlug?:string};
 const initial:DraftFields={
  recipient:"",sender:"",address:"",contact:"",agreement:"",eventDate:"",
  description:"",request:"",evidence:"",claimAmount:"",counterpartyName:"",counterpartyAddress:"",
@@ -121,20 +121,18 @@ export function DocumentBuilder(meta:Meta){
    setFeedback("В диалоге печати выберите «Сохранить как PDF». Документ остаётся только в вашем браузере.");
  }
  const options=choices[meta.slug]||[];
- const recipientLabel = meta.claimType==="court_document" ? "Суд (наименование) *" :
-   meta.slug==="finansovyy-upolnomochennyy-obrashchenie" ? "Финансовый уполномоченный *" :
-   meta.claimType==="state_notification" ? "Государственный орган (наименование) *" :
-   "Продавец, исполнитель или иное обязанное лицо *";
- const recipientHint = meta.claimType==="court_document" ? "Например, районный суд по установленной подсудности" :
-   meta.slug==="finansovyy-upolnomochennyy-obrashchenie" ? "Финансовому уполномоченному" :
-   meta.claimType==="state_notification" ? "Например, территориальное управление Роспотребнадзора" :
-   (meta.recipient || "Наименование организации или Ф. И. О. индивидуального предпринимателя");
+ const recipientPrompt=getRecipientPrompt(meta);
+ const isHousing=meta.topicSlug==="zhkh"||/коммун|управляющ|жилищн|капремонт/iu.test(meta.recipient);
+ const agreementLabel=isHousing?"Адрес помещения / лицевой счёт / номер обращения":"Договор, заказ или сведения о покупке";
+ const agreementHint=isHousing?"Адрес дома, квартира, лицевой счёт или регистрационный номер заявки":"№, дата, название товара / услуги";
+ const eventDateLabel=isHousing?"Дата или период нарушения коммунальной услуги":"Дата нарушения или покупки";
+ const eventDateHint=isHousing?"Дата, время или период неоказания услуги":"ДД.ММ.ГГГГ";
  const essentials=descriptors.filter(x=>["recipient","sender","address","description","request"].includes(x.key));
  const additional=descriptors.filter(x=>!["recipient","sender","address","description","request"].includes(x.key));
- const renderField=(item:(typeof descriptors)[number])=><label key={item.key}>{item.key==="recipient"?recipientLabel:item.label}
+ const renderField=(item:(typeof descriptors)[number])=><label key={item.key}>{item.key==="recipient"?recipientPrompt.label:item.key==="agreement"?agreementLabel:item.key==="eventDate"?eventDateLabel:item.label}
    {item.multiline?<textarea value={fields[item.key]} onChange={e=>update(item.key,e.target.value)}
-     placeholder={item.key==="recipient"?recipientHint:item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
-   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.key==="recipient"?recipientHint:item.hint} maxLength={500}/>}
+     placeholder={item.key==="recipient"?recipientPrompt.hint:item.key==="agreement"?agreementHint:item.key==="eventDate"?eventDateHint:item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
+   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.key==="recipient"?recipientPrompt.hint:item.key==="agreement"?agreementHint:item.key==="eventDate"?eventDateHint:item.hint} maxLength={500}/>}
  </label>;
  return <div className="builder">
   <div className="builderform">
@@ -174,6 +172,7 @@ export function DocumentBuilder(meta:Meta){
    ].map(item=><label key={item.key}>{item.label}
     <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.hint} maxLength={400}/>
    </label>)}</>}
+    {isHousing&&<p className="subtle">Для коммунальной услуги укажите фактического исполнителя по договору. Им может быть управляющая организация, ТСЖ, ресурсоснабжающая организация или региональный оператор по обращению с ТКО; не подставляйте управляющую компанию автоматически.</p>}
    {essentials.map(renderField)}
    <details className="builder-optional">
     <summary>Дополнительные сведения: дата, номер заказа, сумма, приложения</summary>
