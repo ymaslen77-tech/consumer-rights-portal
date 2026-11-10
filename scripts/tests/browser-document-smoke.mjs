@@ -19,7 +19,7 @@ const home=mkdtempSync(join(tmpdir(),"consumer-cdp-"));
 const downloads=mkdtempSync(join(tmpdir(),"consumer-docx-"));
 const chrome=spawn(binary,[
  "--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage",
- "--disable-popup-blocking","--no-first-run","--remote-debugging-port=0",
+ "--disable-popup-blocking","--no-first-run","--remote-debugging-port=9223",
  "--user-data-dir="+home,"about:blank"
 ],{stdio:["ignore","ignore","pipe"]});
 let debuggingPort=null;
@@ -68,14 +68,8 @@ async function until(callback,label,max=60){
 }
 let client;
 try{
- debuggingPort=await until(()=>{
-  if(chrome.exitCode!==null)throw new Error("Chrome exited "+chrome.exitCode+": "+chromeErrors);
-  try{
-   const n=Number(readFileSync(join(home,"DevToolsActivePort"),"utf8").split(String.fromCharCode(10))[0]);
-   return Number.isInteger(n)&&n>0?n:false;
-  }catch{return false;}
- },"Chrome published dynamic DevTools port",120);
- await until(()=>chromeJson("/json/version"),"Chrome CDP endpoint");
+ debuggingPort=9223;
+ await until(()=>chromeJson("/json/version"),"Chrome CDP endpoint",120);
  const target=await chromeJson("/json/new?about:blank",{method:"PUT"});
  client=new CDP(target.webSocketDebuggerUrl);await client.ready;
  await client.send("Page.enable");
