@@ -250,5 +250,38 @@
       "kulturnye-meropriyatiya-3",
       "kulturnye-meropriyatiya-4"
     ]
+  },
+  {
+    "slug": "fitnes-sport",
+    "title": "Фитнес-клубы и спортивные услуги",
+    "description": "Возврат денег за абонемент и неоказанные физкультурно-оздоровительные услуги",
+    "situationSlugs": [
+      "fitnes-sport-1",
+      "fitnes-sport-2",
+      "fitnes-sport-3",
+      "fitnes-sport-4"
+    ]
+  },
+  {
+    "slug": "mebel-na-zakaz",
+    "title": "Мебель, кухни и окна на заказ",
+    "description": "Изготовление изделий по индивидуальным размерам, сроки, дефекты и установка",
+    "situationSlugs": [
+      "mebel-na-zakaz-1",
+      "mebel-na-zakaz-2",
+      "mebel-na-zakaz-3",
+      "mebel-na-zakaz-4"
+    ]
+  },
+  {
+    "slug": "salony-krasoty",
+    "title": "Салоны красоты и косметологические услуги",
+    "description": "Парикмахерские, маникюр, бытовые процедуры и их отличие от медицинских услуг",
+    "situationSlugs": [
+      "salony-krasoty-1",
+      "salony-krasoty-2",
+      "salony-krasoty-3",
+      "salony-krasoty-4"
+    ]
   }
 ]
