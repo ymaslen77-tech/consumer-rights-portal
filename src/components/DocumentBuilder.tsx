@@ -130,7 +130,7 @@ export function DocumentBuilder(meta:Meta){
  const renderField=(item:(typeof descriptors)[number])=><label key={item.key}>{item.key==="recipient"?recipientPrompt.label:item.key==="agreement"?agreementLabel:item.label}
    {item.multiline?<textarea value={fields[item.key]} onChange={e=>update(item.key,e.target.value)}
      placeholder={item.key==="recipient"?recipientPrompt.hint:item.key==="agreement"?agreementHint:item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
-   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.key==="recipient"?recipientHint:item.hint} maxLength={500}/>}
+   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.key==="recipient"?recipientPrompt.hint:item.key==="agreement"?agreementHint:item.hint} maxLength={500}/>}
  </label>;
  return <div className="builder">
   <div className="builderform">
