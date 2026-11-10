@@ -60,7 +60,8 @@
     "situationSlugs": [
       "garantiya-servis-1",
       "garantiya-servis-2",
-      "garantiya-servis-3"
+      "garantiya-servis-3",
+      "garantiya-servis-4"
     ]
   },
   {
@@ -70,7 +71,8 @@
     "situationSlugs": [
       "tehnicheski-slozhnye-1",
       "tehnicheski-slozhnye-2",
-      "tehnicheski-slozhnye-3"
+      "tehnicheski-slozhnye-3",
+      "tehnicheski-slozhnye-4"
     ]
   },
   {
@@ -122,7 +124,10 @@
       "zhkh-8",
       "zhkh-9",
       "zhkh-10",
-      "zhkh-11"
+      "zhkh-11",
+      "zhkh-12",
+      "zhkh-13",
+      "zhkh-14"
     ]
   },
   {
@@ -135,7 +140,9 @@
       "medicina-3",
       "medicina-4",
       "medicina-5",
-      "medicina-6"
+      "medicina-6",
+      "medicina-7",
+      "medicina-8"
     ]
   },
   {
@@ -161,7 +168,9 @@
       "turizm-gostinicy-3",
       "turizm-gostinicy-4",
       "turizm-gostinicy-5",
-      "turizm-gostinicy-6"
+      "turizm-gostinicy-6",
+      "turizm-gostinicy-7",
+      "turizm-gostinicy-8"
     ]
   },
   {
@@ -189,7 +198,9 @@
       "banki-strahovanie-4",
       "banki-strahovanie-5",
       "banki-strahovanie-6",
-      "banki-strahovanie-7"
+      "banki-strahovanie-7",
+      "banki-strahovanie-8",
+      "banki-strahovanie-9"
     ]
   },
   {
@@ -201,7 +212,8 @@
       "svyaz-internet-2",
       "svyaz-internet-3",
       "svyaz-internet-4",
-      "svyaz-internet-5"
+      "svyaz-internet-5",
+      "svyaz-internet-6"
     ]
   },
   {
