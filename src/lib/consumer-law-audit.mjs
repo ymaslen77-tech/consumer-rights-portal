@@ -2,6 +2,9 @@
 // (ConsultantPlus) and primary regulators / Supreme Court (see docs/AUDIT...).
 // This is a reference index, not a promise that every provision applies.
 export const STATUTES={
+ cultureAct:{name:"Основы законодательства РФ о культуре, статья 52.1 — возврат билетов",url:"https://www.consultant.ru/document/cons_doc_LAW_1870/d55b86da3738c083ec198a9f9a700bf326007607/"},
+ cultureRefund:{name:"Правила возврата билетов на культурные мероприятия, постановление Правительства РФ № 1491",url:"https://base.garant.ru/74672542/"},
+ cultureRegulator:{name:"Роспотребнадзор, 30.09.2026: порядок возврата билетов по основанию и сроку",url:"https://zpp.rospotrebnadzor.ru/news/federal/594003"},
  subscription2026:{name:"Роспотребнадзор: отказ от списания по сохранённым реквизитам с 01.03.2026",url:"https://zpp.rospotrebnadzor.ru/news/federal/571840"},
  telematicRules:{name:"Правила оказания телематических услуг связи № 2607",url:"https://www.consultant.ru/document/cons_doc_LAW_406278/"},
  dataRules:{name:"Правила услуг по передаче данных № 2606",url:"https://www.consultant.ru/document/cons_doc_LAW_406236/"},
@@ -72,6 +75,7 @@ export const STATUTES={
  statute2026:{name:"Разъяснение Роспотребнадзора о поправках № 500-ФЗ, действующих с 01.02.2026",url:"https://zpp.rospotrebnadzor.ru/news/federal/571307"}
 };
 const categories={
+ "kulturnye-meropriyatiya":["cultureAct","cultureRefund","cultureRegulator"],
  "nekachestvennyy-tovar":["goods","claims","penalty","statute2026"],
  "vozvrat-obmen":["trade2026","exchange","goods"],
  "internet-magaziny":["trade2026","remote","goods","constitutional7"],
@@ -94,6 +98,9 @@ const categories={
  "navyazannye-usloviya":["forcedExtras","ads"]
 };
 const specialDoc={
+ "zayavlenie-vozvrat-otmena-meropriyatiya":["cultureAct","cultureRegulator"],
+ "zayavlenie-vozvrat-bileta-po-otkazu":["cultureAct","cultureRefund","cultureRegulator"],
+ "zayavlenie-vozvrat-bileta-bolezn":["cultureAct","cultureRefund","cultureRegulator"],
  "pretenziya-spisanie-posle-otkaza":["subscription2026","subscription"],
  "zayavlenie-rastorzhenie-svyaz":["telematicRules","communication"],
  "zayavlenie-otkaz-obuchenie":["education2026","serviceExit"],
@@ -147,6 +154,7 @@ const specialDoc={
 // Semantic guardrails. A consumer-law article is not automatically applicable
 // to banking contracts, accommodation or medical harm; sector legislation prevails.
 const specialRisks={
+ "kulturnye-meropriyatiya":"Статья 52.1 Основ законодательства РФ о культуре применяется к предусмотренным ею зрелищным мероприятиям организаций исполнительских искусств и музеев. Для отмены или переноса и отказа посетителя предусмотрены разные правовые основания; отдельно проверяйте даты, обязательный порядок возврата, состояние билета, полномочия посредника и цену билета без автоматически присоединяемой комиссии.",
  "nekachestvennyy-tovar":"Установите дефект, доказательства покупки, момент передачи и срок предъявления требования. Продавец может провести проверку качества; экспертиза и распределение расходов регулируются статьёй 18.",
  "vozvrat-obmen":"Статья 25 регулирует обмен качественного непродовольственного товара; возврат денег зависит от отсутствия аналога на день обращения. Дистанционный возврат регулируется отдельно статьёй 26.1.",
  "internet-magaziny":"Отличайте отказ от качественной дистанционной покупки по статье 26.1 от требования по недостаткам по статье 18. Учитывайте постановление КС РФ № 7-П от 17.02.2026 о способе возврата.",
@@ -429,6 +437,11 @@ export const CASE_LEGAL_REFERENCES={
  "produkty-pitanie-5":["diningRules","serviceQuality"],
  "produkty-pitanie-6":["diningSan2026","diningRules"],
  "produkty-pitanie-7":["diningRules","serviceExit","serviceLate"],
+ "kulturnye-meropriyatiya-1":["cultureAct","cultureRegulator"],
+ "kulturnye-meropriyatiya-2":["cultureAct","cultureRegulator"],
+ "kulturnye-meropriyatiya-3":["cultureAct","cultureRefund","cultureRegulator"],
+ "kulturnye-meropriyatiya-4":["cultureAct","cultureRefund","cultureRegulator"],
+
 };
 export function validateLegalReferenceMatrix(topics,documents){
  const missing=[...topics.filter(x=>!categories[x]),...documents.filter(x=>!specialDoc[x])];
@@ -454,7 +467,7 @@ export function getLegalAudit(topic,docSlug,claimType,situationSlug){
  return {
   links:unique.map(k=>STATUTES[k]),
   risk:specialRisks[topic],
-  reviewDate:situationSlug && ["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5","transport-4","transport-5","transport-6","transport-7","turizm-gostinicy-4","turizm-gostinicy-5","turizm-gostinicy-6","remont-stroitelstvo-4","remont-stroitelstvo-5","avtomobili-4","avtomobili-5","podpiski-cifrovye-4","podpiski-cifrovye-5","svyaz-internet-4","svyaz-internet-5","obrazovanie-4","obrazovanie-5","obrazovanie-6","produkty-pitanie-4","produkty-pitanie-5","produkty-pitanie-6","produkty-pitanie-7"].includes(situationSlug)?"2026-11-09":topic==="zhkh"?"2026-11-08":"2026-11-02",
+  reviewDate:situationSlug && ["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5","transport-4","transport-5","transport-6","transport-7","turizm-gostinicy-4","turizm-gostinicy-5","turizm-gostinicy-6","remont-stroitelstvo-4","remont-stroitelstvo-5","avtomobili-4","avtomobili-5","podpiski-cifrovye-4","podpiski-cifrovye-5","svyaz-internet-4","svyaz-internet-5","obrazovanie-4","obrazovanie-5","obrazovanie-6","produkty-pitanie-4","produkty-pitanie-5","produkty-pitanie-6","produkty-pitanie-7"].includes(situationSlug)?"2026-11-09":topic==="kulturnye-meropriyatiya"?"2026-11-10":topic==="zhkh"?"2026-11-08":"2026-11-02",
   eligibilityRequired:true,
   sources:[STATUTES[unique[0]],STATUTES[unique[1]]].filter(Boolean)
  };
