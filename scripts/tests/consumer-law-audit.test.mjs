@@ -45,7 +45,7 @@ test("2026 trade, platform, tour changes and specialized documents",()=>{
 test("expanded housing paths use their own procedural documents and sources",()=>{
  const byDoc=new Map(documents.map(d=>[d.slug,d]));
  const housing=situations.filter(s=>s.topic==="zhkh");
- assert.equal(housing.length,11);
+ assert.equal(housing.length,14);
  for(const s of housing){assert.ok(s.documents.length);for(const slug of s.documents)assert.ok(byDoc.has(slug));}
  const a=getLegalAudit("zhkh","zayavlenie-proverka-kachestva-zhkh","pretrial_claim","zhkh-4");
  assert.ok(a.links.some(l=>l.url.includes("cons_doc_LAW_114247")));
