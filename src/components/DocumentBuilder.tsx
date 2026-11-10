@@ -125,12 +125,14 @@ export function DocumentBuilder(meta:Meta){
  const isHousing=meta.topicSlug==="zhkh"||/коммун|управляющ|жилищн|капремонт/iu.test(meta.recipient);
  const agreementLabel=isHousing?"Адрес помещения / лицевой счёт / номер обращения":"Договор, заказ или сведения о покупке";
  const agreementHint=isHousing?"Адрес дома, квартира, лицевой счёт или регистрационный номер заявки":"№, дата, название товара / услуги";
+ const eventDateLabel=isHousing?"Дата или период нарушения коммунальной услуги":"Дата нарушения или покупки";
+ const eventDateHint=isHousing?"Дата, время или период неоказания услуги":"ДД.ММ.ГГГГ";
  const essentials=descriptors.filter(x=>["recipient","sender","address","description","request"].includes(x.key));
  const additional=descriptors.filter(x=>!["recipient","sender","address","description","request"].includes(x.key));
- const renderField=(item:(typeof descriptors)[number])=><label key={item.key}>{item.key==="recipient"?recipientPrompt.label:item.key==="agreement"?agreementLabel:item.label}
+ const renderField=(item:(typeof descriptors)[number])=><label key={item.key}>{item.key==="recipient"?recipientPrompt.label:item.key==="agreement"?agreementLabel:item.key==="eventDate"?eventDateLabel:item.label}
    {item.multiline?<textarea value={fields[item.key]} onChange={e=>update(item.key,e.target.value)}
-     placeholder={item.key==="recipient"?recipientPrompt.hint:item.key==="agreement"?agreementHint:item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
-   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.key==="recipient"?recipientPrompt.hint:item.key==="agreement"?agreementHint:item.hint} maxLength={500}/>}
+     placeholder={item.key==="recipient"?recipientPrompt.hint:item.key==="agreement"?agreementHint:item.key==="eventDate"?eventDateHint:item.hint} rows={item.key==="description"?5:3} maxLength={6000}/>:
+   <input value={fields[item.key]} onChange={e=>update(item.key,e.target.value)} placeholder={item.key==="recipient"?recipientPrompt.hint:item.key==="agreement"?agreementHint:item.key==="eventDate"?eventDateHint:item.hint} maxLength={500}/>}
  </label>;
  return <div className="builder">
   <div className="builderform">
