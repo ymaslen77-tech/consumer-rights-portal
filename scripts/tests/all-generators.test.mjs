@@ -25,7 +25,7 @@ function sanity(bytes,docname){
  assert.match(raw,/Тестов Иван Иванович/,docname);
  assert.match(raw,/ПРАВОВЫЕ ОСНОВАНИЯ/,docname);
 }
-test("all 101 situation routes generate legally referenced DOCX and text",()=>{
+test("all 105 situation routes generate legally referenced DOCX and text",()=>{
  const docs=new Map(documents.map(d=>[d.slug,d]));
  let count=0;
  for(const situation of situations){
@@ -51,11 +51,11 @@ test("all 101 situation routes generate legally referenced DOCX and text",()=>{
    count++;
   }
  }
- assert.equal(situations.length,101);
+ assert.equal(situations.length,105);
  assert.ok(count>=80,"Expected 80+ distinct case-document combinations; got "+count);
  console.log("ALL_LEGAL_GENERATORS_TESTED",count,"documents in",situations.length,"situations");
 });
-test("all 46 standalone documents can generate an editable Word file",()=>{
+test("all 49 standalone documents can generate an editable Word file",()=>{
  let count=0;
  for(const d of documents){
   const links =d.claimType==="court_document"?
@@ -72,7 +72,7 @@ test("all 46 standalone documents can generate an editable Word file",()=>{
   }
   sanity(makeDocx(text),d.slug);count++;
  }
- assert.equal(count,46);
+ assert.equal(count,49);
  console.log("STANDALONE_DOCUMENT_TEMPLATES_TESTED",count);
 });
 test("invalid amount and missing parties are blocked before export",()=>{
@@ -81,9 +81,9 @@ test("invalid amount and missing parties are blocked before export",()=>{
  assert.ok(validateDraft({...sample,counterpartyAddress:""},"court_document").includes("counterpartyAddress"));
 });
 
-test("46 legal templates identify their own recipient and legislation",()=>{
+test("49 legal templates identify their own recipient and legislation",()=>{
  const docs=new Map(documents.map(d=>[d.slug,d]));
- assert.equal(docs.size,46);
+ assert.equal(docs.size,49);
  for(const d of docs.values()){
   assert.ok(d.recipient.trim().length>3,d.slug+" recipient missing");
   assert.ok(d.legalBasis.trim().length>=55,d.slug+" legal grounds are too vague");

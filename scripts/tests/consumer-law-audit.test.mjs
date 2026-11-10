@@ -4,7 +4,7 @@ import {STATUTES,CASE_LEGAL_REFERENCES,getLegalAudit,validateLegalReferenceMatri
 import topics from "../../src/data/topics.json" with {type:"json"};
 import documents from "../../src/data/documents.json" with {type:"json"};
 import situations from "../../src/data/situations.json" with {type:"json"};
-test("all 20 domains and all 46 document drafts have legal reference coverage",()=>{
+test("all 21 domains and all 49 document drafts have legal reference coverage",()=>{
  assert.equal(validateLegalReferenceMatrix(topics.map(x=>x.slug),documents.map(x=>x.slug)),true);
 });
 test("every situation/document choice has multiple legal links and caveats",()=>{
@@ -19,8 +19,8 @@ test("every situation/document choice has multiple legal links and caveats",()=>
   assert.equal(r.eligibilityRequired,true);
   checked++;
  }
- assert.equal(situations.length,101);
- assert.equal(Object.keys(CASE_LEGAL_REFERENCES).length,101);
+ assert.equal(situations.length,105);
+ assert.equal(Object.keys(CASE_LEGAL_REFERENCES).length,105);
  assert.ok(situations.every(x=>Array.isArray(CASE_LEGAL_REFERENCES[x.slug])));
  assert.ok(checked>=80,"Expected a selection of document choices in 60 routes");
 });
@@ -33,7 +33,7 @@ test("Plenum is only required automatically on court draft",()=>{
 });
 
 test("2026 trade, platform, tour changes and specialized documents",()=>{
- assert.equal(documents.length,46);
+ assert.equal(documents.length,49);
  const docs=new Set(documents.map(x=>x.slug));
  assert.ok(docs.has("pretenziya-strahovshchiku"));
  assert.ok(docs.has("pretenziya-dvoynoe-spisanie"));
@@ -80,4 +80,21 @@ test("bus route cites the motor transport charter instead of railway act",()=>{
  assert.ok(route.sources.every(x=>!x.includes("cons_doc_LAW_40444")));
  const audit=getLegalAudit("transport","pretenziya-perevozchik","pretrial_claim","transport-6");
  assert.ok(audit.links.some(x=>x.url.includes("cons_doc_LAW_72388")));
+});
+
+test("culture and event ticket routes apply article 52.1 with matching refund rules",()=>{
+ const id=["kulturnye-meropriyatiya-1","kulturnye-meropriyatiya-2","kulturnye-meropriyatiya-3","kulturnye-meropriyatiya-4"];
+ for(const slug of id){
+  const s=situations.find(x=>x.slug===slug);
+  assert.ok(s,slug);
+  assert.equal(s.topic,"kulturnye-meropriyatiya");
+  assert.equal(s.steps.length,5);
+  assert.ok(s.sources.length>=3);
+  assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-10");
+  const doc=documents.find(x=>x.slug===s.documents[0]);assert.ok(doc);
+  const law=getLegalAudit(s.topic,doc.slug,doc.claimType,slug);
+  assert.ok(law.links.some(x=>x.url.includes("cons_doc_LAW_1870")),slug);
+  if(slug.endsWith("-3")||slug.endsWith("-4"))assert.ok(law.links.some(x=>x.name.includes("1491")),slug);
+  assert.equal(law.reviewDate,"2026-11-10");
+ }
 });
