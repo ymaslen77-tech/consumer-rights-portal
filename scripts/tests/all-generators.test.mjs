@@ -25,7 +25,7 @@ function sanity(bytes,docname){
  assert.match(raw,/Тестов Иван Иванович/,docname);
  assert.match(raw,/ПРАВОВЫЕ ОСНОВАНИЯ/,docname);
 }
-test("all 101 situation routes generate legally referenced DOCX and text",()=>{
+test("all 145 situation routes generate legally referenced DOCX and text",()=>{
  const docs=new Map(documents.map(d=>[d.slug,d]));
  let count=0;
  for(const situation of situations){
@@ -51,11 +51,11 @@ test("all 101 situation routes generate legally referenced DOCX and text",()=>{
    count++;
   }
  }
- assert.equal(situations.length,101);
- assert.ok(count>=80,"Expected 80+ distinct case-document combinations; got "+count);
+ assert.equal(situations.length,145);
+ assert.equal(count,243,"Every one of 243 situation-document combinations must render");
  console.log("ALL_LEGAL_GENERATORS_TESTED",count,"documents in",situations.length,"situations");
 });
-test("all 46 standalone documents can generate an editable Word file",()=>{
+test("all 71 standalone documents can generate an editable Word file",()=>{
  let count=0;
  for(const d of documents){
   const links =d.claimType==="court_document"?
@@ -72,7 +72,7 @@ test("all 46 standalone documents can generate an editable Word file",()=>{
   }
   sanity(makeDocx(text),d.slug);count++;
  }
- assert.equal(count,46);
+ assert.equal(count,71);
  console.log("STANDALONE_DOCUMENT_TEMPLATES_TESTED",count);
 });
 test("invalid amount and missing parties are blocked before export",()=>{
@@ -81,9 +81,9 @@ test("invalid amount and missing parties are blocked before export",()=>{
  assert.ok(validateDraft({...sample,counterpartyAddress:""},"court_document").includes("counterpartyAddress"));
 });
 
-test("46 legal templates identify their own recipient and legislation",()=>{
+test("71 legal templates identify their own recipient and legislation",()=>{
  const docs=new Map(documents.map(d=>[d.slug,d]));
- assert.equal(docs.size,46);
+ assert.equal(docs.size,71);
  for(const d of docs.values()){
   assert.ok(d.recipient.trim().length>3,d.slug+" recipient missing");
   assert.ok(d.legalBasis.trim().length>=55,d.slug+" legal grounds are too vague");
@@ -95,4 +95,22 @@ test("46 legal templates identify their own recipient and legislation",()=>{
  const tko=getDocumentLegalGrounds(docs.get("zayavlenie-proverka-kachestva-zhkh").legalBasis,"zhkh-11","zayavlenie-proverka-kachestva-zhkh");
  assert.ok(tko.includes("148(49)"));
  assert.ok(tko.includes("статья 157"));
+});
+
+test("new sector drafts contain real legal grounds and are addressed to the obligated party",()=>{
+ const added=situations.filter(s=>s.sourceReviewedAt==="2026-11-10");
+ assert.equal(added.length,44);
+ for(const s of added){
+  assert.equal(s.steps.length,5);
+  assert.ok(s.sources.length>=3,s.slug+" lacks three legal/context sources");
+  const d=documents.find(x=>x.slug===s.documents[0]);assert.ok(d,s.slug);
+  const audit=getLegalAudit(s.topic,d.slug,d.claimType,s.slug);
+  assert.equal(audit.reviewDate,"2026-11-10",s.slug);
+  assert.ok(audit.links.length>=2,s.slug);
+  const recipient=getRecipientPrompt({slug:d.slug,recipient:d.recipient,claimType:d.claimType,topicSlug:s.topic,situationSlug:s.slug});
+  assert.doesNotMatch(recipient.label,/Продавец, исполнитель или иное обязанное лицо/);
+  const body=draftText(sample,{title:d.title,claimType:d.claimType,legalBasis:getDocumentLegalGrounds(d.legalBasis,s.slug,d.slug),contextTitle:s.title});
+  assert.ok(body.includes(d.legalBasis)||body.includes("Жилищный кодекс"),s.slug);
+  assert.doesNotMatch(body,/ПРОЕКТ ДОКУМЕНТА|ВНУТРЕННЕЕ ПРИМЕЧАНИЕ|ТЕХНИЧЕСКАЯ СНОСКА/);
+ }
 });

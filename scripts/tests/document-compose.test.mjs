@@ -87,3 +87,16 @@ test("unfilled optional fields are not fake facts in formal drafts",()=>{
  assert.doesNotMatch(text,/\[наименование договора|\[дата события|\[телефон|\[перечислите приложенные/);
  assert.doesNotMatch(text,/НОРМАТИВНЫЕ ИСТОЧНИКИ|ПРОЕКТ ДОКУМЕНТА|проверить закон/);
 });
+
+test("cultural ticket recipients stay with organizers, never court or general trade seller",()=>{
+ const items=[
+  {slug:"zayavlenie-vozvrat-otmena-meropriyatiya",recipient:"Организации исполнительских искусств или музею",claimType:"pretrial_claim"},
+  {slug:"zayavlenie-vozvrat-bileta-po-otkazu",recipient:"Организации исполнительских искусств или музею",claimType:"pretrial_claim"},
+  {slug:"zayavlenie-vozvrat-bileta-bolezn",recipient:"Организации исполнительских искусств или музею",claimType:"pretrial_claim"}
+ ];
+ for(const item of items){
+  const prompt=getRecipientPrompt(item);
+  assert.match(prompt.label,/Организации исполнительских искусств/);
+  assert.doesNotMatch(prompt.label,/Продавец, исполнитель или иное обязанное лицо|Суд/);
+ }
+});

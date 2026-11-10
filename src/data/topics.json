@@ -60,7 +60,8 @@
     "situationSlugs": [
       "garantiya-servis-1",
       "garantiya-servis-2",
-      "garantiya-servis-3"
+      "garantiya-servis-3",
+      "garantiya-servis-4"
     ]
   },
   {
@@ -70,7 +71,8 @@
     "situationSlugs": [
       "tehnicheski-slozhnye-1",
       "tehnicheski-slozhnye-2",
-      "tehnicheski-slozhnye-3"
+      "tehnicheski-slozhnye-3",
+      "tehnicheski-slozhnye-4"
     ]
   },
   {
@@ -122,7 +124,10 @@
       "zhkh-8",
       "zhkh-9",
       "zhkh-10",
-      "zhkh-11"
+      "zhkh-11",
+      "zhkh-12",
+      "zhkh-13",
+      "zhkh-14"
     ]
   },
   {
@@ -135,7 +140,9 @@
       "medicina-3",
       "medicina-4",
       "medicina-5",
-      "medicina-6"
+      "medicina-6",
+      "medicina-7",
+      "medicina-8"
     ]
   },
   {
@@ -161,7 +168,9 @@
       "turizm-gostinicy-3",
       "turizm-gostinicy-4",
       "turizm-gostinicy-5",
-      "turizm-gostinicy-6"
+      "turizm-gostinicy-6",
+      "turizm-gostinicy-7",
+      "turizm-gostinicy-8"
     ]
   },
   {
@@ -189,7 +198,9 @@
       "banki-strahovanie-4",
       "banki-strahovanie-5",
       "banki-strahovanie-6",
-      "banki-strahovanie-7"
+      "banki-strahovanie-7",
+      "banki-strahovanie-8",
+      "banki-strahovanie-9"
     ]
   },
   {
@@ -201,7 +212,8 @@
       "svyaz-internet-2",
       "svyaz-internet-3",
       "svyaz-internet-4",
-      "svyaz-internet-5"
+      "svyaz-internet-5",
+      "svyaz-internet-6"
     ]
   },
   {
@@ -238,6 +250,94 @@
       "navyazannye-usloviya-1",
       "navyazannye-usloviya-2",
       "navyazannye-usloviya-3"
+    ]
+  },
+  {
+    "slug": "kulturnye-meropriyatiya",
+    "title": "Билеты и культурные мероприятия",
+    "description": "Возврат билетов на концерты, спектакли и мероприятия музеев",
+    "situationSlugs": [
+      "kulturnye-meropriyatiya-1",
+      "kulturnye-meropriyatiya-2",
+      "kulturnye-meropriyatiya-3",
+      "kulturnye-meropriyatiya-4"
+    ]
+  },
+  {
+    "slug": "fitnes-sport",
+    "title": "Фитнес-клубы и спортивные услуги",
+    "description": "Возврат денег за абонемент и неоказанные физкультурно-оздоровительные услуги",
+    "situationSlugs": [
+      "fitnes-sport-1",
+      "fitnes-sport-2",
+      "fitnes-sport-3",
+      "fitnes-sport-4"
+    ]
+  },
+  {
+    "slug": "mebel-na-zakaz",
+    "title": "Мебель, кухни и окна на заказ",
+    "description": "Изготовление изделий по индивидуальным размерам, сроки, дефекты и установка",
+    "situationSlugs": [
+      "mebel-na-zakaz-1",
+      "mebel-na-zakaz-2",
+      "mebel-na-zakaz-3",
+      "mebel-na-zakaz-4"
+    ]
+  },
+  {
+    "slug": "salony-krasoty",
+    "title": "Салоны красоты и косметологические услуги",
+    "description": "Парикмахерские, маникюр, бытовые процедуры и их отличие от медицинских услуг",
+    "situationSlugs": [
+      "salony-krasoty-1",
+      "salony-krasoty-2",
+      "salony-krasoty-3",
+      "salony-krasoty-4"
+    ]
+  },
+  {
+    "slug": "dolevoe-stroitelstvo",
+    "title": "Долевое строительство и застройщики",
+    "description": "Сроки передачи квартиры, недостатки, приёмка и гарантийные требования по ДДУ",
+    "situationSlugs": [
+      "dolevoe-stroitelstvo-1",
+      "dolevoe-stroitelstvo-2",
+      "dolevoe-stroitelstvo-3",
+      "dolevoe-stroitelstvo-4"
+    ]
+  },
+  {
+    "slug": "yuridicheskie-uslugi",
+    "title": "Платные юридические услуги",
+    "description": "Неоказанные и некачественные услуги юридических компаний, отказ и расчёт оплаты",
+    "situationSlugs": [
+      "yuridicheskie-uslugi-1",
+      "yuridicheskie-uslugi-2",
+      "yuridicheskie-uslugi-3",
+      "yuridicheskie-uslugi-4"
+    ]
+  },
+  {
+    "slug": "rieltorskie-uslugi",
+    "title": "Риелторские услуги",
+    "description": "Поиск аренды или недвижимости, вознаграждение, дополнительные услуги и расторжение договора",
+    "situationSlugs": [
+      "rieltorskie-uslugi-1",
+      "rieltorskie-uslugi-2",
+      "rieltorskie-uslugi-3",
+      "rieltorskie-uslugi-4"
+    ]
+  },
+  {
+    "slug": "taksi-agregatory",
+    "title": "Такси и агрегаторы поездок",
+    "description": "Списания, маршруты, отмены и ответственность при поездке легковым такси",
+    "situationSlugs": [
+      "taksi-agregatory-1",
+      "taksi-agregatory-2",
+      "taksi-agregatory-3",
+      "taksi-agregatory-4"
     ]
   }
 ]
