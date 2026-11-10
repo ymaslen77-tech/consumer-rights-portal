@@ -19,12 +19,15 @@ const home=mkdtempSync(join(tmpdir(),"consumer-cdp-"));
 const downloads=mkdtempSync(join(tmpdir(),"consumer-docx-"));
 const chrome=spawn(binary,[
  "--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage",
- "--disable-popup-blocking","--no-first-run","--remote-debugging-port=9223",
+ "--disable-popup-blocking","--no-first-run","--remote-debugging-port=0",
  "--user-data-dir="+home,"about:blank"
-],{stdio:"ignore"});
+],{stdio:["ignore","ignore","pipe"]});
+let debuggingPort=null;
+let chromeErrors="";
+chrome.stderr?.on("data",data=>{chromeErrors=(chromeErrors+String(data)).slice(-4000);});
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function chromeJson(path,options){
- const response=await fetch("http://127.0.0.1:9223"+path,options);
+ const response=await fetch("http://127.0.0.1:"+debuggingPort+path,options);
  if(!response.ok)throw new Error("CDP HTTP "+response.status);
  return response.json();
 }
@@ -65,6 +68,13 @@ async function until(callback,label,max=60){
 }
 let client;
 try{
+ debuggingPort=await until(()=>{
+  if(chrome.exitCode!==null)throw new Error("Chrome exited "+chrome.exitCode+": "+chromeErrors);
+  try{
+   const n=Number(readFileSync(join(home,"DevToolsActivePort"),"utf8").split("\\n")[0]);
+   return Number.isInteger(n)&&n>0?n:false;
+  }catch{return false;}
+ },"Chrome published dynamic DevTools port",120);
  await until(()=>chromeJson("/json/version"),"Chrome CDP endpoint");
  const target=await chromeJson("/json/new?about:blank",{method:"PUT"});
  client=new CDP(target.webSocketDebuggerUrl);await client.ready;
@@ -138,6 +148,9 @@ try{
    && !documentText.includes("НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ");
  })()`),"specific TKO recipient and legal basis");
  console.log("BROWSER_TKO_CLAIM_LEGAL_GROUNDS_OK");
+}catch(error){
+ console.error("CHROME_STARTUP_DIAGNOSTICS",binary,"exit",chrome.exitCode,"stderr:",chromeErrors.slice(-1500));
+ throw error;
 }finally{
  client?.close();chrome.kill("SIGKILL");
  rmSync(home,{recursive:true,force:true});rmSync(downloads,{recursive:true,force:true});
