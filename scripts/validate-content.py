@@ -115,6 +115,11 @@ assert sum(s['legalStatus'].startswith('source_checked') for s in cases)>=13
 for d in docs:
     assert d.get('requestHint'), "Document template must carry a tailored request hint"
     assert d.get("legalBasis") and d.get("claimType") in ("pretrial_claim","state_notification","court_document")
+    assert len(d['recipient'].strip())>3, d['slug']
+    assert len(d['legalBasis'].strip())>=55, d['slug']
+    assert any(label in d['legalBasis'] for label in ('Закон','закон','кодекс','Кодекс','ГК РФ','ЖК РФ','ГПК РФ','Правила')), d['slug']
+assert 'getDocumentLegalGrounds(d.legalBasis,s.slug,d.slug)' in (ROOT/'src/app/razbor/[slug]/page.tsx').read_text(encoding='utf8')
+assert 'getRecipientPrompt(meta)' in (ROOT/'src/components/DocumentBuilder.tsx').read_text(encoding='utf8')
 links=set(['/','/situacii','/organy','/dokumenty','/normativnye-akty','/sudebnaya-praktika','/rospotrebnadzor/regiony',*paths])
 links.update('/rospotrebnadzor/regiony/'+r['slug'] for r in regions)
 links.update('/sudebnaya-praktika/'+a['slug'] for a in court_acts)
