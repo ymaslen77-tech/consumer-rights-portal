@@ -4,7 +4,7 @@ import {situations,getSituation,getTopic,documents} from "@/lib/content";
 import {PageIntro,SourceLink,Trail} from "@/components/SiteShell";
 import {SituationDocumentWizard,type SituationDocumentOption} from "@/components/SituationDocumentWizard";
 import {getLegalAudit} from "@/lib/consumer-law-audit.mjs";
-import type {ClaimType} from "@/lib/document-compose.mjs";
+import {getDocumentLegalGrounds,type ClaimType} from "@/lib/document-compose.mjs";
 type Params={params:Promise<{slug:string}>};
 export function generateStaticParams(){return situations.map(x=>({slug:x.slug}))}
 export async function generateMetadata({params}:Params){const {slug}=await params;const s=getSituation(slug);return {title:s?.title||"Разбор ситуации",description:s?.summary}}
@@ -28,8 +28,9 @@ export default async function CasePage({params}:Params){
    const audit=getLegalAudit(s.topic,d.slug,d.claimType,s.slug);
    const choice:SituationDocumentOption={
      slug:d.slug,title:d.title,recipient:d.recipient,claimType:d.claimType as ClaimType,
+     topicSlug:s.topic,situationSlug:s.slug,
      sourceUrl:d.sourceUrl,requestHint:s.title+". "+d.requestHint,
-     legalBasis:audit.links.slice(0,6).map(x=>x.name).join("; "),
+     legalBasis:getDocumentLegalGrounds(d.legalBasis,s.slug,d.slug),
      lawLinks:audit.links.map(x=>({title:x.name,url:x.url})),
      legalRisk:[audit.risk,...s.cautions.slice(0,1)].filter(Boolean).join(' '),reviewDate:audit.reviewDate
    };

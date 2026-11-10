@@ -30,6 +30,50 @@ export function validateDraft(fields, claimType) {
 function orBlank(v, text) {
   return String(v||"").trim() || "[" + text + "]";
 }
+// The addressee must reflect the type of document and its actual obligated party.
+export function getRecipientPrompt(meta) {
+ const name=String(meta.recipient||"").trim();
+ const slug=String(meta.slug||"");
+ const topic=String(meta.topicSlug||"");
+ if(meta.claimType==="court_document")
+  return {label:"Суд, в который подаётся иск *",hint:"Полное наименование суда по установленной подсудности"};
+ if(slug==="finansovyy-upolnomochennyy-obrashchenie")
+  return {label:"Финансовый уполномоченный (адресат обращения) *",hint:"Укажите финансового уполномоченного по предмету спора"};
+ if(meta.claimType==="state_notification")
+  return {label:"Кому направляется жалоба: "+(name||"компетентному органу")+" *",
+    hint:"Укажите полное наименование соответствующего территориального органа"};
+ if(slug==="zayavlenie-proverka-kachestva-zhkh"||slug==="zayavlenie-pereraschet-zhkh"){
+  return {
+   label:topic==="zhkh"&&meta.situationSlug==="zhkh-11"?
+     "Исполнитель услуги по обращению с ТКО (укажите полное наименование) *":
+     "Исполнитель коммунальной услуги (укажите полное наименование) *",
+   hint:meta.situationSlug==="zhkh-11"?
+     "УК/ТСЖ или региональный оператор ТКО — установите исполнителя по договору":
+     "УК, ТСЖ, РСО или иной исполнитель — проверьте договор"
+  };
+ }
+ return {label:"Кому направляется: "+(name||"обязанному лицу")+" (полное наименование) *",
+   hint:name||"Укажите юридическое наименование организации или Ф. И. О. ИП"};
+}
+
+// Select only source-supported, document-specific clauses for formal legal grounds.
+// The wider index of legal reference titles stays in the UI, never replaces this text.
+const SPECIFIC_LEGAL_GROUNDS={
+ "zhkh-11|zayavlenie-proverka-kachestva-zhkh":
+  "Жилищный кодекс РФ, статья 157 (части 4, 5), статья 157.2 (при прямом договоре); Правила предоставления коммунальных услуг, утверждённые постановлением Правительства РФ от 06.05.2011 № 354: пункты 106, 109, 148(49), раздел X и приложение № 1 (раздел VII — ТКО).",
+ "zhkh-11|zayavlenie-pereraschet-zhkh":
+  "Жилищный кодекс РФ, статья 157 (части 4, 5), статья 157.2 (при прямом договоре); Правила № 354: пункты 148(45)–148(49), разделы IX и X, приложение № 1 (раздел VII — ТКО).",
+ "zhkh-4|zayavlenie-proverka-kachestva-zhkh":
+  "Жилищный кодекс РФ, статья 157 (части 4, 5); Правила № 354: пункты 106, 109, раздел X и приложение № 1 (раздел VI — отопление).",
+ "zhkh-10|zayavlenie-proverka-kachestva-zhkh":
+  "Жилищный кодекс РФ, статья 157 (части 4, 5); Правила № 354: пункты 106, 109, раздел X и приложение № 1 (раздел I — холодное водоснабжение)."
+};
+export function getDocumentLegalGrounds(legalBasis, situationSlug="", documentSlug="") {
+ const base=String(legalBasis||"").trim();
+ const specialized=SPECIFIC_LEGAL_GROUNDS[String(situationSlug)+"|"+String(documentSlug)];
+ return specialized||base;
+}
+
 export function draftText(fields, meta) {
   const f = fields;
   const isCourt = meta.claimType==="court_document";
@@ -53,23 +97,23 @@ export function draftText(fields, meta) {
   const legal = orBlank(meta.legalBasis,"проверить закон");
   const context = meta.contextTitle ?
     "\nПо вопросу: " + String(meta.contextTitle) : "";
+  const optionalContact=String(f.contact||"").trim()?"\nКонтакты: "+String(f.contact).trim():"";
+  const optionalAgreement=String(f.agreement||"").trim()?"\nДоговор / заказ / предмет отношений: "+String(f.agreement).trim():"";
+  const optionalEventDate=String(f.eventDate||"").trim()?"\nДата события: "+String(f.eventDate).trim():"";
+  const appendices=String(f.evidence||"").trim()?"\n\nПРИЛОЖЕНИЯ (копии):\n"+String(f.evidence).trim():"";
   return "Кому: " + recipient + "\n" +
     "От: " + issuer + "\nАдрес для ответа: " + orBlank(f.address,"почтовый адрес") +
-    "\nКонтакты: " + orBlank(f.contact,"телефон / электронная почта") + counterparty +
-    "\n\n" + meta.title.toUpperCase() + context + "\n\n" +
-    "Договор / заказ / предмет отношений: " + orBlank(f.agreement,"наименование договора, номер и дата") +
-    "\nДата события: " + orBlank(f.eventDate,"дата события") +
+    optionalContact + counterparty +
+    "\n\n" + meta.title.toUpperCase() + context + optionalAgreement +
+    optionalEventDate +
     "\n\nФАКТИЧЕСКИЕ ОБСТОЯТЕЛЬСТВА:\n" + orBlank(f.description,"опишите обстоятельства по датам без необоснованных обвинений") +
     amountLine + "\n\n" + requestHeading + "\n" +
     orBlank(f.request,"укажите одно законное требование и обстоятельства, подтверждающие его применимость") +
-    "\n\nПРАВОВЫЕ ОСНОВАНИЯ:\n" + legal +
-    "\n\nПРИЛОЖЕНИЯ (копии):\n" + orBlank(f.evidence,"перечислите приложенные подтверждения") +
-    (isCourt ? "\n\nСведения о досудебном обращении и обязательной процедуре (если применимо):\n" +
-      orBlank(f.courtPretrial,"требуется указать применимый порядок и подтверждения") +
-      "\n\nРасчёт взыскиваемых сумм (если подлежат оценке):\n" +
-      orBlank(f.courtCalculation,"расчёт или отметка о неимущественном требовании") +
-      "\n\nВопрос государственной пошлины / льготы:\n" +
-      orBlank(f.courtFee,"документ об оплате либо основание освобождения/ходатайство") +
-      "" : "") +
+    "\n\nПРАВОВЫЕ ОСНОВАНИЯ:\n" + legal + appendices +
+    (isCourt ?
+      (String(f.courtPretrial||"").trim()?"\n\nСведения о досудебном порядке:\n"+String(f.courtPretrial).trim():"") +
+      (String(f.courtCalculation||"").trim()?"\n\nРасчёт взыскиваемых сумм:\n"+String(f.courtCalculation).trim():"") +
+      (String(f.courtFee||"").trim()?"\n\nГосударственная пошлина / льгота:\n"+String(f.courtFee).trim():"")
+      : "") +
     "\n\nДата составления: _________________\nПодпись заявителя: _________________";
 }
