@@ -146,6 +146,22 @@ try{
  console.error("BROWSER_TEST_DIAGNOSTICS",binary,"exit",chrome.exitCode,"stderr:",chromeErrors.slice(-1500));
  throw error;
 }finally{
- client?.close();chrome.kill("SIGKILL");
- rmSync(home,{recursive:true,force:true});rmSync(downloads,{recursive:true,force:true});
+ client?.close();
+ // Terminate Chromium before deleting its profile. Deleting immediately after
+ // kill() races Chrome's remaining file writes on GitHub-hosted runners.
+ if(chrome.exitCode===null){
+  const exited=new Promise(resolve=>chrome.once("exit",resolve));
+  chrome.kill("SIGKILL");
+  await Promise.race([exited,sleep(2000)]);
+ }
+ // A cleanup issue with an ephemeral test profile must not make an otherwise
+ // successful DOCX/PDF/UI smoke test appear to have failed.
+ for(const folder of [home,downloads]){
+  try{
+   rmSync(folder,{recursive:true,force:true,maxRetries:12,retryDelay:120});
+  }catch(error){
+   if(!["ENOTEMPTY","EBUSY","EPERM"].includes(error?.code))throw error;
+   console.warn("TEMP_CHROMIUM_PROFILE_CLEANUP_DEFERRED",error.code);
+  }
+ }
 }
