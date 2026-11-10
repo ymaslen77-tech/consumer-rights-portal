@@ -283,5 +283,49 @@
       "salony-krasoty-3",
       "salony-krasoty-4"
     ]
+  },
+  {
+    "slug": "dolevoe-stroitelstvo",
+    "title": "Долевое строительство и застройщики",
+    "description": "Сроки передачи квартиры, недостатки, приёмка и гарантийные требования по ДДУ",
+    "situationSlugs": [
+      "dolevoe-stroitelstvo-1",
+      "dolevoe-stroitelstvo-2",
+      "dolevoe-stroitelstvo-3",
+      "dolevoe-stroitelstvo-4"
+    ]
+  },
+  {
+    "slug": "yuridicheskie-uslugi",
+    "title": "Платные юридические услуги",
+    "description": "Неоказанные и некачественные услуги юридических компаний, отказ и расчёт оплаты",
+    "situationSlugs": [
+      "yuridicheskie-uslugi-1",
+      "yuridicheskie-uslugi-2",
+      "yuridicheskie-uslugi-3",
+      "yuridicheskie-uslugi-4"
+    ]
+  },
+  {
+    "slug": "rieltorskie-uslugi",
+    "title": "Риелторские услуги",
+    "description": "Поиск аренды или недвижимости, вознаграждение, дополнительные услуги и расторжение договора",
+    "situationSlugs": [
+      "rieltorskie-uslugi-1",
+      "rieltorskie-uslugi-2",
+      "rieltorskie-uslugi-3",
+      "rieltorskie-uslugi-4"
+    ]
+  },
+  {
+    "slug": "taksi-agregatory",
+    "title": "Такси и агрегаторы поездок",
+    "description": "Списания, маршруты, отмены и ответственность при поездке легковым такси",
+    "situationSlugs": [
+      "taksi-agregatory-1",
+      "taksi-agregatory-2",
+      "taksi-agregatory-3",
+      "taksi-agregatory-4"
+    ]
   }
 ]
