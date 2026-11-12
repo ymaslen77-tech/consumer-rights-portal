@@ -88,6 +88,17 @@ def build_report(topics, situations, documents):
         publisher_counts[str(min(len(groups), 3)) + ("_or_more" if len(groups) >= 3 else "")] += 1
         if not case.get("checks") or not case.get("cautions") or not case.get("legalBasis"):
             errors.append(f"{slug}: missing case-specific checks, cautions or legal basis")
+        peers = case.get("relatedSituations")
+        if not isinstance(peers, list):
+            errors.append(f"{slug}: missing relatedSituations list")
+            peers = []
+        for peer in peers:
+            if peer not in case_ids or peer == slug:
+                errors.append(f"{slug}: broken or self-referencing related situation {peer}")
+            elif slug not in by_slug[peer].get("relatedSituations", []):
+                errors.append(f"{slug}: related situation {peer} lacks reverse link")
+        if len(peers) != len(set(peers)):
+            errors.append(f"{slug}: duplicate related situations")
         rows.append({
             "slug": slug, "topic": case.get("topic"), "title": case.get("title", ""),
             "previousSourceStatus": status,
@@ -95,6 +106,7 @@ def build_report(topics, situations, documents):
             "sourceUrlsCount": len(links),
             "publisherGroups": groups,
             "documentSlugs": options,
+            "relatedSituations": peers,
             "editorialLegalReview": "required",
             "reviewFlags": [
                 "fewer_than_3_source_urls" if len(links) < 3 else "",
@@ -122,7 +134,7 @@ def build_report(topics, situations, documents):
     pairs = [{
         "slugs": list(pair),
         "titles": [by_slug[slug].get("title", "") for slug in pair],
-        "action": "manual_comparison_required_do_not_delete_or_redirect_automatically",
+        "action": "intents_separated_crosslinks_added_final_legal_review_required",
     } for pair in DUPLICATE_CANDIDATES if all(s in case_ids for s in pair)]
     return {
         "method": "offline_structural_inventory_not_substantive_legal_review",
