@@ -23,7 +23,16 @@ jobs:
       - name: Validate content model and cross-links
         run: |
           python3 scripts/validate-content.py
+          python3 scripts/legal-readiness-audit.py --json test-results/legal-readiness.json
+          python3 -m unittest discover -s scripts/tests -p 'test_legal_readiness.py' -v
           python3 -m unittest discover -s scripts/tests -p 'test_court_evidence.py' -v
+      - name: Upload structural legal-review inventory (not approval)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: legal-readiness-inventory
+          path: test-results/legal-readiness.json
+          if-no-files-found: ignore
       - name: Ensure release stays private until an explicit cutover
         run: python3 scripts/validate-release-config.py
       - name: Validate one-time Coolify setup script (offline tests)
