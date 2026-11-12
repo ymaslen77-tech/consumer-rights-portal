@@ -28,12 +28,43 @@ class ReadinessAuditTests(unittest.TestCase):
         self.assertEqual(c["sourceStatusLabels"]["previous_source_link_label"], 17)
         self.assertEqual(c["sourceStatusLabels"]["sector_sources_individual_facts_required"], 128)
         self.assertEqual(c["independentlyApprovedForFiling"], 0)
-        self.assertEqual(c["sourceUrlCoverage"]["at_least_3_urls"], 87)
-        self.assertEqual(c["publisherGroupCoverage"]["1"], 35)
-        self.assertEqual(c["publisherGroupCoverage"]["2"], 98)
-        self.assertEqual(c["publisherGroupCoverage"]["3_or_more"], 12)
+        self.assertEqual(c["sourceUrlCoverage"]["at_least_3_urls"],
+                         sum(len(case["sources"]) >= 3 for case in self.situations))
+        self.assertEqual(c["sourceUrlCoverage"]["fewer_than_3_urls"],
+                         sum(len(case["sources"]) < 3 for case in self.situations))
+        groups = [len(set(map(audit.publisher, case["sources"]))) for case in self.situations]
+        self.assertEqual(sum(c["publisherGroupCoverage"].values()), len(groups))
+        self.assertEqual(c["publisherGroupCoverage"].get("3_or_more", 0),
+                         sum(n >= 3 for n in groups))
         self.assertTrue(all(x["editorialLegalReview"] == "required" for x in result["situations"]))
         self.assertEqual(len(result["suspectedOverlaps"]), 3)
+
+    def test_six_overlapping_routes_have_distinct_intents_and_reciprocal_links(self):
+        indexed = {s["slug"]: s for s in self.situations}
+        for left, right in audit.DUPLICATE_CANDIDATES:
+            a, b = indexed[left], indexed[right]
+            self.assertNotEqual(a["title"], b["title"])
+            self.assertIn(right, a["relatedSituations"])
+            self.assertIn(left, b["relatedSituations"])
+
+    def test_broken_related_situation_fails_closed(self):
+        cases = copy.deepcopy(self.situations)
+        cases[0]["relatedSituations"] = ["nonexistent-route"]
+        result = audit.build_report(self.topics, cases, self.documents)
+        self.assertTrue(any("broken or self-referencing" in e for e in result["errors"]))
+
+    def test_financial_and_platform_post_2026_rules_keep_review_flags(self):
+        cases = {s["slug"]: s for s in self.situations}
+        for i in range(1, 10):
+            case = cases[f"banki-strahovanie-{i}"]
+            self.assertTrue(any("123-ФЗ" in text for text in case["cautions"]))
+            self.assertTrue(any("299392" in url for url in case["sources"]))
+        unauthorized = cases["banki-strahovanie-4"]
+        self.assertIn("следующего за днём получения", unauthorized["steps"][0])
+        for i in range(1, 6):
+            case = cases[f"marketpleysy-{i}"]
+            self.assertTrue(any("№ 290-ФЗ" in x for x in case["cautions"]))
+            self.assertTrue(any("594313" in url for url in case["sources"]))
 
     def test_subdomains_of_one_regulator_are_one_publisher(self):
         self.assertEqual(audit.publisher("https://zpp.rospotrebnadzor.ru/news/federal/123"),
