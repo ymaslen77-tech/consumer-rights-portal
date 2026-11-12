@@ -49,9 +49,26 @@ for (const path of cases) {
  if(path.startsWith("/razbor/")) assert.match(html,/situation-document-generator|Составить документ по этой ситуации/,path+" lacks inline generator");
 }
 const allSituationUrls=situations.map(x=>"/razbor/"+x.slug);
+const allDocumentUrls=docs.map(x=>"/dokumenty/"+x.slug);
+const allTopicUrls=topics.map(x=>"/situacii/"+x.slug);
 for(const path of allSituationUrls){
  const html=await get(path);
  assert.match(html,/situation-document-generator/,path+" missing generator");
+ const situation=situations.find(x=>path==="/razbor/"+x.slug);
+ for(const peer of situation.relatedSituations){
+  assert.ok(html.includes("/razbor/"+peer),path+" missing linked related situation "+peer);
+ }
+}
+for(const path of allDocumentUrls){
+ const html=await get(path);
+ assert.match(html,/Подготовить юридический черновик|Сохранить DOCX/,path+" lacks document generator");
+}
+for(const path of allTopicUrls){
+ const html=await get(path);
+ const topic=topics.find(x=>path==="/situacii/"+x.slug);
+ for(const slug of topic.situationSlugs){
+  assert.ok(html.includes("/razbor/"+slug),path+" lacks catalog link "+slug);
+ }
 }
 
 const robots = await get("/robots.txt");
@@ -76,4 +93,4 @@ const visitor=await fetch(new URL("/api/presence",origin),{
 assert.equal(visitor.status,200);
 assert.ok((await visitor.json()).online>=1,"Anonymous online counter should use actual heartbeats");
 console.log("LAWYER_INTAKE_CLOSED_PREVIEW_AND_PRESENCE_OK");
-console.log("PREVIEW_HTTP_SMOKE_OK", cases.length + 2, "routes; noindex enforced");
+console.log("PREVIEW_HTTP_SMOKE_OK", new Set([...cases,...allSituationUrls,...allDocumentUrls,...allTopicUrls,"/robots.txt","/sitemap.xml"]).size, "routes; all documents, topics and cases verified; noindex enforced");
