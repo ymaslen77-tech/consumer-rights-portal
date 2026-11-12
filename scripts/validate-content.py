@@ -24,6 +24,14 @@ assert sum(c['sourceReviewedAt']=='2026-11-10' for c in cases)==44
 assert all(x['relatedTopics'] and all(k in known_topics for k in x['relatedTopics']) for x in cases)
 assert all(all(k in known_docs for k in x['documents']) for x in cases)
 assert len(cases)==145 and all(1<=len(s['documents'])<=5 for s in cases)
+# Related-situation crosslinks must resolve and be reciprocal, not duplicate placeholders.
+by_case={s['slug']:s for s in cases}
+assert all(isinstance(s.get('relatedSituations'),list) for s in cases)
+for s in cases:
+    peers=s['relatedSituations']
+    assert len(peers)==len(set(peers)), s['slug']
+    assert all(peer in known_cases and peer!=s['slug'] for peer in peers), s['slug']
+    assert all(s['slug'] in by_case[peer]['relatedSituations'] for peer in peers), s['slug']
 assert (ROOT/'src/components/SituationDocumentWizard.tsx').exists(), 'All situation pages must embed a generator'
 assert 'SituationDocumentWizard' in (ROOT/'src/app/razbor/[slug]/page.tsx').read_text(encoding='utf8')
 assert (ROOT/'src/lib/consumer-law-audit.mjs').exists()
