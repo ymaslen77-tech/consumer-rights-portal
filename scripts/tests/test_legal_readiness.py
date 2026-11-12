@@ -53,6 +53,13 @@ class ReadinessAuditTests(unittest.TestCase):
         result = audit.build_report(self.topics, cases, self.documents)
         self.assertTrue(any("unknown or unapproved" in err for err in result["errors"]))
 
+    def test_illness_ticket_instructions_specify_special_statutory_deadline(self):
+        case = next(s for s in self.situations if s["slug"] == "kulturnye-meropriyatiya-4")
+        self.assertIn("не позднее дня проведения мероприятия", case["steps"][2])
+        self.assertIn("14 дней", case["steps"][2])
+        self.assertIn("пункты 23, 25 и 27", case["legalBasis"][1])
+        self.assertIn("https://zpp.rospotrebnadzor.ru/news/federal/252994", case["sources"])
+
     def test_plain_http_and_credentials_are_rejected(self):
         self.assertFalse(audit.valid_https("http://example.org"))
         self.assertFalse(audit.valid_https("https://user:secret@example.org"))
