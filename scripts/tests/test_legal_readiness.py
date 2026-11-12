@@ -53,6 +53,16 @@ class ReadinessAuditTests(unittest.TestCase):
         result = audit.build_report(self.topics, cases, self.documents)
         self.assertTrue(any("unknown or unapproved" in err for err in result["errors"]))
 
+    def test_cultural_event_refund_rules_are_specific_to_the_cause(self):
+        cases = {s["slug"]: s for s in self.situations}
+        for key in ("kulturnye-meropriyatiya-1", "kulturnye-meropriyatiya-2"):
+            self.assertIn("полной цены билета", cases[key]["steps"][3])
+            self.assertTrue(any("594003" in url for url in cases[key]["sources"]))
+        voluntary = cases["kulturnye-meropriyatiya-3"]["steps"][2]
+        for threshold in ("10 дней", "5 дней", "3 дня", "100%", "50%", "30%"):
+            self.assertIn(threshold, voluntary)
+        self.assertIn("№ 1491", voluntary)
+
     def test_illness_ticket_instructions_specify_special_statutory_deadline(self):
         case = next(s for s in self.situations if s["slug"] == "kulturnye-meropriyatiya-4")
         self.assertIn("не позднее дня проведения мероприятия", case["steps"][2])
