@@ -70,6 +70,15 @@ class ReadinessAuditTests(unittest.TestCase):
         self.assertIn("пункты 23, 25 и 27", case["legalBasis"][1])
         self.assertIn("https://zpp.rospotrebnadzor.ru/news/federal/252994", case["sources"])
 
+    def test_ddu_2026_sanctions_are_not_described_as_an_universal_moratorium(self):
+        case = next(s for s in self.situations if s["slug"] == "dolevoe-stroitelstvo-1")
+        self.assertIn("№ 2227", case["steps"][2])
+        self.assertIn("01.01.2026", case["cautions"][0])
+        self.assertIn("31.12.2026", case["cautions"][0])
+        self.assertIn("отсрочка уплаты", case["legalBasis"][1])
+        self.assertTrue(any("law/hotdocs/92395" in url for url in case["sources"]))
+        self.assertTrue(any("minstroy.kbr.ru" in url for url in case["sources"]))
+
     def test_plain_http_and_credentials_are_rejected(self):
         self.assertFalse(audit.valid_https("http://example.org"))
         self.assertFalse(audit.valid_https("https://user:secret@example.org"))
