@@ -18,7 +18,7 @@ const exampleFields={
 };
 
 test("all context-specific legal draft pairs exist and keep drafts unapproved",()=>{
- assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,23);
+ assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,69);
  for(const [key, guidance] of Object.entries(CONTEXTUAL_DRAFTS)){
    const [caseSlug,documentSlug]=key.split("|");
    const s=cases.get(caseSlug),d=docs.get(documentSlug);
@@ -98,3 +98,53 @@ test("unauthorized bank payments and loan repayment use separate law references"
  assert.match(ddu.legalGrounds,/214-ФЗ/);
  assert.match(ddu.legalGrounds,/2227/);
 });
+
+
+test("14 housing and 8 medical routes have document-specific grounds and examples",()=>{
+ const targets=situations.filter(s=>s.topic==="zhkh"||s.topic==="medicina");
+ assert.equal(targets.filter(s=>s.topic==="zhkh").length,14);
+ assert.equal(targets.filter(s=>s.topic==="medicina").length,8);
+ let count=0;
+ for(const s of targets){
+   assert.ok(s.sources.length>=3,s.slug+" lacks traceable sources");
+   assert.ok(s.legalBasis.length>=3,s.slug+" lacks specialized grounds");
+   for(const d of s.documents){
+     const g=getContextualDraft(s.slug,d);
+     assert.ok(g,s.slug+"|"+d+" missing");
+     assert.ok(g.title.includes(s.title.toLowerCase()),s.slug+"|"+d+" lacks case label");
+     assert.ok(g.legalGrounds.length>110,s.slug+"|"+d+" grounds too vague");
+     assert.ok(g.examples[0].length>95,s.slug+"|"+d+" example too short");
+     if(d==="zhaloba-gzhi")assert.match(g.legalGrounds,/статья 20/);
+     if(d==="zapros-medicinskie-dokumenty")assert.match(g.legalGrounds,/789н/);
+     if(d==="zayavlenie-pereraschet-zhkh")assert.match(g.legalGrounds,/354/);
+     count++;
+   }
+ }
+ assert.equal(count,46);
+});
+
+test("housing utility miscalculation and maintenance fee stay different",()=>{
+ const utilities=cases.get("zhkh-3");
+ const maintenance=cases.get("zhkh-8");
+ assert.ok(utilities.legalBasis.some(x=>/статья 157/.test(x)));
+ assert.ok(maintenance.legalBasis.some(x=>/статья 156/.test(x)));
+ assert.ok(utilities.cautions.some(x=>/50%/.test(x)));
+ assert.ok(maintenance.cautions.some(x=>/50%/.test(x)));
+ assert.match(getContextualDraft("zhkh-3","zayavlenie-pereraschet-zhkh").legalGrounds,/статья 157/);
+ assert.match(getContextualDraft("zhkh-8","trebovanie-pereraschet-soderzhanie-zhkh").legalGrounds,/статья 156/);
+ const leak=cases.get("zhkh-5");
+ assert.ok(leak.cautions.some(x=>/пункту 152/.test(x)));
+});
+
+test("medical requests follow article 22 and order 789n, not generic services only",()=>{
+ for(const s of situations.filter(x=>x.topic==="medicina")){
+   assert.ok(s.sources.some(u=>u.includes("535622")),s.slug+" missing 2026 rules");
+ }
+ for(const id of ["medicina-3","medicina-7"]){
+   const s=cases.get(id);
+   assert.ok(s.legalBasis.some(x=>/789н/.test(x)));
+ }
+ assert.match(getContextualDraft("medicina-5","pretensiya-usluga").legalGrounds,/323-ФЗ/);
+ assert.match(getContextualDraft("medicina-6","trebovanie-vozvrat-meduslugi").legalGrounds,/№ 659/);
+});
+
