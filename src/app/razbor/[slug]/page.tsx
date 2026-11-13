@@ -5,6 +5,7 @@ import {PageIntro,SourceLink,Trail} from "@/components/SiteShell";
 import {SituationDocumentWizard,type SituationDocumentOption} from "@/components/SituationDocumentWizard";
 import {getLegalAudit} from "@/lib/consumer-law-audit.mjs";
 import {getDocumentLegalGrounds,type ClaimType} from "@/lib/document-compose.mjs";
+import {getContextualTitle} from "@/lib/consumer-case-guidance.mjs";
 type Params={params:Promise<{slug:string}>};
 export function generateStaticParams(){return situations.map(x=>({slug:x.slug}))}
 export async function generateMetadata({params}:Params){const {slug}=await params;const s=getSituation(slug);return {title:s?.title||"Разбор ситуации",description:s?.summary}}
@@ -27,7 +28,7 @@ export default async function CasePage({params}:Params){
    if(!d)throw new Error("Missing document for situation "+s.slug+": "+key);
    const audit=getLegalAudit(s.topic,d.slug,d.claimType,s.slug);
    const choice:SituationDocumentOption={
-     slug:d.slug,title:d.title,recipient:d.recipient,claimType:d.claimType as ClaimType,
+     slug:d.slug,title:getContextualTitle(s.slug,d.slug,d.title),recipient:d.recipient,claimType:d.claimType as ClaimType,
      topicSlug:s.topic,situationSlug:s.slug,
      sourceUrl:d.sourceUrl,requestHint:s.title+". "+d.requestHint,
      legalBasis:getDocumentLegalGrounds(d.legalBasis,s.slug,d.slug),
