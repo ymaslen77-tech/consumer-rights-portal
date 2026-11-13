@@ -15,6 +15,8 @@ export function SituationDocumentWizard({situationTitle,checks,documents}:{
 }){
  const [selected,setSelected]=useState(documents[0]?.slug || "");
  const current=documents.find(d=>d.slug===selected);
+ // Keep the first three practical questions and the last two legal eligibility checks visible.
+ const visibleChecks=checks.length<=5?checks:[...checks.slice(0,3),...checks.slice(-2)];
  if(!current)return <div className="notice">Для ситуации не найден подходящий документ. Обратитесь к каталогу документов.</div>;
  return <div className="situation-wizard" id="situation-document-generator">
  <div className="situation-wizard-header">
@@ -31,7 +33,7 @@ export function SituationDocumentWizard({situationTitle,checks,documents}:{
  </div>
  <div className="situation-wizard-context">
  <strong>Что проверить применительно к вашей ситуации</strong>
- <ul>{checks.slice(0,3).map((check,i)=><li key={i}>{check}</li>)}</ul>
+ <ul>{visibleChecks.map((check,i)=><li key={i}>{check}</li>)}</ul>
  <p>Подставляйте только свои подтверждённые факты. Не копируйте пример требования без проверки его применимости.</p>
  </div>
  <DocumentBuilder key={current.slug} slug={current.slug} title={current.title}
