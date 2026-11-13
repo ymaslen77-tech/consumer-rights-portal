@@ -110,7 +110,7 @@ test("new sector drafts contain real legal grounds and are addressed to the obli
   const recipient=getRecipientPrompt({slug:d.slug,recipient:d.recipient,claimType:d.claimType,topicSlug:s.topic,situationSlug:s.slug});
   assert.doesNotMatch(recipient.label,/Продавец, исполнитель или иное обязанное лицо/);
   const body=draftText(sample,{title:d.title,claimType:d.claimType,legalBasis:getDocumentLegalGrounds(d.legalBasis,s.slug,d.slug),contextTitle:s.title});
-  assert.ok(body.includes(d.legalBasis)||body.includes("Жилищный кодекс"),s.slug);
+  assert.ok(body.includes(getDocumentLegalGrounds(d.legalBasis,s.slug,d.slug)),s.slug);
   assert.doesNotMatch(body,/ПРОЕКТ ДОКУМЕНТА|ВНУТРЕННЕЕ ПРИМЕЧАНИЕ|ТЕХНИЧЕСКАЯ СНОСКА/);
  }
 });
