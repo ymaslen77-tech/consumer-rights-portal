@@ -3,6 +3,7 @@ import {useMemo, useState} from "react";
 import {makeDocx} from "@/lib/office-export.mjs";
 import {LawyerReviewRequest} from "@/components/LawyerReviewRequest";
 import {draftText,validateDraft,getRecipientPrompt,type DraftFields,type ClaimType} from "@/lib/document-compose.mjs";
+import {getContextualDraft} from "@/lib/consumer-case-guidance.mjs";
 
 type Meta={slug:string;title:string;recipient:string;requestHint:string;legalBasis:string;claimType:ClaimType;
  legalLinks?:Array<{title:string;url:string}>; contextTitle?:string; inline?:boolean;
@@ -147,7 +148,8 @@ export function DocumentBuilder(meta:Meta){
    windowRef.setTimeout(()=>windowRef.print(),250);
    setFeedback("В диалоге печати выберите «Сохранить как PDF». Документ остаётся только в вашем браузере.");
  }
- const options=choices[meta.slug]||[];
+ const contextualOptions=getContextualDraft(meta.situationSlug,meta.slug)?.examples;
+ const options=contextualOptions?.length?contextualOptions:choices[meta.slug]||[];
  const recipientPrompt=getRecipientPrompt(meta);
  const isHousing=meta.topicSlug==="zhkh"||/коммун|управляющ|жилищн|капремонт/iu.test(meta.recipient);
  const fieldTopic=meta.topicSlug||"";

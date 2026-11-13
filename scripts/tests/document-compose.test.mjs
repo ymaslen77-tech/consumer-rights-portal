@@ -78,7 +78,8 @@ test("TKO legal grounds reference Housing Code and correct clauses of Rules 354"
  const b=getDocumentLegalGrounds("Правила № 354","zhkh-11","zayavlenie-pereraschet-zhkh");
  assert.match(b,/148\(45\)/);
  assert.match(b,/Жилищный кодекс РФ/);
- assert.equal(getDocumentLegalGrounds("Закон № 2300-1","marketpleysy-5","pretenziya-marketpleys"),"Закон № 2300-1");
+ assert.match(getDocumentLegalGrounds("Закон № 2300-1","marketpleysy-5","pretenziya-marketpleys"),/23\.1/);
+ assert.equal(getDocumentLegalGrounds("Закон № 2300-1","marketpleysy-999","pretenziya-marketpleys"),"Закон № 2300-1");
 });
 test("unfilled optional fields are not fake facts in formal drafts",()=>{
  const fields={...f,agreement:"",eventDate:"",contact:"",evidence:"",claimAmount:""};
