@@ -40,6 +40,7 @@ test("all context-specific legal draft pairs exist and keep drafts unapproved",(
    assert.ok(body.includes(grounds),key+" missing legal basis");
    assert.ok(body.includes(title.toUpperCase()),key+" missing title");
    assert.ok(!body.includes("https://"),key+" editorial links leaked");
+   assert.doesNotMatch(body,/не применяется автоматически|не рассчитывается автоматически|не подменяя спор|не назначаются без проверки/iu,key+" editorial caveat leaked into legal grounds");
    assert.ok(makeDocx(body).length>1000,key+" DOCX too small");
  }
  assert.equal(getContextualDraft("foo","bar"),null);
