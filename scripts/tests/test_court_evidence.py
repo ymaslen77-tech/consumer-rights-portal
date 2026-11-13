@@ -29,6 +29,16 @@ class CourtEvidenceTests(unittest.TestCase):
         self.assertEqual(corroborate(rows,"value"),"official_record")
         rows[1]["value"]="Удовлетворено"
         self.assertEqual(corroborate(rows,"value"),"conflict")
+    def test_constitutional_court_seven_p_links_only_remote_returns(self):
+        root=Path(__file__).resolve().parents[2]
+        rows=json.loads((root/"src/data/verified-court-cases.json").read_text(encoding="utf8"))
+        case=next(row for row in rows if row["number"]=="7-П" and row["date"]=="2026-02-17")
+        self.assertEqual(case["situationSlugs"],["internet-magaziny-5","internet-magaziny-3","marketpleysy-2"])
+        self.assertIn("не соответствующими Конституции",case["result"])
+        self.assertIn("расходы и риск",case["result"])
+        self.assertIn("подлежат пересмотру",case["result"])
+        self.assertTrue(any("KSRFDecision889199.pdf" in ref["url"] for ref in case["sources"]))
+
     def test_existing_full_text_entries(self):
         root=Path(__file__).resolve().parents[2]
         rows=json.loads((root/"src/data/verified-court-cases.json").read_text(encoding="utf8"))
