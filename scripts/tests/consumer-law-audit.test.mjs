@@ -59,7 +59,7 @@ test("expanded housing paths use their own procedural documents and sources",()=
 
 test("2026 finance medical and platform expansion is backed by official sources",()=>{
  const ids=["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5"];
- for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
+ for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,id==="internet-magaziny-5"?6:5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
 });
 
 test("transport tourism repair additions are traceable to their sector-specific law",()=>{
