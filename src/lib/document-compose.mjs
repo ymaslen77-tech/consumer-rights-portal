@@ -1,3 +1,4 @@
+import {getContextualDraft} from "./consumer-case-guidance.mjs";
 // Shared pure text model for the client-only legal document drafts.
 // Deliberately does not determine entitlement, limitation periods, penalties or jurisdiction.
 export const REQUIRED_FIELDS = ["recipient","sender","address","description","request"];
@@ -74,8 +75,9 @@ const SPECIFIC_LEGAL_GROUNDS={
 };
 export function getDocumentLegalGrounds(legalBasis, situationSlug="", documentSlug="") {
  const base=String(legalBasis||"").trim();
+ const contextual=getContextualDraft(situationSlug,documentSlug)?.legalGrounds;
  const specialized=SPECIFIC_LEGAL_GROUNDS[String(situationSlug)+"|"+String(documentSlug)];
- return specialized||base;
+ return contextual||specialized||base;
 }
 
 export function draftText(fields, meta) {
