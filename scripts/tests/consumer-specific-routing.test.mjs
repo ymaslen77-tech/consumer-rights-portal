@@ -18,7 +18,7 @@ const exampleFields={
 };
 
 test("all context-specific legal draft pairs exist and keep drafts unapproved",()=>{
- assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,19);
+ assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,23);
  for(const [key, guidance] of Object.entries(CONTEXTUAL_DRAFTS)){
    const [caseSlug,documentSlug]=key.split("|");
    const s=cases.get(caseSlug),d=docs.get(documentSlug);
