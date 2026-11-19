@@ -71,6 +71,11 @@ for(const path of allTopicUrls){
  }
 }
 
+// Yandex Webmaster requests an actual root-level HTML file with the exact verification string.
+const yandexVerification = await get("/yandex_1f9754a86e0ff1b5.html");
+assert.match(yandexVerification, /<body>Verification: 1f9754a86e0ff1b5<\/body>/);
+console.log("YANDEX_OWNERSHIP_HTML_OK");
+
 const robots = await get("/robots.txt");
 assert.match(robots, /Disallow:\s*\//i);
 const sitemap = await get("/sitemap.xml");
