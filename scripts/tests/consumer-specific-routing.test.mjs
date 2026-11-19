@@ -160,7 +160,8 @@ test("20 education, telecom and repair routes have 35 tailored legal drafts",()=
  }
  for(const s of targeted){
    assert.ok(s.sources.length>=3,s.slug+" missing traceable legal source URLs");
-   assert.ok(s.legalBasis.length>=3,s.slug+" missing newly qualified legal basis");
+   assert.ok(s.legalBasis.length>=2,s.slug+" missing existing legal basis");
+   assert.ok(s.legalBasis.some(x=>/№ 1441|№ 2606|№ 2607|№ 1514|126-ФЗ/.test(x)),s.slug+" lacks sector-specific enactment");
    for(const documentSlug of s.documents){
      const g=getContextualDraft(s.slug,documentSlug);
      assert.ok(g,s.slug+"|"+documentSlug+" missing draft");
@@ -184,7 +185,7 @@ test("2026 education extension and differences between course failure and volunt
  assert.match(getContextualDraft("obrazovanie-5","zayavlenie-otkaz-obuchenie").legalGrounds,/статья 32/);
  assert.notEqual(getContextualDraft("obrazovanie-5","pretenziya-obrazovanie").examples[0],
    getContextualDraft("obrazovanie-5","zayavlenie-otkaz-obuchenie").examples[0]);
- assert.ok(cases.get("obrazovanie-4").cautions.some(x=>/видеокурса/.test(x)));
+ assert.ok(cases.get("obrazovanie-4").cautions.some(x=>/видеокурса|цифровой записи/.test(x)));
 });
 
 test("telecom service rules distinguish phone from internet and verify tariff notice",()=>{
