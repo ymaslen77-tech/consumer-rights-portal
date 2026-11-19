@@ -18,7 +18,7 @@ const exampleFields={
 };
 
 test("all context-specific legal draft pairs exist and keep drafts unapproved",()=>{
- assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,69);
+ assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,104);
  for(const [key, guidance] of Object.entries(CONTEXTUAL_DRAFTS)){
    const [caseSlug,documentSlug]=key.split("|");
    const s=cases.get(caseSlug),d=docs.get(documentSlug);
@@ -148,3 +148,66 @@ test("medical requests follow article 22 and order 789n, not generic services on
  assert.match(getContextualDraft("medicina-6","trebovanie-vozvrat-meduslugi").legalGrounds,/№ 659/);
 });
 
+
+
+test("20 education, telecom and repair routes have 35 tailored legal drafts",()=>{
+ const sectors=new Map([["obrazovanie",6],["svyaz-internet",6],["remont-stroitelstvo",5],["bytovye-uslugi",3]]);
+ const targeted=situations.filter(s=>sectors.has(s.topic));
+ assert.equal(targeted.length,20);
+ let covered=0;
+ for(const [topic,n] of sectors){
+   assert.equal(targeted.filter(x=>x.topic===topic).length,n);
+ }
+ for(const s of targeted){
+   assert.ok(s.sources.length>=3,s.slug+" missing traceable legal source URLs");
+   assert.ok(s.legalBasis.length>=3,s.slug+" missing newly qualified legal basis");
+   for(const documentSlug of s.documents){
+     const g=getContextualDraft(s.slug,documentSlug);
+     assert.ok(g,s.slug+"|"+documentSlug+" missing draft");
+     assert.ok(g.title.includes(s.title.toLowerCase()),s.slug+"|"+documentSlug);
+     assert.ok(g.legalGrounds.length>95,s.slug+"|"+documentSlug+" weak grounds");
+     assert.ok(g.examples[0].length>85,s.slug+"|"+documentSlug+" insufficient request");
+     const doc=docs.get(documentSlug);
+     assert.equal(doc.status,"draft_template",documentSlug);
+     covered++;
+   }
+ }
+ assert.equal(covered,35);
+});
+
+test("2026 education extension and differences between course failure and voluntary withdrawal",()=>{
+ const refund=cases.get("obrazovanie-1");
+ const voluntary=cases.get("obrazovanie-5");
+ assert.ok(refund.sources.some(x=>x.includes("414788727")));
+ assert.ok(refund.cautions.some(x=>/01\.09\.2032/.test(x)));
+ assert.match(getContextualDraft("obrazovanie-1","pretenziya-obrazovanie").legalGrounds,/1441/);
+ assert.match(getContextualDraft("obrazovanie-5","zayavlenie-otkaz-obuchenie").legalGrounds,/статья 32/);
+ assert.notEqual(getContextualDraft("obrazovanie-5","pretenziya-obrazovanie").examples[0],
+   getContextualDraft("obrazovanie-5","zayavlenie-otkaz-obuchenie").examples[0]);
+ assert.ok(cases.get("obrazovanie-4").cautions.some(x=>/видеокурса/.test(x)));
+});
+
+test("telecom service rules distinguish phone from internet and verify tariff notice",()=>{
+ for(const s of situations.filter(x=>x.topic==="svyaz-internet")){
+   assert.ok(s.sources.length>=3,s.slug);
+   assert.ok(s.legalBasis.some(v=>v.includes("126-ФЗ")),s.slug);
+ }
+ for(const id of ["svyaz-internet-1","svyaz-internet-2","svyaz-internet-3"]){
+   assert.ok(cases.get(id).legalBasis.every(x=>!x.includes("Правила услуг телефонной связи № 1994")),id);
+ }
+ const tariff=cases.get("svyaz-internet-3");
+ assert.ok(tariff.legalBasis.some(x=>/10 дней/.test(x)));
+ assert.ok(tariff.sources.some(x=>x.includes("Details/59087")));
+ const provider=getContextualDraft("svyaz-internet-5","zayavlenie-rastorzhenie-svyaz");
+ assert.match(provider.legalGrounds,/2606|2607/);
+});
+
+test("work delays, defective repairs and opt-out of household services keep separate provisions",()=>{
+ assert.match(getContextualDraft("remont-stroitelstvo-1","pretensiya-usluga").legalGrounds,/статьи 27–28/);
+ assert.match(getContextualDraft("remont-stroitelstvo-2","pretensiya-usluga").legalGrounds,/статья 29/);
+ assert.match(getContextualDraft("bytovye-uslugi-1","pretenziya-himchistka").legalGrounds,/35/);
+ assert.match(getContextualDraft("bytovye-uslugi-3","zayavlenie-otkaz-uslugi").legalGrounds,/статья 32/);
+ const docRequest=getContextualDraft("remont-stroitelstvo-3","zapros-dokumentov");
+ assert.match(docRequest.examples[0],/сметы/);
+ assert.ok(cases.get("remont-stroitelstvo-5").relatedSituations.includes("remont-stroitelstvo-3"));
+});
