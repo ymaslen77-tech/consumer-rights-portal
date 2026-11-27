@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from court_evidence import official_url,official_pdf,validate_published_acts,corroborate,link_appeal
+from court_evidence import official_url,official_pdf,regulator_copy_url,validate_published_acts,corroborate,link_appeal
 
 class CourtEvidenceTests(unittest.TestCase):
     def setUp(self):
@@ -53,6 +53,30 @@ class CourtEvidenceTests(unittest.TestCase):
         self.assertFalse(official_pdf("https://vsrf.ru/lk/practice/cases/2275040"))
         self.assertFalse(official_pdf("https://vsrf.ru.evil.test/lk/practice/stor_pdf/2275040"))
         self.assertFalse(official_pdf("https://vsrf.ru/lk/practice/stor_pdf/2275040/anything"))
+
+    def test_regional_court_copies(self):
+        root=Path(__file__).resolve().parents[2]
+        rows=json.loads((root/"src/data/verified-court-cases.json").read_text(encoding="utf8"))
+        situations={r["slug"]:r for r in json.loads((root/"src/data/situations.json").read_text(encoding="utf8"))}
+        local=[r for r in rows if r.get("sourceKind")=="regulator_published_court_copy"]
+        self.assertEqual(len(local),3)
+        for row in local:
+            self.assertTrue(all(s in situations and situations[s]["topic"] in row["topics"] for s in row["situationSlugs"]))
+            self.assertEqual(len(row["plan"]),4)
+            self.assertTrue(row["evidence"])
+            with self.assertRaises(ValueError):
+                validate_published_acts([{**row,"sources":row["sources"][1:]}])
+            with self.assertRaises(ValueError):
+                validate_published_acts([{**row,"status":""}])
+        self.assertTrue(regulator_copy_url("https://zpp.rospotrebnadzor.ru/Show/File/64980"))
+        self.assertFalse(regulator_copy_url("https://zpp.rospotrebnadzor.ru.evil.test/Show/File/64980"))
+        self.assertFalse(regulator_copy_url("https://zpp.rospotrebnadzor.ru/Show/File/64980?file=other"))
+        self.assertFalse(regulator_copy_url("https://zpp.rospotrebnadzor.ru/adjudications/regional/576468"))
+        by_number={r["number"]:r for r in local}
+        self.assertEqual(by_number["2-164/2026"]["date"],"2026-01-20")
+        self.assertEqual(by_number["2-164/2026"]["outcome"],"partial_by_defendant")
+        self.assertIn("128 669,26",by_number["2-1332/2025"]["amounts"])
+        self.assertIn("не подтверждены",by_number["2-1332/2025"]["status"])
 
     def test_existing_full_text_entries(self):
         root=Path(__file__).resolve().parents[2]
