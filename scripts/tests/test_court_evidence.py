@@ -59,7 +59,7 @@ class CourtEvidenceTests(unittest.TestCase):
         rows=json.loads((root/"src/data/verified-court-cases.json").read_text(encoding="utf8"))
         situations={r["slug"]:r for r in json.loads((root/"src/data/situations.json").read_text(encoding="utf8"))}
         local=[r for r in rows if r.get("sourceKind")=="regulator_published_court_copy"]
-        self.assertEqual(len(local),3)
+        self.assertEqual(len(local),6)
         for row in local:
             self.assertTrue(all(s in situations and situations[s]["topic"] in row["topics"] for s in row["situationSlugs"]))
             self.assertEqual(len(row["plan"]),4)
@@ -77,6 +77,26 @@ class CourtEvidenceTests(unittest.TestCase):
         self.assertEqual(by_number["2-164/2026"]["outcome"],"partial_by_defendant")
         self.assertIn("128 669,26",by_number["2-1332/2025"]["amounts"])
         self.assertIn("не подтверждены",by_number["2-1332/2025"]["status"])
+
+    def test_new_repair_marketplace_and_magistrate_cards(self):
+        root=Path(__file__).resolve().parents[2]
+        rows=json.loads((root/"src/data/verified-court-cases.json").read_text(encoding="utf8"))
+        by_number={r["number"]:r for r in rows}
+        repair=by_number["2-51/2026"]
+        self.assertIn("1 193 190",repair["amounts"])
+        self.assertIn("374 960",repair["finding"])
+        marketplace=by_number["2-1499/2026"]
+        self.assertIn("75 800,18",marketplace["amounts"])
+        self.assertTrue(all(any(x["url"].endswith("/"+n) for x in marketplace["sources"]) for n in ("66299","66300")))
+        self.assertIn("не подтверждены",marketplace["status"])
+        magistrate=by_number["2-97-1246/2026"]
+        self.assertEqual(magistrate["date"],"2026-08-27")
+        self.assertIn("08.09.2026",magistrate["status"])
+        self.assertIn("54 099,06",magistrate["amounts"])
+        self.assertIn("16.06.2026",magistrate["comment"])
+        self.assertIn("не исправляется",magistrate["comment"])
+        self.assertTrue(magistrate["court"].startswith("Мировой судья"))
+        self.assertEqual(len(rows),11)
 
     def test_existing_full_text_entries(self):
         root=Path(__file__).resolve().parents[2]
