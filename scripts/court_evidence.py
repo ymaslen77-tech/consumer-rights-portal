@@ -25,6 +25,28 @@ def official_pdf(url):
              p.path.removeprefix("/lk/practice/stor_pdf/").isdigit() and
              not p.query and not p.fragment))
 
+def regulator_copy_url(url):
+    """Only explicit file endpoints of the state consumer-protection register."""
+    try:
+        p = urlsplit(url)
+        return (p.scheme == "https" and p.netloc == "zpp.rospotrebnadzor.ru"
+                and not p.query and not p.fragment
+                and p.path.startswith("/Show/File/")
+                and p.path.removeprefix("/Show/File/").isdigit())
+    except (ValueError,TypeError):
+        return False
+
+def regulator_case_url(url):
+    try:
+        p = urlsplit(url)
+        tail = p.path.removeprefix("/adjudications/regional/")
+        return (p.scheme == "https" and p.netloc == "zpp.rospotrebnadzor.ru"
+                and not p.query and not p.fragment
+                and p.path.startswith("/adjudications/regional/")
+                and bool(tail) and "/" not in tail)
+    except (ValueError,TypeError):
+        return False
+
 def _v(row,key):
     return str(row.get(key) or "").strip().casefold()
 
@@ -42,7 +64,14 @@ def validate_published_acts(acts):
             raise ValueError("Future review date")
         date.fromisoformat(a["date"])
         urls=[s.get("url","") for s in a.get("sources",[])]
-        if len(set(urls))<2 or not any(official_pdf(u) for u in urls):
+        if a.get("sourceKind") == "regulator_published_court_copy":
+            if not any(regulator_copy_url(u) for u in urls) or not any(regulator_case_url(u) for u in urls):
+                raise ValueError("Missing state register copy or case record")
+            if a.get("instance") != "first" or not all(a.get(k) for k in ("uid","status","appeal","amounts","evidence","plan")):
+                raise ValueError("Incomplete first-instance evidence")
+            if a.get("outcome") not in ("granted","partial","partial_by_defendant","dismissed"):
+                raise ValueError("Unknown first-instance outcome")
+        elif len(set(urls))<2 or not any(official_pdf(u) for u in urls):
             raise ValueError("No distinct sources or no direct official full-text PDF")
         if not all(a.get(k) for k in ("finding","result","legal")):
             raise ValueError("Incomplete editorial summary")
