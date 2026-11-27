@@ -39,6 +39,7 @@ jobs:
         run: |
           python3 -m py_compile scripts/bootstrap-coolify-once.py
           python3 -m unittest discover -s scripts/tests -p 'test_bootstrap_coolify_once.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_coolify_build_resilience.py' -v
   web-checks:
     name: web-checks
     runs-on: ubuntu-latest
