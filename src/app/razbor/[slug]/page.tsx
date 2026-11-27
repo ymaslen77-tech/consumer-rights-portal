@@ -6,12 +6,14 @@ import {SituationDocumentWizard,type SituationDocumentOption} from "@/components
 import {getLegalAudit} from "@/lib/consumer-law-audit.mjs";
 import {getDocumentLegalGrounds,type ClaimType} from "@/lib/document-compose.mjs";
 import {getContextualTitle} from "@/lib/consumer-case-guidance.mjs";
+import courtCases from "@/data/verified-court-cases.json";
 import publicAppeals from "@/data/public-consumer-appeals.json";
 type Params={params:Promise<{slug:string}>};
 export function generateStaticParams(){return situations.map(x=>({slug:x.slug}))}
 export async function generateMetadata({params}:Params){const {slug}=await params;const s=getSituation(slug);return {title:s?.title||"Разбор ситуации",description:s?.summary}}
 export default async function CasePage({params}:Params){
  const {slug}=await params;const s=getSituation(slug);if(!s)notFound();
+ const relatedCourtCases=courtCases.filter(c=>c.situationSlugs.includes(s.slug));
  const appeals=publicAppeals.filter(x=>x.situationSlug===s.slug);
  const topic=getTopic(s.topic);const checked=s.legalStatus.startsWith("source_checked_");const expanded=s.legalStatus.startsWith("sector_sources_checked");
  return <><PageIntro eyebrow="РАЗБОР СИТУАЦИИ" title={s.title} lead={s.summary}/>
@@ -32,6 +34,7 @@ export default async function CasePage({params}:Params){
  <p><strong>Ограничение:</strong> {example.limit}</p>
  <SourceLink href={example.sourceUrl}>Оригинал обращения на государственном портале Роспотребнадзора</SourceLink>
  </article>)}</>}
+ {relatedCourtCases.length>0&&<><h2>Судебные акты по связанным вопросам</h2><p className="subtle">Смотрите предмет спора и результат рассмотрения: направление на пересмотр не равно окончательному взысканию.</p><div className="linkstack">{relatedCourtCases.map(c=><Link key={c.slug} href={"/sudebnaya-praktika/"+c.slug}>{c.title} · № {c.number}<span>→</span></Link>)}</div></>}
  <h2>Порядок действий</h2><ol className="steps">{s.steps.map((x,i)=><li key={i}>{x}</li>)}</ol>
  {s.cautions.length>0&&<><h2>Исключения и риски</h2><div className="notice">{s.cautions.map((x,i)=><p key={i}>{x}</p>)}</div></>}
  {s.legalBasis.length>0&&<><h2>Нормативные основания</h2><ul className="guide-checklist">{s.legalBasis.map((x,i)=><li key={i}>{x}</li>)}</ul><p><Link className="textlink" href="/normativnye-akty">Смотреть нормативные акты и изменения →</Link></p></>}

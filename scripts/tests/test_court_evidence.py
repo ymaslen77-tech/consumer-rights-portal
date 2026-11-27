@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from court_evidence import official_url,validate_published_acts,corroborate,link_appeal
+from court_evidence import official_url,official_pdf,validate_published_acts,corroborate,link_appeal
 
 class CourtEvidenceTests(unittest.TestCase):
     def setUp(self):
@@ -38,6 +38,21 @@ class CourtEvidenceTests(unittest.TestCase):
         self.assertIn("расходы и риск",case["result"])
         self.assertIn("подлежат пересмотру",case["result"])
         self.assertTrue(any("KSRFDecision889199.pdf" in ref["url"] for ref in case["sources"]))
+
+    def test_new_court_cards(self):
+        root=Path(__file__).resolve().parents[2]
+        rows=json.loads((root/"src/data/verified-court-cases.json").read_text(encoding="utf8"))
+        situations={r["slug"]:r for r in json.loads((root/"src/data/situations.json").read_text(encoding="utf8"))}
+        for number in ("25-П","72-КГ23-1-К8","4-КГ24-57-К1"):
+            row=next(r for r in rows if r["number"]==number)
+            self.assertGreaterEqual(len({r["url"].split("/")[2] for r in row["sources"]}),3)
+            self.assertEqual(len(row["plan"]),4)
+            self.assertTrue(all(s in situations and situations[s]["topic"] in row["topics"] for s in row["situationSlugs"]))
+            self.assertIn("пересмотр" if number=="25-П" else "новое рассмотрение",row["result"])
+        self.assertTrue(official_pdf("https://vsrf.ru/lk/practice/stor_pdf/2275040"))
+        self.assertFalse(official_pdf("https://vsrf.ru/lk/practice/cases/2275040"))
+        self.assertFalse(official_pdf("https://vsrf.ru.evil.test/lk/practice/stor_pdf/2275040"))
+        self.assertFalse(official_pdf("https://vsrf.ru/lk/practice/stor_pdf/2275040/anything"))
 
     def test_existing_full_text_entries(self):
         root=Path(__file__).resolve().parents[2]
