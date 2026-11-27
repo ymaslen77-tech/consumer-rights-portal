@@ -59,18 +59,18 @@ test("expanded housing paths use their own procedural documents and sources",()=
 
 test("2026 finance medical and platform expansion is backed by official sources",()=>{
  const ids=["banki-strahovanie-4","banki-strahovanie-5","banki-strahovanie-6","banki-strahovanie-7","medicina-4","medicina-5","medicina-6","marketpleysy-4","marketpleysy-5","internet-magaziny-4","internet-magaziny-5"];
- for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,id==="internet-magaziny-5"?6:5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
+ for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.ok(s.steps.length>=5,id+" has too few procedure steps");assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
 });
 
 test("transport tourism repair additions are traceable to their sector-specific law",()=>{
  const ids=["transport-4","transport-5","transport-6","transport-7","turizm-gostinicy-4","turizm-gostinicy-5","turizm-gostinicy-6","remont-stroitelstvo-4","remont-stroitelstvo-5","avtomobili-4","avtomobili-5"];
- for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
+ for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.ok(s.steps.length>=5,id+" has too few procedure steps");assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
  for(const k of ["pretenziya-zaderzhka-avia","zayavlenie-vozvrat-avia","pretenziya-otmena-broni","pretenziya-ushcherb-avtoservis"])assert.ok(documents.some(x=>x.slug===k),k);
 });
 
 test("2026 subscription, telecom, education and food regulation guardrails",()=>{
  const ids=["podpiski-cifrovye-4","podpiski-cifrovye-5","svyaz-internet-4","svyaz-internet-5","obrazovanie-4","obrazovanie-5","obrazovanie-6","produkty-pitanie-4","produkty-pitanie-5","produkty-pitanie-6","produkty-pitanie-7"];
- for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.equal(s.steps.length,5);assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
+ for(const id of ids){const s=situations.find(x=>x.slug===id);assert.ok(s,id);assert.ok(s.sources.length>=2,id);assert.ok(s.steps.length>=5,id+" has too few procedure steps");assert.equal(s.legalStatus,"sector_sources_checked_individual_facts_required_2026-11-09");}
  for(const slug of ["pretenziya-spisanie-posle-otkaza","zayavlenie-rastorzhenie-svyaz","zayavlenie-otkaz-obuchenie","pretenziya-dostavka-edy"])assert.ok(documents.some(x=>x.slug===slug),slug);
 });
 

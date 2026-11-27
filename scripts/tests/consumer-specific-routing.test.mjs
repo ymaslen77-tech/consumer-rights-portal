@@ -5,6 +5,7 @@ import {draftText,getDocumentLegalGrounds} from "../../src/lib/document-compose.
 import {makeDocx} from "../../src/lib/office-export.mjs";
 import situations from "../../src/data/situations.json" with {type:"json"};
 import documents from "../../src/data/documents.json" with {type:"json"};
+import publicAppeals from "../../src/data/public-consumer-appeals.json" with {type:"json"};
 
 const cases=new Map(situations.map(s=>[s.slug,s]));
 const docs=new Map(documents.map(d=>[d.slug,d]));
@@ -18,7 +19,7 @@ const exampleFields={
 };
 
 test("all context-specific legal draft pairs exist and keep drafts unapproved",()=>{
- assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,104);
+ assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,149);
  for(const [key, guidance] of Object.entries(CONTEXTUAL_DRAFTS)){
    const [caseSlug,documentSlug]=key.split("|");
    const s=cases.get(caseSlug),d=docs.get(documentSlug);
@@ -211,4 +212,68 @@ test("work delays, defective repairs and opt-out of household services keep sepa
  const docRequest=getContextualDraft("remont-stroitelstvo-3","zapros-dokumentov");
  assert.match(docRequest.examples[0],/сметы/);
  assert.ok(cases.get("remont-stroitelstvo-5").relatedSituations.includes("remont-stroitelstvo-3"));
+});
+
+
+const expandedSlugs=[
+ "avtomobili-2","avtomobili-3","podpiski-cifrovye-2",
+ "produkty-pitanie-2","produkty-pitanie-3",
+ "navyazannye-usloviya-1","navyazannye-usloviya-3","internet-magaziny-4",
+ "transport-4","transport-5","transport-6","transport-7",
+ "turizm-gostinicy-4","turizm-gostinicy-5","turizm-gostinicy-6",
+ "avtomobili-4","avtomobili-5","podpiski-cifrovye-4","podpiski-cifrovye-5",
+ "produkty-pitanie-4","produkty-pitanie-5","produkty-pitanie-6","produkty-pitanie-7"
+];
+test("23 previously under-cited everyday consumer situations have 45 contextual draft routes",()=>{
+ assert.equal(expandedSlugs.length,23);
+ assert.equal(new Set(expandedSlugs).size,23);
+ let pairs=0;
+ for(const slug of expandedSlugs){
+  const s=cases.get(slug);
+  assert.ok(s,slug);
+  assert.ok(s.sources.length>=3,slug+" fewer than three source links");
+  assert.ok(s.checks.length>=3,slug+" missing fact checks");
+  assert.ok(s.steps.length>=5,slug+" missing remedy actions");
+  assert.ok(s.cautions.length>=2,slug+" missing limitations");
+  for(const doc of s.documents){
+   const draft=getContextualDraft(slug,doc);
+   assert.ok(draft,slug+"|"+doc+" missing case guidance");
+   assert.ok(draft.examples[0].startsWith("Прошу") || draft.examples[0].startsWith("Уведомляю"),
+       slug+"|"+doc+" should be in request form");
+   assert.ok(draft.legalGrounds.length>95,slug+"|"+doc+" legal basis too generic");
+   pairs++;
+  }
+ }
+ assert.equal(pairs,45);
+ assert.equal(situations.filter(s=>s.sources.length<3).length,0);
+ assert.equal(situations.length,145);
+ assert.equal(situations.reduce((n,s)=>n+s.documents.length,0),243);
+});
+
+test("six public consumer appeals are sourced, anonymized and not misrepresented as court victories",()=>{
+ assert.equal(publicAppeals.length,6);
+ assert.equal(new Set(publicAppeals.map(x=>x.slug)).size,6);
+ const text=JSON.stringify(publicAppeals);
+ assert.doesNotMatch(text,/\+7[\d()\s-]{9,}/u,"phone number must not be copied from public complaints");
+ assert.doesNotMatch(text,/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/u,"email address must not be copied");
+ for(const p of publicAppeals){
+  assert.ok(cases.has(p.situationSlug),p.situationSlug);
+  assert.match(p.sourceUrl,/^https:\/\/zpp\.rospotrebnadzor\.ru\/Forum\/appeals\/Details\/\d+$/i);
+  assert.match(p.publishedAt,/^2026-\d{2}-\d{2}$/);
+  assert.ok(p.facts.length>=90,p.slug+" lacks source-derived facts");
+  assert.ok(p.regulatorReply.length>=50,p.slug+" lacks regulator/outcome qualifier");
+  assert.equal(p.plan.length,4,p.slug);
+  assert.ok(p.plan.every(x=>x.length>70),p.slug+" has vague next steps");
+  assert.match(p.limit,/не|не установ|не подтверж|не доказ/iu,p.slug);
+  assert.ok(!("court" in p) && !("judgment" in p),p.slug+" not an adjudicated decision");
+ }
+});
+test("legal remedies distinguish subscription consent, flight sickness, hotel cancellation and restaurant charges",()=>{
+ assert.match(getContextualDraft("navyazannye-usloviya-1","pretensiya-usluga").legalGrounds,/16/);
+ assert.match(getContextualDraft("podpiski-cifrovye-4","pretenziya-spisanie-posle-otkaza").legalGrounds,/16\.1/);
+ assert.match(getContextualDraft("transport-5","zayavlenie-vozvrat-avia").legalGrounds,/108/);
+ assert.match(getContextualDraft("turizm-gostinicy-6","pretenziya-otmena-broni").legalGrounds,/1912/);
+ assert.match(getContextualDraft("produkty-pitanie-5","pretensiya-usluga").legalGrounds,/1515/);
+ assert.match(getContextualDraft("produkty-pitanie-6","zhaloba-rospotrebnadzor").legalGrounds,/4282-26/);
+ assert.match(getContextualDraft("produkty-pitanie-7","zayavlenie-otkaz-uslugi").examples[0],/статье 32/);
 });
