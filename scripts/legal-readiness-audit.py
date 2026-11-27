@@ -58,7 +58,7 @@ def build_report(topics, situations, documents):
     doc_index = {d["slug"]: d for d in documents}
     rows = []
     old_statuses = Counter()
-    source_counts = Counter()
+    source_counts = Counter({"at_least_3_urls": 0, "fewer_than_3_urls": 0})
     publisher_counts = Counter()
     for case in situations:
         slug = case["slug"]
