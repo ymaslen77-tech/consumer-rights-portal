@@ -6,11 +6,13 @@ import {SituationDocumentWizard,type SituationDocumentOption} from "@/components
 import {getLegalAudit} from "@/lib/consumer-law-audit.mjs";
 import {getDocumentLegalGrounds,type ClaimType} from "@/lib/document-compose.mjs";
 import {getContextualTitle} from "@/lib/consumer-case-guidance.mjs";
+import publicAppeals from "@/data/public-consumer-appeals.json";
 type Params={params:Promise<{slug:string}>};
 export function generateStaticParams(){return situations.map(x=>({slug:x.slug}))}
 export async function generateMetadata({params}:Params){const {slug}=await params;const s=getSituation(slug);return {title:s?.title||"Разбор ситуации",description:s?.summary}}
 export default async function CasePage({params}:Params){
  const {slug}=await params;const s=getSituation(slug);if(!s)notFound();
+ const appeals=publicAppeals.filter(x=>x.situationSlug===s.slug);
  const topic=getTopic(s.topic);const checked=s.legalStatus.startsWith("source_checked_");const expanded=s.legalStatus.startsWith("sector_sources_checked");
  return <><PageIntro eyebrow="РАЗБОР СИТУАЦИИ" title={s.title} lead={s.summary}/>
  <section className="container section narrow">
@@ -18,6 +20,18 @@ export default async function CasePage({params}:Params){
  <div className="notice"><strong>{checked?"Источники ранее сверялись: "+s.sourceReviewedAt:expanded?"Отраслевой маршрут расширен; требуется проверка конкретных оснований":"Материал требует индивидуальной правовой доработки"}</strong>
  <p>{checked?"Указаны ранее подобранные нормативные тексты и разъяснения. Это не независимое правовое заключение: применимость норм, сроки, исключения и доказательства необходимо проверить на дату вашего события.":expanded?"Для этой ситуации приведены индивидуальные действия, доказательства, правовые ориентиры и ведомственные источники по отрасли. Конкретная норма, срок, исключения и допустимое требование проверяются на дату события; это ещё не окончательная юридическая квалификация.":"Это универсальный первичный алгоритм. Право на конкретное требование, сроки и исключения должны проверяться индивидуально до использования документа."}</p></div>
  {s.checks.length>0&&<><h2>Что выяснить перед выбором требования</h2><ul className="guide-checklist">{s.checks.map((x,i)=><li key={i}>{x}</li>)}</ul></>}
+ {appeals.length>0&&<><h2>Разборы опубликованных обращений потребителей</h2>
+ <p className="subtle">Это реальные обращения из открытой виртуальной приёмной Роспотребнадзора. Факты приведены со слов заявителей; публикация обращения не доказывает нарушение и не означает победу в суде. Персональные данные не воспроизводятся.</p>
+ {appeals.map(example=><article key={example.slug} className="notice">
+ <h3>{example.title}</h3>
+ <p><strong>Опубликовано:</strong> {example.publishedAt}</p>
+ <p><strong>Что сообщил заявитель:</strong> {example.facts}</p>
+ <p><strong>Разъяснение / статус:</strong> {example.regulatorReply}</p>
+ <h4>Как действовать в аналогичной ситуации</h4>
+ <ol className="steps">{example.plan.map((item,i)=><li key={i}>{item}</li>)}</ol>
+ <p><strong>Ограничение:</strong> {example.limit}</p>
+ <SourceLink href={example.sourceUrl}>Оригинал обращения на государственном портале Роспотребнадзора</SourceLink>
+ </article>)}</>}
  <h2>Порядок действий</h2><ol className="steps">{s.steps.map((x,i)=><li key={i}>{x}</li>)}</ol>
  {s.cautions.length>0&&<><h2>Исключения и риски</h2><div className="notice">{s.cautions.map((x,i)=><p key={i}>{x}</p>)}</div></>}
  {s.legalBasis.length>0&&<><h2>Нормативные основания</h2><ul className="guide-checklist">{s.legalBasis.map((x,i)=><li key={i}>{x}</li>)}</ul><p><Link className="textlink" href="/normativnye-akty">Смотреть нормативные акты и изменения →</Link></p></>}
