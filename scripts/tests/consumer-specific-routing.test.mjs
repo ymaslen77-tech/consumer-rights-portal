@@ -19,7 +19,7 @@ const exampleFields={
 };
 
 test("all context-specific legal draft pairs exist and keep drafts unapproved",()=>{
- assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,183);
+ assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,243);
  for(const [key, guidance] of Object.entries(CONTEXTUAL_DRAFTS)){
    const [caseSlug,documentSlug]=key.split("|");
    const s=cases.get(caseSlug),d=docs.get(documentSlug);
@@ -287,4 +287,16 @@ test("retail remedies distinguish quality, delivery, exchange and warranty",()=>
  assert.match(getContextualDraft("tehnicheski-slozhnye-1","pretensiya-vozvrat").legalGrounds,/15 дней/);
  assert.match(getContextualDraft("garantiya-servis-4","trebovanie-podmenny-tovar").legalGrounds,/657/);
  assert.match(getContextualDraft("internet-magaziny-5","zapros-dokumentov").legalGrounds,/7-П/);
+});
+
+
+test("every linked situation-document pair has tailored draft guidance",()=>{
+ let total=0;
+ for(const s of situations) for(const d of s.documents){assert.ok(getContextualDraft(s.slug,d),s.slug+"|"+d);total++;}
+ assert.equal(total,243);
+ assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,total);
+ assert.match(getContextualDraft("fitnes-sport-4","zayavlenie-otkaz-fitnes").legalGrounds,/статья 16/);
+ assert.match(getContextualDraft("kulturnye-meropriyatiya-4","zayavlenie-vozvrat-bileta-bolezn").legalGrounds,/1491/);
+ assert.match(getContextualDraft("banki-strahovanie-3","finansovyy-upolnomochennyy-obrashchenie").legalGrounds,/123-ФЗ/);
+ assert.match(getContextualDraft("podpiski-cifrovye-3","uvedomlenie-otkaz-podpiska").legalGrounds,/16\\.1/);
 });
