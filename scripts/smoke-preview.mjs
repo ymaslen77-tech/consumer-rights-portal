@@ -8,6 +8,7 @@ const docs = JSON.parse(readFileSync("src/data/documents.json", "utf8"));
 const seoGuides = JSON.parse(readFileSync("src/data/seo-guides.json", "utf8"));
 const regions = JSON.parse(readFileSync("src/data/rospotrebnadzor-regions.json", "utf8"));
 const courtCases = JSON.parse(readFileSync("src/data/verified-court-cases.json", "utf8"));
+const publicAppeals = JSON.parse(readFileSync("src/data/public-consumer-appeals.json", "utf8"));
 const cases = ["/", "/situacii", "/organy", "/dokumenty", "/istochniki",
   "/sudebnaya-praktika", ...courtCases.map(x => "/sudebnaya-praktika/" + x.slug), "/novosti", "/normativnye-akty", "/o-proekte",
   ...seoGuides.map(g => g.path), "/rospotrebnadzor/regiony", ...regions.map(r => "/rospotrebnadzor/regiony/" + r.slug), "/situacii/" + topics[0].slug, "/razbor/" + situations[0].slug,
@@ -54,6 +55,15 @@ const allTopicUrls=topics.map(x=>"/situacii/"+x.slug);
 for(const path of allSituationUrls){
  const html=await get(path);
  assert.match(html,/situation-document-generator/,path+" missing generator");
+ const evidence=publicAppeals.filter(a=>path==="/razbor/"+a.situationSlug);
+ if(evidence.length){
+  assert.match(html,/Разборы опубликованных обращений потребителей/,path+" lacks evidence section");
+  for(const entry of evidence){
+   assert.ok(html.includes(entry.sourceUrl),path+" lacks regulator source "+entry.slug);
+   assert.ok(html.includes(entry.title),path+" lacks real case title "+entry.slug);
+  }
+  assert.match(html,/публикация обращения не доказывает нарушение/,path+" lacks evidence boundary");
+ }
  const situation=situations.find(x=>path==="/razbor/"+x.slug);
  for(const peer of situation.relatedSituations){
   assert.ok(html.includes("/razbor/"+peer),path+" missing linked related situation "+peer);
