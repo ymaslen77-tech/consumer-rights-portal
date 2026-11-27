@@ -19,7 +19,7 @@ const exampleFields={
 };
 
 test("all context-specific legal draft pairs exist and keep drafts unapproved",()=>{
- assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,149);
+ assert.equal(Object.keys(CONTEXTUAL_DRAFTS).length,183);
  for(const [key, guidance] of Object.entries(CONTEXTUAL_DRAFTS)){
    const [caseSlug,documentSlug]=key.split("|");
    const s=cases.get(caseSlug),d=docs.get(documentSlug);
@@ -250,9 +250,9 @@ test("23 previously under-cited everyday consumer situations have 45 contextual 
  assert.equal(situations.reduce((n,s)=>n+s.documents.length,0),243);
 });
 
-test("six public consumer appeals are sourced, anonymized and not misrepresented as court victories",()=>{
- assert.equal(publicAppeals.length,6);
- assert.equal(new Set(publicAppeals.map(x=>x.slug)).size,6);
+test("nine public consumer appeals are sourced, anonymized and not misrepresented as court victories",()=>{
+ assert.equal(publicAppeals.length,9);
+ assert.equal(new Set(publicAppeals.map(x=>x.slug)).size,9);
  const text=JSON.stringify(publicAppeals);
  assert.doesNotMatch(text,/\+7[\d()\s-]{9,}/u,"phone number must not be copied from public complaints");
  assert.doesNotMatch(text,/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/u,"email address must not be copied");
@@ -276,4 +276,15 @@ test("legal remedies distinguish subscription consent, flight sickness, hotel ca
  assert.match(getContextualDraft("produkty-pitanie-5","pretensiya-usluga").legalGrounds,/1515/);
  assert.match(getContextualDraft("produkty-pitanie-6","zhaloba-rospotrebnadzor").legalGrounds,/4282-26/);
  assert.match(getContextualDraft("produkty-pitanie-7","zayavlenie-otkaz-uslugi").examples[0],/статье 32/);
+});
+
+
+test("retail remedies distinguish quality, delivery, exchange and warranty",()=>{
+ const pairs=["nekachestvennyy-tovar-1|pretensiya-vozvrat","nekachestvennyy-tovar-1|pretensiya-remont","nekachestvennyy-tovar-1|zhaloba-rospotrebnadzor","nekachestvennyy-tovar-2|pretensiya-vozvrat","nekachestvennyy-tovar-2|zhaloba-rospotrebnadzor","nekachestvennyy-tovar-3|pretensiya-vozvrat","nekachestvennyy-tovar-3|zapros-dokumentov","vozvrat-obmen-1|pretensiya-obmen","vozvrat-obmen-2|pretensiya-obmen","vozvrat-obmen-2|pretensiya-vozvrat","vozvrat-obmen-3|pretensiya-obmen","internet-magaziny-1|pretensiya-distanciya","internet-magaziny-1|pretensiya-vozvrat","internet-magaziny-2|trebovanie-vozvrat-predoplaty","internet-magaziny-2|pretensiya-distanciya","internet-magaziny-3|pretensiya-vozvrat","dostavka-oplata-1|trebovanie-vozvrat-predoplaty","dostavka-oplata-3|pretensiya-vozvrat","dostavka-oplata-3|pretensiya-distanciya","garantiya-servis-1|pretensiya-remont","garantiya-servis-2|pretensiya-remont","garantiya-servis-3|pretensiya-remont","garantiya-servis-3|zapros-dokumentov","tehnicheski-slozhnye-1|pretensiya-remont","tehnicheski-slozhnye-1|pretensiya-vozvrat","tehnicheski-slozhnye-2|pretensiya-remont","tehnicheski-slozhnye-2|pretensiya-vozvrat","tehnicheski-slozhnye-3|pretensiya-remont","tehnicheski-slozhnye-3|pretensiya-vozvrat","avtomobili-1|pretensiya-remont","avtomobili-1|pretensiya-vozvrat","tehnicheski-slozhnye-4|pretenziya-povtornyy-defekt","garantiya-servis-4|trebovanie-podmenny-tovar","internet-magaziny-5|zapros-dokumentov"];
+ for(const pair of pairs){const [s,d]=pair.split("|");assert.ok(getContextualDraft(s,d),pair);}
+ assert.match(getContextualDraft("vozvrat-obmen-1","pretensiya-obmen").legalGrounds,/статья 25/);
+ assert.match(getContextualDraft("internet-magaziny-2","trebovanie-vozvrat-predoplaty").legalGrounds,/23\.1/);
+ assert.match(getContextualDraft("tehnicheski-slozhnye-1","pretensiya-vozvrat").legalGrounds,/15 дней/);
+ assert.match(getContextualDraft("garantiya-servis-4","trebovanie-podmenny-tovar").legalGrounds,/657/);
+ assert.match(getContextualDraft("internet-magaziny-5","zapros-dokumentov").legalGrounds,/7-П/);
 });
