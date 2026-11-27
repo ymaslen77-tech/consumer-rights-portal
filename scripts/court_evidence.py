@@ -14,6 +14,17 @@ def official_url(url):
     except (ValueError,TypeError):
         return False
 
+def official_pdf(url):
+    if not official_url(url):
+        return False
+    p = urlsplit(url)
+    h = (p.hostname or "").lower().rstrip(".")
+    return (p.path.lower().endswith(".pdf") or
+            (h in ("vsrf.ru", "www.vsrf.ru") and
+             p.path.startswith("/lk/practice/stor_pdf/") and
+             p.path.removeprefix("/lk/practice/stor_pdf/").isdigit() and
+             not p.query and not p.fragment))
+
 def _v(row,key):
     return str(row.get(key) or "").strip().casefold()
 
@@ -31,8 +42,7 @@ def validate_published_acts(acts):
             raise ValueError("Future review date")
         date.fromisoformat(a["date"])
         urls=[s.get("url","") for s in a.get("sources",[])]
-        if len(set(urls))<2 or not any(official_url(u) and
-            urlsplit(u).path.lower().endswith(".pdf") for u in urls):
+        if len(set(urls))<2 or not any(official_pdf(u) for u in urls):
             raise ValueError("No distinct sources or no direct official full-text PDF")
         if not all(a.get(k) for k in ("finding","result","legal")):
             raise ValueError("Incomplete editorial summary")

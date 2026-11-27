@@ -17,8 +17,9 @@ export default async function CourtDecisionPage({params}:Params){
  <h2>Основная правовая позиция</h2><p>{c.finding}</p>
  <h2>Результат рассмотрения</h2><p>{c.result}</p>
  <h2>Нормативные положения</h2><ul className="guide-checklist">{c.legal.map((x,i)=><li key={i}>{x}</li>)}</ul>
- <h2>Как применять к потребительскому спору</h2><p>Выводы необходимо сопоставить с видом товара, способом покупки, датой событий и обстоятельствами. Постановление не означает автоматического разрешения любого иска в пользу заявителя.</p>
+ <h2>Как применять к потребительскому спору</h2><p>Выводы необходимо сопоставить с видом договора, датой событий и обстоятельствами. Судебный акт не означает автоматического разрешения аналогичного иска в пользу заявителя.</p>
+ {"plan" in c && Array.isArray(c.plan) && <ol className="steps">{c.plan.map((step,i)=><li key={i}>{step}</li>)}</ol>}
  <div className="linkstack">{c.situationSlugs.map(slug=><Link key={slug} href={"/razbor/"+slug}>Правовой маршрут по связанному спору →</Link>)}</div>
- <h2>Официальные документы</h2><div className="linkstack">{c.sources.map(s=><SourceLink key={s.url} href={s.url}>{s.label}</SourceLink>)}</div>
+ <h2>Первоисточник и дополнительные материалы</h2><div className="linkstack">{c.sources.map(s=><SourceLink key={s.url} href={s.url}>{s.label}</SourceLink>)}</div>
  </section></>
 }
