@@ -298,5 +298,5 @@ test("every linked situation-document pair has tailored draft guidance",()=>{
  assert.match(getContextualDraft("fitnes-sport-4","zayavlenie-otkaz-fitnes").legalGrounds,/статья 16/);
  assert.match(getContextualDraft("kulturnye-meropriyatiya-4","zayavlenie-vozvrat-bileta-bolezn").legalGrounds,/1491/);
  assert.match(getContextualDraft("banki-strahovanie-3","finansovyy-upolnomochennyy-obrashchenie").legalGrounds,/123-ФЗ/);
- assert.match(getContextualDraft("podpiski-cifrovye-3","uvedomlenie-otkaz-podpiska").legalGrounds,/16\\.1/);
+ assert.match(getContextualDraft("podpiski-cifrovye-3","uvedomlenie-otkaz-podpiska").legalGrounds,/16\.1/);
 });
