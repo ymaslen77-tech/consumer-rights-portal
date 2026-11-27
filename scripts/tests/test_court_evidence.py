@@ -65,7 +65,7 @@ class CourtEvidenceTests(unittest.TestCase):
             self.assertEqual(len(row["plan"]),4)
             self.assertTrue(row["evidence"])
             with self.assertRaises(ValueError):
-                validate_published_acts([{**row,"sources":row["sources"][1:]}])
+                validate_published_acts([{**row,"sources":[s for s in row["sources"] if not regulator_copy_url(s["url"])]}])
             with self.assertRaises(ValueError):
                 validate_published_acts([{**row,"status":""}])
         self.assertTrue(regulator_copy_url("https://zpp.rospotrebnadzor.ru/Show/File/64980"))
@@ -89,6 +89,10 @@ class CourtEvidenceTests(unittest.TestCase):
         self.assertIn("75 800,18",marketplace["amounts"])
         self.assertTrue(all(any(x["url"].endswith("/"+n) for x in marketplace["sources"]) for n in ("66299","66300")))
         self.assertIn("не подтверждены",marketplace["status"])
+        for url in marketplace["requiredCopyUrls"]:
+            with self.assertRaises(ValueError):
+                validate_published_acts([{**marketplace,"sources":[s for s in marketplace["sources"] if s["url"]!=url]}])
+        self.assertEqual(len(marketplace["requiredCopyUrls"]),2)
         magistrate=by_number["2-97-1246/2026"]
         self.assertEqual(magistrate["date"],"2026-08-27")
         self.assertIn("08.09.2026",magistrate["status"])

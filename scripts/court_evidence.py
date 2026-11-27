@@ -67,6 +67,12 @@ def validate_published_acts(acts):
         if a.get("sourceKind") == "regulator_published_court_copy":
             if not any(regulator_copy_url(u) for u in urls) or not any(regulator_case_url(u) for u in urls):
                 raise ValueError("Missing state register copy or case record")
+            required_copies = a.get("requiredCopyUrls")
+            if required_copies is not None:
+                if (not isinstance(required_copies,list) or len(required_copies)<2
+                        or len(set(required_copies)) != len(required_copies)
+                        or not all(regulator_copy_url(u) and u in urls for u in required_copies)):
+                    raise ValueError("Incomplete multi-file court copy")
             if a.get("instance") != "first" or not all(a.get(k) for k in ("uid","status","appeal","amounts","evidence","plan")):
                 raise ValueError("Incomplete first-instance evidence")
             if a.get("outcome") not in ("granted","partial","partial_by_defendant","dismissed"):
