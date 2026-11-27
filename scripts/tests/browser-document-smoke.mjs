@@ -96,7 +96,7 @@ try{
  })()`;
  assert.equal(await client.evaluate(setForm),true);
  await until(()=>client.evaluate('document.querySelector(".builderpreview pre")?.textContent?.includes("Тестовый Клиент")'),"preview updates");
- assert.ok(await client.evaluate('(()=>{const draft=document.querySelector(".builderpreview pre")?.textContent||"";return draft.includes("2300-1")&&draft.includes("статьи 18 и 22");})()'));
+ assert.ok(await client.evaluate('(()=>{const draft=document.querySelector(".builderpreview pre")?.textContent||"";return draft.includes("2300-1")&&draft.includes("статьи 18, 19 и 22");})()'));
  assert.ok(await client.evaluate('!document.querySelector(".builderpreview pre")?.textContent?.includes("НОРМАТИВНЫЕ ИСТОЧНИКИ ДЛЯ СВЕРКИ")'));
  assert.ok(await client.evaluate('!document.querySelector(".builderpreview pre")?.textContent?.includes("ПРОЕКТ ДОКУМЕНТА")'));
  await client.evaluate('document.querySelector(".document-actions button").click()');
